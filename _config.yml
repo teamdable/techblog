@@ -30,8 +30,6 @@ plugins:
 lang: 'ko'
 permalink: /:title
 
-google_analytics: UA-64397972-8
-
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
 # to override the default setting.
