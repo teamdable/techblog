@@ -57,7 +57,7 @@ GPU는 단순한 프로그램을 대용량의 데이터에 대해 작동시키�
 
 어떤 사람들은 TensorFlow로는 Machine Learning만을 하는 것으로 생각하는데, 사실 Machine Learning과 전혀 상관없이 아주 간편하게 GPU를 활용한 고속병렬계산을 하는 용도로도 사용할 수 있습니다.
 
-여기서는 최대한 간단하게 TensorFlow에서 GPU를 활용하는 것을 보이기 위해 현재는 TensorFlow에서 권장하지 않는 TensorFlow 초창기에 많이 사용했던 Low Level한 방법을 사용해 보도록 하겠습니다. 최신 버전 TensorFlow에서는 각종 Warning이 발생하거나 API가 사라져서 아예 작동하지 않을 수도 있으니 혹시 작동하지 않는다면 구버전 TensorFlow를 설치해서 사용해 보시기 바랍니다. 참고로 필자가 TensorFlow 1.14.0 버전을 사용해서 테스트해 보았을 때 Warning Mesaage와 함께 작동되는 것을 확인할 수 있었습니다.
+여기서는 최대한 간단하게 TensorFlow에서 GPU를 활용하는 것을 보이기 위해 현재는 TensorFlow에서 권장하지 않는 TensorFlow 초창기에 많이 사용했던 Low Level한 방법을 사용해 보도록 하겠습니다. 최신 버전 TensorFlow에서는 각종 Warning이 발생하거나 API가 사라져서 아예 작동하지 않을 수도 있으니 혹시 작동하지 않는다면 구버전 TensorFlow를 설치해서 사용해 보시기 바랍니다. 참고로 필자가 TensorFlow 1.14.0 버전을 사용해서 테스트해 보았을 때 Warning Message와 함께 작동되는 것을 확인할 수 있었습니다.
 
 다음과 같은 Python Code를 실행시켜 보면
 ```python
