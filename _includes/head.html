@@ -10,7 +10,7 @@
     {%- include google-analytics.html -%}
   {%- endif -%}
 
-  {%- if page.url -%}
+  {%- if page.url and page.url != '/' and page.url != '/404' -%}
     <meta property="dable:item_id" content="{{ page.url }}" />
   {%- endif -%}
 
