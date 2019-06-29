@@ -1,12 +1,12 @@
 ---
 layout: post
 title:  "Time-series 데이터 분석: Holt-Winters"
-date:   2019-06-28 23:00:00 +0900
+date:   2019-06-29 23:00:00 +0900
 author: 2jungyup
 tags: [ 이정엽, 시계열데이터, 데이터 분석, 데이터 예측, timeseries, holt-winters ]
 ---
-우리는 종종 시계열 데이터에 대한 분석/예측을 하게 됩니다. 예를 들어 다음 시간의 주가를 예측을 하거나, 몇일 후의 매출을 예측하거나, 내일의 기온을 예측하는 일이 이에 해당됩니다.
-아래와 같이 시계열 데이터를 분석하는 방밥들은 상당히 다양합니다.
+우리는 종종 시계열 데이터에 대한 분석/예측을 하게 됩니다. 예를 들어 다음 시간의 주가를 예측 하거나, 며칠 후의 매출을 예측하거나, 내일의 기온을 예측하는 일이 이에 해당됩니다.
+아래와 같이 시계열 데이터를 분석하는 방법들은 상당히 다양합니다.
 
 * AR
 * MA
@@ -20,16 +20,16 @@ tags: [ 이정엽, 시계열데이터, 데이터 분석, 데이터 예측, times
 오늘은 이 중에서도 이론적으로 복잡하지 않으면서 상당히 효과적으로 예측을 하는 Holt-Winters 방법을 알아보도록 하겠습니다.
 
 $x_{n+h}^n$ 을 time n 까지의 관측된 데이터를 가지고 예측한 n + h 시점에 대한 x값이라고 나타내 봅시다.  
-즉, n 은 실제 데이터를 포함하는 trainset 에 해당되는 마지막 시간을 나타내며, n + h 는 예측하고자 하는 미래 시간을 나타냅니다.
+즉, n 은 실제 데이터를 포함하는 trainset 에 해당하는 마지막 시간을 나타내며, n + h 는 예측하고자 하는 미래 시간을 나타냅니다.
 
-h = 1 이라고 한다면, 우리는 아래와 같은 몇몇 naive 한 방법으로도 예측을 할 수 있습니다.
+h = 1 이라고 한다면, 우리는 아래와 같은 몇몇 naive 한 방법으로도 예측할 수 있습니다.
 * $x_{n+1}^n = x_n$
 * $x_{n+1}^n = x_{n+1-S}$ , 예를 들어 S = 7 (weekly seasonal 값)
 
 * $x_{n+1}^n = \frac{\sum_{i=1}^{n}x_i}{n}$
 
-하지만 늘 그렇듯이 우리는 좀더 아름다운 방법을 원합니다.  
-학부때 배운 `geometric series` 를 활용하여 좀더 아름답게 개선해 보겠습니다.   
+하지만 늘 그렇듯이 우리는 좀 더 아름다운 방법을 원합니다.  
+학부 때 배운 **geometric series** 를 활용하여 좀 더 아름답게 개선해 보겠습니다.   
 
 $\sum_{k=0}^{\infty}(1-\alpha)^k = \frac{1}{\alpha}$, for $0<\alpha<2$ 
 
@@ -40,7 +40,7 @@ $\sum_{k=0}^{\infty}(1-\alpha)^k = 1 = \alpha + \alpha(1-\alpha)+\alpha(1-\alpha
 가 됩니다.  
 
 이와 같이 sum 이 1이 되는 decaying series를 가중치로 사용하게 된다면, 시간이 가까운 데이터는 가중치를 높게 할당하고 오래전 데이터는 가중치를 작게 할당하여 미래의 x값을 예측할 수 있게 됩니다.
-이를 `exponential smoothing` 이라고 부릅니다.
+이를 **exponential smoothing** 이라고 부릅니다.
 
 $x_{n+1}^n = \alpha x_n + \alpha(1-\alpha) x_{n-1} + \alpha(1-\alpha)^2 x_{n-2}+\cdots+\alpha(1-\alpha)^k x_{n-k}+\cdots \tag{1}$
 
@@ -64,7 +64,7 @@ $SSE(\alpha) = \sum_{i=1}^{n}(x_n - x_n^{n-1})^2$
 
 $\alpha_{opti} = argmin_{\alpha}SSE(\alpha)$
 
-이제 위 알고리듬을 `Holt-Winters` 방법으로 확장 시켜 보겠습니다.  
+이제 위 알고리듬을 **Holt-Winters** 방법으로 확장 시켜 보겠습니다.  
 Holt-Winters 알고리듬은 단순한 exponential smoothing 뿐만아니라 trend 속성과 seasonality 속성이 추가 되게 됩니다.
 
 여기서 trend란 장기적인 데이터의 경향을 나타내며, seasonalty이란 데이터의 반복되는 주기성을 나타내게 됩니다.
@@ -127,7 +127,7 @@ $$seasonal_n = \gamma(x_n - level_n)+(1-\gamma)seasonal_{n-m}$$
 
 마지막으로 $\alpha_{opti}, \beta_{opti}, \gamma_{opti}$ 값을 구하려면 SSE가 최소가 되는 지점을 찾아 구하면 됩니다.
 
-이를 `Holt-winters` 알고리듬이라고 하며 직접 구현해도 괜찮지만, 굳이 그럴 필요없이 statsmodels library를 이용하면 더 쉽게 구현이 가능합니다.
+이를 **Holt-winters** 알고리듬이라고 하며 직접 구현해도 괜찮지만, 굳이 그럴 필요없이 statsmodels library를 이용하면 더 쉽게 구현이 가능합니다.
 
 아래는 다음 시간의 CTR을 예측하는 python code example을 보여줍니다.
 
