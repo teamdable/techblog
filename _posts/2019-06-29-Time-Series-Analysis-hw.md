@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Time-series 데이터 분석(1): Holt-Winters"
+title:  "Time-series 데이터 분석: Holt-Winters"
 date:   2019-06-28 23:00:00 +0900
 author: 2jungyup
 tags: [ 이정엽, 시계열데이터, 데이터 분석, 데이터 예측, timeseries, holt-winters ]
