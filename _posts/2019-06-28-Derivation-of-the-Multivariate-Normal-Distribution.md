@@ -85,7 +85,7 @@ $$
 
 $Z_i \sim N(0,1)$일 때 [Normal Distribution](/techblog/Derivation-of-the-Probability-Distribution-Functions#Normal)을 참조해 보면 Probability Density Function $f_{Z_i}(z_i)$는 다음과 같습니다.
 
-$f_{Z_i}(z_i)=\frac{1}{\sqrt{2\pi}}\exp(-\frac{1}{2}z_i^2)$
+$f_{Z_i}(z_i)=\frac{1}{\sqrt{2\pi}}\exp\left (-\frac{1}{2}z_i^2\right )$
 
 $Z_i \sim N(0,1)$가 iid이고 $\mathbf{Z}= \begin{bmatrix} Z_1 & Z_2 & \cdots & Z_n \end{bmatrix}^T$라고 할 때 $f_{\mathbf{Z}}(\mathbf{z})$는 다음과 같습니다.
 
@@ -93,8 +93,8 @@ $$
 \begin{aligned}
 f_{\mathbf{Z}}(\mathbf{z})
 &=\prod_{i=1}^{n}f_{Z_i}(z_i) \\
-&=\frac{1}{(2\pi)^{\frac{n}{2}}}\exp(-\frac{1}{2}\sum_{i=1}^n z_i^2) \\
-&=\frac{1}{(2\pi)^{\frac{n}{2}}}\exp(-\frac{1}{2}\mathbf{z}^T\mathbf{z}) \\
+&=\frac{1}{(2\pi)^{\frac{n}{2}}}\exp\left (-\frac{1}{2}\sum_{i=1}^n z_i^2\right ) \\
+&=\frac{1}{(2\pi)^{\frac{n}{2}}}\exp\left (-\frac{1}{2}\mathbf{z}^T\mathbf{z}\right ) \\
 \end{aligned}
 $$
 
@@ -111,9 +111,9 @@ E(\mathbf{X})=\mathbf{m} \\
 f_{\mathbf{X}}(\mathbf{x})
 &=f_{\mathbf{Z}}(H(\mathbf{x}))\left | J \right | \\
 &=f_{\mathbf{Z}}(\mathbf{A}^{-1}(\mathbf{x}-\mathbf{m}))\left | \frac{1}{\det(\mathbf{A})} \right | \\
-&=\frac{1}{(2\pi)^{\frac{n}{2}}}\left | \frac{1}{\det(\mathbf{A})} \right | \exp(-\frac{1}{2}(\mathbf{A}^{-1}(\mathbf{x}-\mathbf{m}))^T(\mathbf{A}^{-1}(\mathbf{x}-\mathbf{m}))) \\
-&=\frac{1}{(2\pi)^{\frac{n}{2}}\sqrt{\det(\mathbf{C_X})}}\exp(-\frac{1}{2}(\mathbf{x}-\mathbf{m})^T(\mathbf{A}\mathbf{A}^T)^{-1}(\mathbf{x}-\mathbf{m})) \\
-&=\frac{1}{(2\pi)^{\frac{n}{2}}\sqrt{\det(\mathbf{C_X})}}\exp(-\frac{1}{2}(\mathbf{x}-\mathbf{m})^T\mathbf{C_X}^{-1}(\mathbf{x}-\mathbf{m})) \\
+&=\frac{1}{(2\pi)^{\frac{n}{2}}}\left | \frac{1}{\det(\mathbf{A})} \right | \exp\left (-\frac{1}{2}(\mathbf{A}^{-1}(\mathbf{x}-\mathbf{m}))^T(\mathbf{A}^{-1}(\mathbf{x}-\mathbf{m}))\right ) \\
+&=\frac{1}{(2\pi)^{\frac{n}{2}}\sqrt{\det(\mathbf{C_X})}}\exp\left (-\frac{1}{2}(\mathbf{x}-\mathbf{m})^T(\mathbf{A}\mathbf{A}^T)^{-1}(\mathbf{x}-\mathbf{m})\right ) \\
+&=\frac{1}{(2\pi)^{\frac{n}{2}}\sqrt{\det(\mathbf{C_X})}}\exp\left (-\frac{1}{2}(\mathbf{x}-\mathbf{m})^T\mathbf{C_X}^{-1}(\mathbf{x}-\mathbf{m})\right ) \\
 \end{aligned}
 $$
 
@@ -159,8 +159,8 @@ Cov(Y,X) & Var(Y)
 \begin{aligned}
 f_{XY}(x,y)
 &=f_{\mathbf{X}}(\mathbf{x}) \\
-&=\frac{1}{(2\pi)^{\frac{n}{2}}\sqrt{\det(\mathbf{C_X})}}\exp(-\frac{1}{2}(\mathbf{x}-\mathbf{m})^T\mathbf{C_X}^{-1}(\mathbf{x}-\mathbf{m})) \\
-&=\frac{1}{2\pi\sigma_X\sigma_Y\sqrt{1-\rho^2}}\exp(-\frac{1}{2}\frac{1}{\sigma_X^2\sigma_Y^2(1-\rho^2)}
+&=\frac{1}{(2\pi)^{\frac{n}{2}}\sqrt{\det(\mathbf{C_X})}}\exp\left (-\frac{1}{2}(\mathbf{x}-\mathbf{m})^T\mathbf{C_X}^{-1}(\mathbf{x}-\mathbf{m})\right ) \\
+&=\frac{1}{2\pi\sigma_X\sigma_Y\sqrt{1-\rho^2}}\exp\left (-\frac{1}{2}\frac{1}{\sigma_X^2\sigma_Y^2(1-\rho^2)}
 \begin{bmatrix}
 x-\mu_X \\
 y-\mu_Y
@@ -173,8 +173,8 @@ y-\mu_Y
 x-\mu_X \\
 y-\mu_Y
 \end{bmatrix}
-) \\
-&=\frac{1}{2\pi\sigma_X\sigma_Y\sqrt{1-\rho^2}}\exp(-\frac{1}{2(1-\rho^2)}( (\frac{x-\mu_X}{\sigma_X})^2 + (\frac{y-\mu_Y}{\sigma_Y})^2 - 2\rho\frac{(x-\mu_X)(y-\mu_Y)}{\sigma_X\sigma_Y}   ) )
+\right ) \\
+&=\frac{1}{2\pi\sigma_X\sigma_Y\sqrt{1-\rho^2}}\exp\left (-\frac{1}{2(1-\rho^2)}( (\frac{x-\mu_X}{\sigma_X})^2 + (\frac{y-\mu_Y}{\sigma_Y})^2 - 2\rho\frac{(x-\mu_X)(y-\mu_Y)}{\sigma_X\sigma_Y})\right )
 \end{aligned}
 $$
 
