@@ -14,7 +14,7 @@ tags: [ 이정엽, 비지도학습, 클러스터링, unsupervised, clustering, d
 * Probabilistic and generative models
 
  density-based 방법론 중 널리 알려진 **DBSCAN** (Density-Based Spatial
-Clustering of Applications with Noise) 방법을 개선한 아직은 널리 알려지지는 않은 **HBDSCAN** (Hierarchical DBSCAN)에 대하여 살펴보도록 하겠습니다.
+Clustering of Applications with Noise) 방법을 개선한 아직은 널리 알려지지는 않은 **HDBSCAN** (Hierarchical DBSCAN)에 대하여 살펴보도록 하겠습니다.
 
 ## DBSCAN remind
 
@@ -93,7 +93,7 @@ HDBSCAN 알고리듬 계산과정을 대략적으로 스케치해 보면 다음�
 각 단계별로 처리되는 로직에 대한 설명은 아래와 같습니다.
 
 #### 1. Transform the space
-노이즈가 다수 존재하는 dataset 에서 적절한 클러스터를 찾기 위해서는 알고리즘을 실행하기 전에 이러한 노이즈들을 제거해야 합니다. 그렇지 않으면 DBSCAN에서 처럼 하나의 노이즈 point가 두 클러스터를 연결하는 브릿지 역할을 하여 의도치 않게 한 클러스터로 합쳐지게 될 수 있기 때문입니다. HBDSCAN 에서는 이러한 노이즈들을 *"해수면을 낮추는"* 방식으로 제외합니다. 여기서 밀도가 높은 부분을 육지라고 한다면 밀도가 작은 부분은 바다가 될 것입니다. 그렇다면 어떻게 노이즈를 제외할 수 있을까요? 우선 mutual reachability distance라는 것을 이해해야 합니다.
+노이즈가 다수 존재하는 dataset 에서 적절한 클러스터를 찾기 위해서는 알고리즘을 실행하기 전에 이러한 노이즈들을 제거해야 합니다. 그렇지 않으면 DBSCAN에서 처럼 하나의 노이즈 point가 두 클러스터를 연결하는 브릿지 역할을 하여 의도치 않게 한 클러스터로 합쳐지게 될 수 있기 때문입니다. HDBSCAN 에서는 이러한 노이즈들을 *"해수면을 낮추는"* 방식으로 제외합니다. 여기서 밀도가 높은 부분을 육지라고 한다면 밀도가 작은 부분은 바다가 될 것입니다. 그렇다면 어떻게 노이즈를 제외할 수 있을까요? 우선 mutual reachability distance라는 것을 이해해야 합니다.
 * Core distance
   * $core_k(a)$ : point a에서 k개의 이웃을 포함하는 최소의 radius
 
