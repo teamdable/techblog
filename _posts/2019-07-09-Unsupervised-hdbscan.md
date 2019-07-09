@@ -28,7 +28,7 @@ DBSCAN에서 cluster의 정의는 density-connected point들을 최대로 포함
 
 point q를 기준으로 클러스터 안에 포함된 number of points를 나타내는 함수를 정의해보면 다음과 같습니다.
 
-$NEps(q)= \left \{ p\ belongs\ to\ D | dist(p, q) ≤ Eps \right \}$
+$$NEps(q)= \left \{ p\ belongs\ to\ D | dist(p, q) ≤ Eps \right \}$$
 
 그런 다음 위 개념을 토대로 directly density-reachable, density-reachable, density-connected에 대한 개념을 정의해 보면 아래와 같습니다.
 
@@ -45,6 +45,7 @@ if ( there is a chain of points p1, ..., pn, p1 = q, pn = p such that pi+1 is di
   point p는 q에 density-reachable 하다
 end
 ```
+
 <img src="/techblog/assets/images/Clustering-hdbscan/dbscan_2.jpg" alt="density-reachable 개념" width="200">
 
 * Density-connected
@@ -53,6 +54,7 @@ if ( there is a point o such that both p and q are density-reachable from o ) th
   point p는 q에 density-connected 하다
 end
 ```
+
 <img src="/techblog/assets/images/Clustering-hdbscan/dbscan_3.jpg" alt="density-connected 개념" width="200">
 
 마지막으로 **DBSCAN** 알고리듬 계산 과정을 정의하면 아래와 같습니다.
@@ -66,6 +68,7 @@ DBSCAN Algorithm
 
 * spatial-index를 사용하지 않은 일반적인 time-complexity는 O(n^2) 이다
  ```
+
 <img src="/techblog/assets/images/Clustering-hdbscan/dbscan_4.jpg" alt="core, border, outlier 개념" width="300">
 <br/>
 <br/>
@@ -109,9 +112,9 @@ HDBSCAN 알고리듬 계산과정을 대략적으로 스케치해 보면 다음�
 따라서 해당 단계에서는 각 point간의 distance를 계산하여 모든 $d_{mreach-k}$를 구해야 합니다.
 
 #### 2. MST 생성
-이제 우리는 밀도가 높은 cluster를 찾기 위해 모든 point 간의 $d_{mreach-k}(p, q)$ dataset을 얻었습니다. 물론 밀도는 상대적이며 서로 다른 cluster는 서로 다른 밀도를 가질 수 있습니다. 이 dataset에서 data point를 vertex로 $d_{mreach-k}(p, q)$를 edge로 하여 weighted graph를 구성합니다.
-
+이제 우리는 밀도가 높은 cluster를 찾기 위해 모든 point 간의 $d_{mreach-k}(p, q)$ dataset을 얻었습니다. 물론 밀도는 상대적이며 서로 다른 cluster는 서로 다른 밀도를 가질 수 있습니다. 이 dataset에서 data point를 vertex로 $$d_{mreach-k}(p, q)$$를 edge로 하여 weighted graph를 구성합니다. 
 적절히 높은 threshold 값을 설정한 뒤 점점 낮춰 가면서 해당 값보다 높은 가중치의 edge들을 제거해 갑니다. 결국 우리는 graph안의 connected component들의 hierarchy를 얻게 될 것입니다. 여기서 MST를 구하는 비용이 brute force로 하면 $O(|V|⋅|E|)$로 상당히 크지만 널리 알려진 [Prim's 알고리듬](https://en.wikipedia.org/wiki/Prim%27s_algorithm)을 사용하면 $O(|E|⋅log|V|)$ 로 줄일 수 있습니다. 해당 알고리듬은 graph의 모든 노드들을 순회하며 lowest weight 순으로 edge를 추가합니다. 결국 아래 그림처럼 MST를 만들어 줍니다.
+
 <img src="/techblog/assets/images/Clustering-hdbscan/hdbscan_2.jpg" alt="Sample dataset에 대한 MST 결과" width="400">
 
 아래 코드는 Prim's 알고리듬의 python example 코드 입니다.
@@ -157,6 +160,7 @@ MST가 주어지면, 다음 단계는 이를 connected component들의 계층 �
 <img src="/techblog/assets/images/Clustering-hdbscan/hdbscan_3.jpg" alt="Sample dataset에 대한 cluster 계층 트리 결과" width="500">
 
 아래 코드는 Union-find 알고리듬의 python example 코드입니다.
+
 ```
 import collections
 
@@ -240,10 +244,9 @@ Connected component의 계층 tree를 DFS로 순회합니다:
 
 <img src="/techblog/assets/images/Clustering-hdbscan/hdbscan_5.jpg" alt="cluster 계층 트리에서 선택된 클러스터 결과" width="500">
 
-
 또한 아래 그림은 각 point에 대한 소속 클러스터를 색깔로 보여줍니다. 여기서 색깔의 명암은 normalized된 $\lambda_p$값을 가지고 계산되었습니다.
-<img src="/techblog/assets/images/Clustering-hdbscan/hdbscan_6.jpg" alt="모든 point에 대한 클러스터 할당 결과" width="500">
 
+<img src="/techblog/assets/images/Clustering-hdbscan/hdbscan_6.jpg" alt="모든 point에 대한 클러스터 할당 결과" width="500">
 
 끝으로 2020년이 지나가기 전에 semi-supervised/unsupervised 학습에서도 혁신적인 발전이 이루어졌으면 하는 필자의 바람을 끝으로 포스트를 마칩니다.
 다음 시간에는 매우 큰 dimension에서도 clustering을 효과적으로 처리할 수 있는 deep learning 기반의 clustering 기법에 대해 설명드리겠습니다~
