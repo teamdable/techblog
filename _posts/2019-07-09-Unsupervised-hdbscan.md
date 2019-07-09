@@ -24,7 +24,7 @@ DBSCAN에서 cluster의 정의는 density-connected point들을 최대로 포함
 * Eps(ε) : 클러스터에 이웃을 포함할 수 있는 최대 반지름 거리
 * MinPts : 클러스터를 형성하기 위해 필요한 최소 이웃 수
 
-<img src="/assets/images/Clustering-hdbscan/dbscan_1.jpg" alt="Eps, MinPts 개념 그림" width="300">
+<img src="/techblog/assets/images/Clustering-hdbscan/dbscan_1.jpg" alt="Eps, MinPts 개념" width="300">
 
 point q를 기준으로 클러스터 안에 포함된 number of points를 나타내는 함수를 정의해보면 다음과 같습니다.
 
@@ -45,7 +45,7 @@ if ( there is a chain of points p1, ..., pn, p1 = q, pn = p such that pi+1 is di
   point p는 q에 density-reachable 하다
 end
 ```
-<img src="/assets/images/Clustering-hdbscan/dbscan_2.jpg" alt="density-reachable 개념 그림" width="200">
+<img src="/techblog/assets/images/Clustering-hdbscan/dbscan_2.jpg" alt="density-reachable 개념" width="200">
 
 * Density-connected
 ```
@@ -53,7 +53,7 @@ if ( there is a point o such that both p and q are density-reachable from o ) th
   point p는 q에 density-connected 하다
 end
 ```
-<img src="/assets/images/Clustering-hdbscan/dbscan_3.jpg" alt="density-connected 개념 그림" width="200">
+<img src="/techblog/assets/images/Clustering-hdbscan/dbscan_3.jpg" alt="density-connected 개념" width="200">
 
 마지막으로 **DBSCAN** 알고리듬 계산 과정을 정의하면 아래와 같습니다.
  ```
@@ -66,21 +66,21 @@ DBSCAN Algorithm
 
 * spatial-index를 사용하지 않은 일반적인 time-complexity는 O(n^2) 이다
  ```
-<img src="/assets/images/Clustering-hdbscan/dbscan_4.jpg" alt="core, border, outlier 개념 그림" width="300">
+<img src="/techblog/assets/images/Clustering-hdbscan/dbscan_4.jpg" alt="core, border, outlier 개념" width="300">
 <br/>
 <br/>
 
 알고리듬을 보시면 아시겠지만 DBSCAN의 결과는 모델의 hyper-parameter인 ε과 MinPts에 따라 상당히 다른 결과를 보여주게 됩니다.
 아래 그림은 이와 같은 현상을 보여주고 있습니다.
 
-<img src="/assets/images/Clustering-hdbscan/dbscan_5.jpg" alt="hyper-param에 따른 결과변화 그림" width="600">
+<img src="/techblog/assets/images/Clustering-hdbscan/dbscan_5.jpg" alt="hyper-param에 따른 결과변화" width="600">
 
 [Figures from G. Karypis, E.-H. Han, and V. Kumar, COMPUTER, 32(8), 1999](https://www-users.cs.umn.edu/~hanxx023/dmclass/chameleon.pdf)
 
 하지만 대부분의 경우 우리는 적절한 ε과 MinPts 값을 알 수 없으며 이는 대부분 heuristic하게 학습 과정을 통해 결정하게 됩니다. 또한 dataset이 조금만 변하게 되더라도 이전에 결정된 ε과 MinPts값은 더 이상 최적의 값이 아닌 게 될 수 있습니다.
 이런 부분들을 일부 개선한 것인 HDBSCAN입니다. 다음은 HDBSCAN에 대해 알아보도록 하겠습니다.
 
- ## H-DBSCAN
+## H-DBSCAN
 HDBSCAN의 경우 ε 파라미터는 더 이상 필요하지 않으며 MinPts만 존재합니다. 따라서, hyper-parameter에 대한 tuning 비용이 상당히 줄어듭니다. 사실 MinPts 값은 대부분 학습 전에 직관적으로 정할 수 있습니다.
 
 HDBSCAN 알고리듬 계산과정을 대략적으로 스케치해 보면 다음과 같습니다.
@@ -103,7 +103,7 @@ HDBSCAN 알고리듬 계산과정을 대략적으로 스케치해 보면 다음�
 
 위 $d_{mreach-k}(a,b)$ 의 값을 생각해보면 밀도가 높은 부분에서는 두 점 사이의 거리인 d(a, b)값을 갖게 되는 경우가 대부분일 것입니다. 하지만, 밀도가 낮은 부분에서는 실제 두 점 사이의 거리보다 더 큰 core distance값을 갖게 될 것입니다. 이는 다시 말하면 밀도가 높은 육지 부분은 그대로 둔 채로 밀도가 낮은 바다 부분은 더욱 sparse하게 펼쳐 줄 것입니다. 이러한 방식으로 *"해수면을 낮추는"* 작업(바다 지점을 육지에서 더 멀리 만드는 작업)을 수행하게 됩니다. 여기서 k는 hyper-parameter로 보통 MinPts과 동일하게 설정합니다.
 
-<img src="/assets/images/Clustering-hdbscan/hdbscan_1.jpg" alt="core distance 개념 그림" width="500">
+<img src="/techblog/assets/images/Clustering-hdbscan/hdbscan_1.jpg" alt="core distance 개념" width="500">
 
 위 그림에서 $d_{mreach-k}(o,p) = core_k(p)$ 이며, $d_{mreach-k}(o,q) = core_k(q)$ 가 됩니다. 즉, sparse한 영역의 point들은 더욱더 멀리 밀어내게 됩니다.
 따라서 해당 단계에서는 각 point간의 distance를 계산하여 모든 $d_{mreach-k}$를 구해야 합니다.
@@ -112,7 +112,7 @@ HDBSCAN 알고리듬 계산과정을 대략적으로 스케치해 보면 다음�
 이제 우리는 밀도가 높은 cluster를 찾기 위해 모든 point 간의 $d_{mreach-k}(p, q)$ dataset을 얻었습니다. 물론 밀도는 상대적이며 서로 다른 cluster는 서로 다른 밀도를 가질 수 있습니다. 이 dataset에서 data point를 vertex로 $d_{mreach-k}(p, q)$를 edge로 하여 weighted graph를 구성합니다.
 
 적절히 높은 threshold 값을 설정한 뒤 점점 낮춰 가면서 해당 값보다 높은 가중치의 edge들을 제거해 갑니다. 결국 우리는 graph안의 connected component들의 hierarchy를 얻게 될 것입니다. 여기서 MST를 구하는 비용이 brute force로 하면 $O(|V|⋅|E|)$로 상당히 크지만 널리 알려진 [Prim's 알고리듬](https://en.wikipedia.org/wiki/Prim%27s_algorithm)을 사용하면 $O(|E|⋅log|V|)$ 로 줄일 수 있습니다. 해당 알고리듬은 graph의 모든 노드들을 순회하며 lowest weight 순으로 edge를 추가합니다. 결국 아래 그림처럼 MST를 만들어 줍니다.
-<img src="/assets/images/Clustering-hdbscan/hdbscan_2.jpg" alt="Sample dataset에 대한 MST 결과 그림" width="400">
+<img src="/techblog/assets/images/Clustering-hdbscan/hdbscan_2.jpg" alt="Sample dataset에 대한 MST 결과" width="400">
 
 아래 코드는 Prim's 알고리듬의 python example 코드 입니다.
 ```
@@ -154,7 +154,7 @@ print(' cost : {}\n mst : {}'.format(cost, mst))
 MST가 주어지면, 다음 단계는 이를 connected component들의 계층 구조로 변환하는 것입니다. 이것은 MST에서 distance가 작은 edge 부터 순회하며 새로운 클러스터에 합쳐주면 얻을 수 있습니다. 해당 edge를 어느 클러스터에 포함시켜 줄지 선정하는 작업이 어려운 부분인데, 이는 다소 아름다운 [union-find](https://en.wikipedia.org/wiki/Disjoint-set_data_structure) 알고리듬을 이용하면 효과적으로 처리 가능합니다. 이런 아름다운 알고리듬 덕분에 우리 인간들이 화성을 탐사하고 인류 문명이 발전 할 수 있었다는 것을 생각한다면 마음이 경건해집니다.
 아래 그림은 모든 edge들을 순차적으로 결합시킨 connected component의 계층 구조를 보여줍니다.
 
-<img src="/assets/images/Clustering-hdbscan/hdbscan_3.jpg" alt="Sample dataset에 대한 cluster 계층 트리 결과 그림" width="500">
+<img src="/techblog/assets/images/Clustering-hdbscan/hdbscan_3.jpg" alt="Sample dataset에 대한 cluster 계층 트리 결과" width="500">
 
 아래 코드는 Union-find 알고리듬의 python example 코드입니다.
 ```
@@ -209,7 +209,7 @@ Breadth_First_Traversal(node):
     부모의 cluster에 포함됨
 ```
 
-<img src="/assets/images/Clustering-hdbscan/hdbscan_4.jpg" alt="Sample dataset에 대한 압축된 cluster 계층 트리 결과 그림" width="500">
+<img src="/techblog/assets/images/Clustering-hdbscan/hdbscan_4.jpg" alt="Sample dataset에 대한 압축된 cluster 계층 트리 결과" width="500">
 
 $\lambda$ 값은 다음에 정의 됩니다. 
 
@@ -238,25 +238,18 @@ Connected component의 계층 tree를 DFS로 순회합니다:
 
 아래 그림은 stability값을 토대로 최종 선택된 클러스터를 보여줍니다.
 
-<img src="/assets/images/Clustering-hdbscan/hdbscan_5.jpg" alt="cluster 계층 트리에서 선택된 클러스터 결과 그림" width="500">
+<img src="/techblog/assets/images/Clustering-hdbscan/hdbscan_5.jpg" alt="cluster 계층 트리에서 선택된 클러스터 결과" width="500">
 
 
 또한 아래 그림은 각 point에 대한 소속 클러스터를 색깔로 보여줍니다. 여기서 색깔의 명암은 normalized된 $\lambda_p$값을 가지고 계산되었습니다.
-<img src="/assets/images/Clustering-hdbscan/hdbscan_6.jpg" alt="모든 point에 대한 클러스터 할당 결과 그림" width="500">
+<img src="/techblog/assets/images/Clustering-hdbscan/hdbscan_6.jpg" alt="모든 point에 대한 클러스터 할당 결과" width="500">
 
 
 끝으로 2020년이 지나가기 전에 semi-supervised/unsupervised 학습에서도 혁신적인 발전이 이루어졌으면 하는 필자의 바람을 끝으로 포스트를 마칩니다.
 다음 시간에는 매우 큰 dimension에서도 clustering을 효과적으로 처리할 수 있는 deep learning 기반의 clustering 기법에 대해 설명드리겠습니다~
 
 ## Reference
-* Hdbscan: https://arxiv.org/pdf/1705.07321v2.pdf
-* Hierarchical Clustering: https://arxiv.org/pdf/1506.06422v2.pdf
-* http://cseweb.ucsd.edu/~dasgupta/papers/tree.pdf
-* Open source: https://github.com/scikit-learn-contrib/hdbscan
-
-
-
-
-
-
-
+* Hdbscan: [https://arxiv.org/pdf/1705.07321v2.pdf](https://arxiv.org/pdf/1705.07321v2.pdf)
+* Hierarchical Clustering: [https://arxiv.org/pdf/1506.06422v2.pdf](https://arxiv.org/pdf/1506.06422v2.pdf)
+* [http://cseweb.ucsd.edu/~dasgupta/papers/tree.pdf](http://cseweb.ucsd.edu/~dasgupta/papers/tree.pdf)
+* Open source: [https://github.com/scikit-learn-contrib/hdbscan](https://github.com/scikit-learn-contrib/hdbscan)
