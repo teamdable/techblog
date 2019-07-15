@@ -485,9 +485,4 @@ f_T(t)
 &=\frac{\Gamma(\frac{n}{2})}{\sqrt \pi \sqrt{n-1}\Gamma(\frac{n-1}{2})(\frac{t^2}{n-1}+1)^\frac{n}{2}}
 \end{aligned}
 $$
-* $(n-1)\frac{s^2}{\sigma^2} \sim \chi_{n-1}^2$ 은 다음 사실들을 하나씩 증명하면 증명할 수 있습니다. 별도의 글에서 증명할 예정입니다.
-    * $\bar{X}$ 와 $X_i-\bar{X}$ 가 uncorrelated입니다.
-    * $(\bar{X}, X_1-\bar{X}, \cdots, X_n-\bar{X})$ 는 multivariate normal distribution을 가집니다.
-    * $(\bar{X}, X_1-\bar{X}, \cdots, X_n-\bar{X})$ 가 multivariate normal distribution이고, $\bar{X}$ 와 $X_i-\bar{X}$ 가 uncorrelated하기 때문에, $\bar{X}$ 와 $X_i-\bar{X}$ 는 independent합니다.
-    * $Z_i$ 는 iid, $Z_i \sim N(0,1)$ , $\bar{Z}=\frac{1}{n}\sum_{i=1}^n Z_i$ 일 때, $\bar{Z}$ 와 $Z_i-\bar{Z}$ 가 independent한 성질을 이용하여, $\sum_{i=1}^n(Z_i-\bar{Z})^2+n\bar{Z}^2=\sum_{i=1}^n Z_i^2$ 의 양변의 MGF를 계산하면 $\sum_{i=1}^n(Z_i-\bar{Z})^2 \sim \chi_{n-1}^2$ 임을 알 수 있습니다.
-    * $(n-1)\frac{s^2}{\sigma^2}=\sum_{i=1}^n(Z_i-\bar{Z})^2$ 이기 때문에 $(n-1)\frac{s^2}{\sigma^2} \sim \chi_{n-1}^2$ 입니다.
+* $(n-1)\frac{s^2}{\sigma^2} \sim \chi_{n-1}^2$ 의 증명은 [Sample Mean and Sample Variance](/techblog/Sample-Mean-and-Sample-Variance#Sample-Variance-and-Normal-Distribution)를 참조하시기 바랍니다.
