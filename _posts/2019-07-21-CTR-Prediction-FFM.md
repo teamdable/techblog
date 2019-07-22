@@ -51,7 +51,7 @@ $$f(X) = w_0 + \sum_{i=1}^{n}w_ix_i \tag{1}$$
 
 linear model은 컴퓨팅 비용이 적기 때문에 대용량의 데이터셋을 빠르게 학습 시킬 때 효과적입니다. 광고 action 로그의 경우 분당 수억 건의 action이 발생하기 때문에 컴퓨팅 비용을 생각한다면 이처럼 단순한 모델이 적합하다고 할 수 있겠습니다. 하지만 위 모델을 실제 데이터를 가지고 학습을 시켜 보면 높은 feature 차원, 무시된 feature 간의 상관관계, 높은 sparsity와 선형적으로 구분하기 힘든 복잡도 등의 이유로 예측 정확도가 낮게 됩니다. 
 
-이를 보완하기 위해서는 nonlinear model인 kernel SVM, GDBT, deep-NN 등을 사용하거나, 아니면 단순히 linear model을 degree-2 polynomial combination(Poly2) 로 확장하여 아래와 같이 수정 할 수 있습니다.
+이를 보완하기 위해서는 nonlinear model인 kernel SVM, GDBT, deep-NN 등을 사용하거나, 아니면 단순히 linear model을 degree-2 polynomial combination(Poly2) 로 확장하여 아래와 같이 수정할 수 있습니다.
 
 $$f(X) = w_0 + \sum_{i=1}^{n}w_ix_i+\sum_{i=1}^{n}\sum_{j=i+1}^{n}w_{ij}x_ix_j$$
 
@@ -80,7 +80,7 @@ $\vec{v_i} \cdot \vec{v_j}=\sum_{f=1}^{k}v_{i,f}  v_{j,f}$
 
 위 수식에 나타나 있듯이 FM은 linear model과는 다르게 두 feature 간의 상관관계를 독립된 하나의 값인 $w_{ij}$ 로 나타내기보다는 $k$차원으로 factorizing 된 두 벡터의 내적으로 표현합니다. 따라서 $\textbf{V}$에 포함된 한 row인 $v_i$는 $k$ factor로 확장된 $i$번째 feature를 나타냅니다. 
 
-이렇게 되면 linear model에서 이슈된 극심한 sparsity 때문에 예측이 실패하는 문제를 완화 시킬 수 있습니다. 예를 들어 linear model에서는 train 시점에 PC = 1과 campaign1 = 1 인 경우에 대한 data가 존재하지 않았다면 이 둘의 상관관계를 표현하는 $w_{ij}$는 그저 0이라고 학습 될 것입니다. 하지만 FM의 경우에는 PC와 campaign1 feature를 $k$-차원의 벡터로 embedding 시켜 더 많은 정보를 담게 해주었기 때문에 만약 직접적인 연관성이 train data 상에서 보이지 않더라도 간접적으로 연관성이 존재하면 해당 정보가 담아지게 됩니다.
+이렇게 되면 linear model에서 이슈된 극심한 sparsity 때문에 예측이 실패하는 문제를 완화 시킬 수 있습니다. 예를 들어 linear model에서는 train 시점에 PC = 1과 campaign1 = 1 인 경우에 대한 data가 존재하지 않았다면 이 둘의 상관관계를 표현하는 $w_{ij}$는 그저 0이라고 학습될 것입니다. 하지만 FM의 경우에는 PC와 campaign1 feature를 $k$-차원의 벡터로 embedding 시켜 더 많은 정보를 담게 해주었기 때문에 만약 직접적인 연관성이 train data 상에서 보이지 않더라도 간접적으로 연관성이 존재하면 해당 정보가 담아지게 됩니다.
 
 다시 예들 들어보면 비록 train 시점에 PC = 1과 campaign1 = 1인 경우에 대한 data가 존재하지 않았지만, PC = 1과 programmer = 1인 경우와 campaign1 = 1과 programmer = 1인 경우의 data가 존재한다면 결국 PC = 1과 campaign1 = 1의 상관관계를 간접적으로나마 알 수 있을 것입니다. $\textbf{V}$는 이러한 정보들을 담게 됩니다. 이미 알려진 SVD의 개념과 별반 다르지 않지만 아름답게 느껴집니다.
 
