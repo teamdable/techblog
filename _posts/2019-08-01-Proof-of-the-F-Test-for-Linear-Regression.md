@@ -494,6 +494,10 @@ y_1 & y_2 & \cdots & y_n
 \begin{bmatrix}
 \hat{y}_1 & \hat{y}_2 & \cdots & \hat{y}_n
 \end{bmatrix}^T \\
+\bar{\mathbf{y}}=
+\begin{bmatrix}
+\bar{y} & \bar{y} & \cdots & \bar{y}
+\end{bmatrix}^T \\
 \mathbf{X}=
 \begin{bmatrix}
 X_{11} & X_{12} & X_{13} & \cdots & X_{1p} \\
@@ -517,9 +521,9 @@ X_{n1} & X_{n2} & X_{n3} & \cdots & X_{np}
 \epsilon_1 & \epsilon_2 & \cdots & \epsilon_n
 \end{bmatrix}^T \\
 \bar{y}=\frac{1}{n}\sum_{i=1}^ny_i \\
-SSTO=\sum_{i=1}^n(y_i-\bar{y}) \\
-SSE=\sum_{i=1}^n(y_i-\hat{y}_i) \\
-SSR=\sum_{i=1}^n(\hat{y}_i-\bar{y}) \\
+SSTO=\sum_{i=1}^n(y_i-\bar{y})^2 \\
+SSE=\sum_{i=1}^n(y_i-\hat{y}_i)^2 \\
+SSR=\sum_{i=1}^n(\hat{y}_i-\bar{y})^2 \\
 \mathbf{1}=
 \begin{bmatrix}
 1 & 1 & \cdots & 1
@@ -531,10 +535,10 @@ SSR=\sum_{i=1}^n(\hat{y}_i-\bar{y}) \\
 \vdots & \vdots & \ddots & \vdots \\
 1 & 1 & \cdots & 1
 \end{bmatrix} \\
-\mathbf{H}=\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T \\
+\mathbf{H}=\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T
 $$
 
-Linear Regression에 대해 설명하도록 하겠습니다. 수집된 Input Data가 $\mathbf{X}$에 저장되어 있고, 수집된 Output Data는 $\mathbf{y}$에 저장되어 있습니다. $\mathbf{X}$ Matrix의 각각의 Row가 하나의 Input Data이고, $\mathbf{y}$ Vector의 각각의 Element가 하나의 Output Data입니다. 예를 들어, 세번째 Input Data는 $\begin{bmatrix}X_{31} & X_{32} & X_{33} & \cdots & X_{3p}\end{bmatrix}$이고, 세번째 Output Data는 $y_3$입니다. Data로 가지고 있지 않은 Input을 입력했을 때 적절한 Output을 출력하는 Function을 만들고 싶습니다. 즉, $\begin{bmatrix}X_{i1} & X_{i2} & X_{i3} & \cdots & X_{ip}\end{bmatrix}$을 입력하면 $y_i$을 출력하는 Function을 만들고 싶습니다. 그래서 일단 그 Function의 형태를 $\mathbf{y}=\mathbf{X}\boldsymbol{\beta}$로 구성하고 해당 조건을 성립시키는 $\boldsymbol{\beta}$를 찾는 것을 시도합니다. 하지만 이것은 거의 불가능한 목표입니다. $\mathbf{y}=\mathbf{X}\boldsymbol{\beta}$는 단순한 형태라서 가지고 있는 Data가 모두 만족하도록 만드는 것이 불가능한 것이 일반적이기 때문입니다. 그래서 이 Function이 Input Data로부터 추정하는 Output은 실제 Output Data와 어느정도 Error가 발생하는 것을 피할 수 없습니다. 이 Error를 $\boldsymbol{\epsilon}$으로 설정합니다. 예를 들어 네번째 Output Data는 $y_4$이고, Function이 네번째 Input Data는 로부터 추정한 Output Data는 $\hat{y}_4$이고, 네번째 Error는 $\epsilon_4=y_4-\hat{y}_4$가 됩니다.
+Linear Regression에 대해 설명하도록 하겠습니다. 수집된 Input Data(Predictor)가 $\mathbf{X}$에 저장되어 있고, 수집된 Output Data(Response)는 $\mathbf{y}$에 저장되어 있습니다. $\mathbf{X}$ Matrix의 각각의 Row가 하나의 Input Data이고, $\mathbf{y}$ Vector의 각각의 Element가 하나의 Output Data입니다. 예를 들어, 세번째 Input Data는 $\begin{bmatrix}X_{31} & X_{32} & X_{33} & \cdots & X_{3p}\end{bmatrix}$이고, 세번째 Output Data는 $y_3$입니다. Data로 가지고 있지 않은 Input을 입력했을 때 적절한 Output을 출력하는 Function을 만들고 싶습니다. 즉, $\begin{bmatrix}X_{i1} & X_{i2} & X_{i3} & \cdots & X_{ip}\end{bmatrix}$을 입력하면 $y_i$을 출력하는 Function을 만들고 싶습니다. 그래서 일단 그 Function의 형태를 $\mathbf{y}=\mathbf{X}\boldsymbol{\beta}$로 구성하고 해당 조건을 성립시키는 $\boldsymbol{\beta}$를 찾는 것을 시도합니다. 하지만 이것은 거의 불가능한 목표입니다. $\mathbf{y}=\mathbf{X}\boldsymbol{\beta}$는 단순한 형태라서 가지고 있는 Data가 모두 만족하도록 만드는 것이 불가능한 것이 일반적이기 때문입니다. 그래서 이 Function이 Input Data로부터 추정하는 Output은 실제 Output Data와 어느정도 Error가 발생하는 것을 피할 수 없습니다. 이 Error를 $\boldsymbol{\epsilon}$으로 설정합니다. 예를 들어 네번째 Output Data는 $y_4$이고, Function이 네번째 Input Data는 로부터 추정한 Output Data는 $\hat{y}_4$이고, 네번째 Error는 $\epsilon_4=y_4-\hat{y}_4$가 됩니다.
 
 $$
 \begin{align}
@@ -563,21 +567,6 @@ $$
 \boldsymbol{\beta}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}
 $$
 
-$SSTO=SSR+SSE$이라는 것은 다음과 같이 증명할 수 있습니다.
-
-$$
-\begin{align}
-SSTO
-&=\sum_{i=1}^n(y_i-\bar{y})^2 \\
-&=\sum_{i=1}^n((\hat{y}_i-\bar{y})+(y_i-\hat{y}_i))^2 \\
-&=\sum_{i=1}^n((\hat{y}_i-\bar{y})^2+(y_i-\hat{y}_i)^2+2(\hat{y}_i-\bar{y})(y_i-\hat{y}_i)) \\
-&=\sum_{i=1}^n(\hat{y}_i-\bar{y})^2+\sum_{i=1}^n(y_i-\hat{y}_i)^2+2\sum_{i=1}^n\hat{y}_i(y_i-\hat{y}_i)-2\bar{y}\sum_{i=1}^n(y_i-\hat{y}_i) \\
-&=\sum_{i=1}^n(\hat{y}_i-\bar{y})^2+\sum_{i=1}^n(y_i-\hat{y}_i)^2+2\sum_{i=1}^n\hat{y}_i\epsilon_i-2\bar{y}\sum_{i=1}^n\epsilon_i \\
-&=SSR+SSE+0+0 \\
-&=SSR+SSE
-\end{align}
-$$
-
 ## Linear Regression in Quadratic Form {#Linear-Regression-in-Quadratic-Form}
 
 $SSTO$를 Quadratic Form으로 표현하면 다음과 같습니다.
@@ -596,6 +585,31 @@ SSTO
 &=\sum_{i=1}^ny_i^2-\frac{1}{n}\mathbf{y}^T\mathbf{J}\mathbf{y} \\
 &=\mathbf{y}^T\mathbf{y}-\frac{1}{n}\mathbf{y}^T\mathbf{J}\mathbf{y} \\
 &=\mathbf{y}^T(\mathbf{I}-\frac{1}{n}\mathbf{J})\mathbf{y} \\
+\end{aligned}
+$$
+
+$\mathbf{H}$가 Symmetric한 것은 다음과 같이 확인할 수 있습니다.
+
+$$
+\begin{aligned}
+\mathbf{H}^T
+&=(\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T)^T \\
+&=(\mathbf{X}^T)^T((\mathbf{X}^T\mathbf{X})^{-1})^T\mathbf{X}^T \\
+&=(\mathbf{X}^T)^T(\mathbf{X}^T(\mathbf{X}^T)^T)^{-1}\mathbf{X}^T \\
+&=\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T \\
+&=\mathbf{H}
+\end{aligned}
+$$
+
+$\mathbf{H}$가 Idempotent한 것은 다음과 같이 확인할 수 있습니다.
+
+$$
+\begin{aligned}
+\mathbf{H}^2
+&=(\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T)^2 \\
+&=\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T \\
+&=\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T \\
+&=\mathbf{H}
 \end{aligned}
 $$
 
@@ -618,15 +632,43 @@ SSE
 \end{aligned}
 $$
 
-$SSR$을 Quadratic Form으로 표현하면 다음과 같습니다.
+$\mathbf{1}$의 Column Space로 Projection하는 Projection Matrix를 구해보면 다음과 같습니다.
+
+$$
+\mathbf{1}(\mathbf{1}^T\mathbf{1})^{-1}\mathbf{1}^T=\mathbf{1}(n)^{-1}\mathbf{1}^T=\frac{1}{n}\mathbf{J}
+$$
+
+$\mathbf{H}$는 $\mathbf{X}$의 Column Space로 Projection하는 Projection Matrix이고, $\frac{1}{n}\mathbf{J}$는 $\mathbf{1}$의 Column Space로 Projection하는 Projection Matrix입니다. 그리고 $X_{i1}$가 모두 $1$로 설정되어 있기 때문에 $\mathbf{X}$의 Column Space는 $\mathbf{1}$의 Column Space를 포함합니다. 그래서 $\mathbf{X}$의 Column Space로 Projection하고 $\mathbf{1}$의 Column Space로 Projection한 결과, $\mathbf{1}$의 Column Space로 Projection하고 $\mathbf{X}$의 Column Space로 Projection한 결과, $\mathbf{1}$의 Column Space로 Projection한 결과는 모두 동일합니다. 정리하면 다음이 성립합니다.
+
+$$
+\frac{1}{n}\mathbf{H}\mathbf{J}=\frac{1}{n}\mathbf{J}\mathbf{H}=\frac{1}{n}\mathbf{J}
+$$
+
+$SSR$을 Quadratic Form으로 표현하면 다음과 같습니다. $\frac{1}{n}\mathbf{H}\mathbf{J}=\frac{1}{n}\mathbf{J}\mathbf{H}=\frac{1}{n}\mathbf{J}$을 이용합니다.
 
 $$
 \begin{aligned}
 SSR
-&=SSTO-SSE \\
-&=\mathbf{y}^T(\mathbf{I}-\frac{1}{n}\mathbf{J})\mathbf{y}-\mathbf{y}^T(\mathbf{I}-\mathbf{H})\mathbf{y} \\
-&=\mathbf{y}^T(\mathbf{H}-\frac{1}{n}\mathbf{J})\mathbf{y} \\
+&=\sum_{i=1}^n(\hat{y}_i-\bar{y})^2 \\
+&=(\hat{\mathbf{y}}-\bar{\mathbf{y}})^T(\hat{\mathbf{y}}-\bar{\mathbf{y}}) \\
+&=\hat{\mathbf{y}}^T\hat{\mathbf{y}}-\hat{\mathbf{y}}^T\bar{\mathbf{y}}-\bar{\mathbf{y}}^T\hat{\mathbf{y}}+\bar{\mathbf{y}}^T\bar{\mathbf{y}} \\
+&=(\mathbf{Hy})^T(\mathbf{Hy})-2\hat{\mathbf{y}}^T\bar{\mathbf{y}}+n(\frac{1}{n}\sum_{i=1}^ny_i)^2 \\
+&=\mathbf{y}^T\mathbf{H}^T\mathbf{Hy}-2(\mathbf{Hy})^T\bar{\mathbf{y}}+\frac{1}{n}(\sum_{i=1}^ny_i)^2 \\
+&=\mathbf{y}^T\mathbf{H}\mathbf{Hy}-2\mathbf{y}^T\mathbf{H}^T\bar{\mathbf{y}}+\frac{1}{n}(y_1\sum_{i=1}^ny_i+y_2\sum_{i=1}^ny_i+\cdots+y_n\sum_{i=1}^ny_i) \\
+&=\mathbf{y}^T\mathbf{H}^2\mathbf{y}-2\mathbf{y}^T\mathbf{H}\bar{\mathbf{y}}+\frac{1}{n}\begin{bmatrix}\sum_{i=1}^ny_i & \sum_{i=1}^ny_i & \cdots & \sum_{i=1}^ny_i\end{bmatrix}\mathbf{y} \\
+&=\mathbf{y}^T\mathbf{H}\mathbf{y}-2\mathbf{y}^T\mathbf{H}(\frac{1}{n}\mathbf{J}\mathbf{y})+\frac{1}{n}(\mathbf{y}^T\mathbf{J})\mathbf{y} \\
+&=\mathbf{y}^T\mathbf{H}\mathbf{y}-2\mathbf{y}^T(\frac{1}{n}\mathbf{H}\mathbf{J})\mathbf{y}+\mathbf{y}^T(\frac{1}{n}\mathbf{J})\mathbf{y} \\
+&=\mathbf{y}^T\mathbf{H}\mathbf{y}-2\mathbf{y}^T(\frac{1}{n}\mathbf{J})\mathbf{y}+\mathbf{y}^T(\frac{1}{n}\mathbf{J})\mathbf{y} \\
+&=\mathbf{y}^T\mathbf{H}\mathbf{y}-\mathbf{y}^T(\frac{1}{n}\mathbf{J})\mathbf{y} \\
+&=\mathbf{y}^T(\mathbf{H}-\frac{1}{n}\mathbf{J})\mathbf{y}
 \end{aligned}
+$$
+
+$SSTO$, $SSR$, $SSE$를 종합해 보면 다음과 같이 $SSTO=SSR+SSE$의 관계가 있는 것을 확인할 수 있습니다.
+
+$$
+SSTO=SSR+SSE \\
+\mathbf{y}^T(\mathbf{I}-\frac{1}{n}\mathbf{J})\mathbf{y}=\mathbf{y}^T(\mathbf{H}-\frac{1}{n}\mathbf{J})\mathbf{y}+\mathbf{y}^T(\mathbf{I}-\mathbf{H})\mathbf{y}
 $$
 
 $\mathbf{I}$, $\frac{1}{n}\mathbf{J}$, $\mathbf{H}$는 모두 Symmetric합니다. 그래서 $\mathbf{I}-\frac{1}{n}\mathbf{J}$, $\mathbf{I}-\mathbf{H}$, $\mathbf{H}-\frac{1}{n}\mathbf{J}$도 모두 Symmetric합니다.
@@ -677,7 +719,7 @@ $\mathbf{I}-\frac{1}{n}\mathbf{J}$가 Idempotent한 것은 다음과 같이 확�
 $$
 \begin{aligned}
 (\mathbf{I}-\frac{1}{n}\mathbf{J})^2
-&=\mathbf{I}^2-\frac{2}{n}\mathbf{J}\mathbf{I}+(\frac{1}{n}\mathbf{J})^2 \\
+&=\mathbf{I}^2-\frac{1}{n}\mathbf{I}\mathbf{J}-\frac{1}{n}\mathbf{J}\mathbf{I}+(\frac{1}{n}\mathbf{J})^2 \\
 &=\mathbf{I}-\frac{2}{n}\mathbf{J}+\frac{1}{n}\mathbf{J} \\
 &=\mathbf{I}-\frac{1}{n}\mathbf{J} \\
 \end{aligned}
@@ -688,29 +730,13 @@ $\mathbf{I}-\mathbf{H}$가 Idempotent한 것은 다음과 같이 확인해 볼 �
 $$
 \begin{aligned}
 (\mathbf{I}-\mathbf{H})^2
-&=\mathbf{I}^2-2\mathbf{H}\mathbf{I}+\mathbf{H}^2 \\
+&=\mathbf{I}^2-\mathbf{I}\mathbf{H}-\mathbf{H}\mathbf{I}+\mathbf{H}^2 \\
 &=\mathbf{I}-2\mathbf{H}+\mathbf{H} \\
 &=\mathbf{I}-\mathbf{H}
 \end{aligned}
 $$
 
-$\mathbf{1}$의 Column Space로 Projection하는 Projection Matrix를 구해보면 다음과 같습니다.
-
-$$
-\begin{aligned}
-\mathbf{1}(\mathbf{1}^T\mathbf{1})^{-1}\mathbf{1}^T
-&=\mathbf{1}(n)^{-1}\mathbf{1}^T \\
-&=\frac{1}{n}\mathbf{J}
-\end{aligned}
-$$
-
-$\mathbf{H}$는 $\mathbf{X}$의 Column Space로 Projection하는 Projection Matrix이고, $\frac{1}{n}\mathbf{J}$는 $\mathbf{1}$의 Column Space로 Projection하는 Projection Matrix입니다. 그리고 $X_{i1}$가 모두 $1$로 설정되어 있기 때문에 $\mathbf{X}$의 Column Space는 $\mathbf{1}$의 Column Space를 포함합니다. 그래서 $\mathbf{X}$의 Column Space로 Projection하고 $\mathbf{1}$의 Column Space로 Projection한 결과, $\mathbf{1}$의 Column Space로 Projection하고 $\mathbf{X}$의 Column Space로 Projection한 결과, $\mathbf{1}$의 Column Space로 Projection한 결과는 모두 동일합니다. 정리하면 다음이 성립합니다.
-
-$$
-\frac{1}{n}\mathbf{H}\mathbf{J}=\frac{1}{n}\mathbf{J}\mathbf{H}=\frac{1}{n}\mathbf{J}
-$$
-
-이 특징을 이용하여 $\mathbf{H}-\frac{1}{n}\mathbf{J}$이 Idempotent한 것은 다음과 같이 확인해 볼 수 있습니다.
+$\mathbf{H}-\frac{1}{n}\mathbf{J}$이 Idempotent한 것은 다음과 같이 확인해 볼 수 있습니다. $\frac{1}{n}\mathbf{H}\mathbf{J}=\frac{1}{n}\mathbf{J}\mathbf{H}=\frac{1}{n}\mathbf{J}$을 이용합니다.
 
 $$
 \begin{aligned}
@@ -742,7 +768,7 @@ rank(\mathbf{H}-\frac{1}{n}\mathbf{J})
 &=tr(\mathbf{H}-\frac{1}{n}\mathbf{J}) \\
 &=tr(\mathbf{H})-tr(\frac{1}{n}\mathbf{J}) \\
 &=p-1
-\end{aligned} \\
+\end{aligned}
 $$
 
 여기서 얻은 결과들을 정리해 보면 다음과 같습니다.
@@ -765,6 +791,7 @@ rank(\mathbf{H})=p \\
 rank(\mathbf{I}-\frac{1}{n}\mathbf{J})=n-1 \\
 rank(\mathbf{I}-\mathbf{H})=n-p \\
 rank(\mathbf{H}-\frac{1}{n}\mathbf{J})=p-1 \\
+\frac{1}{n}\mathbf{H}\mathbf{J}=\frac{1}{n}\mathbf{J}\mathbf{H}=\frac{1}{n}\mathbf{J}
 $$
 
 ## F Test for Linear Regression
@@ -775,7 +802,7 @@ $$
 \mathbf{y} \sim N(\mathbf{X}\boldsymbol{\beta},\sigma^2\mathbf{I})
 $$
 
-[Quadratic Form](#Quadratic-Form)과 [Linear Regression in Quadratic Form](#Linear-Regression-in-Quadratic-Form)을 살펴보면 다음이 만족하기 때문에 $SSE$와 $SSR$이 Independent하다는 것을 알 수 있습니다.
+[Quadratic Form](#Quadratic-Form)과 [Linear Regression in Quadratic Form](#Linear-Regression-in-Quadratic-Form)을 살펴보면 $\mathbf{I}-\mathbf{H}$이 Symmetric하고 $\mathbf{H}-\frac{1}{n}\mathbf{J}$이 Symmetric하고 다음을 만족하기 때문에 $SSE=\mathbf{y}^T(\mathbf{I}-\mathbf{H})\mathbf{y}$와 $SSR=\mathbf{y}^T(\mathbf{H}-\frac{1}{n}\mathbf{J})\mathbf{y}$이 Independent하다는 것을 알 수 있습니다.
 
 $$
 \begin{aligned}
