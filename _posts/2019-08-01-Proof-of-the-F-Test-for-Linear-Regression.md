@@ -569,22 +569,63 @@ $$
 
 ## Linear Regression in Quadratic Form {#Linear-Regression-in-Quadratic-Form}
 
-$SSTO$를 Quadratic Form으로 표현하면 다음과 같습니다.
+$\frac{1}{n}\mathbf{J}$는 Symmetric합니다.
+
+$\frac{1}{n}\mathbf{J}$가 Idempotent한 것은 다음과 같이 확인할 수 있습니다.
+
+$$
+\begin{aligned}
+(\frac{1}{n}\mathbf{J})^2
+&=
+\frac{1}{n^2}
+\begin{bmatrix}
+1 & 1 & \cdots & 1 \\
+1 & 1 & \cdots & 1 \\
+\vdots & \vdots & \ddots & \vdots \\
+1 & 1 & \cdots & 1
+\end{bmatrix}
+\begin{bmatrix}
+1 & 1 & \cdots & 1 \\
+1 & 1 & \cdots & 1 \\
+\vdots & \vdots & \ddots & \vdots \\
+1 & 1 & \cdots & 1
+\end{bmatrix} \\
+&=
+\frac{1}{n^2}
+\begin{bmatrix}
+n & n & \cdots & n \\
+n & n & \cdots & n \\
+\vdots & \vdots & \ddots & \vdots \\
+n & n & \cdots & n
+\end{bmatrix} \\
+&=
+\frac{1}{n}
+\begin{bmatrix}
+1 & 1 & \cdots & 1 \\
+1 & 1 & \cdots & 1 \\
+\vdots & \vdots & \ddots & \vdots \\
+1 & 1 & \cdots & 1
+\end{bmatrix} \\
+&=\frac{1}{n}\mathbf{J}
+\end{aligned}
+$$
+
+$SSTO$를 Quadratic Form으로 표현하면 다음과 같습니다. $\frac{1}{n}\mathbf{J}$가 Symmetric하고 Idempotent한 것을 이용합니다.
 
 $$
 \begin{aligned}
 SSTO
 &=\sum_{i=1}^n(y_i-\bar{y})^2 \\
-&=\sum_{i=1}^n(y_i^2-2y_i\bar{y}+\bar{y}^2) \\
-&=\sum_{i=1}^n(y_i^2-2y_i(\frac{1}{n}\sum_{j=1}^ny_j)+(\frac{1}{n}\sum_{j=1}^ny_j)^2) \\
-&=\sum_{i=1}^ny_i^2-2(\sum_{i=1}^ny_i)(\frac{1}{n}\sum_{j=1}^ny_j)+n(\frac{1}{n}\sum_{j=1}^ny_j)^2 \\
-&=\sum_{i=1}^ny_i^2-\frac{2}{n}(\sum_{i=1}^ny_i)^2+\frac{1}{n}(\sum_{i=1}^ny_i)^2 \\
-&=\sum_{i=1}^ny_i^2-\frac{1}{n}(\sum_{i=1}^ny_i)^2 \\
-&=\sum_{i=1}^ny_i^2-\frac{1}{n}(y_1\sum_{i=1}^ny_i+y_2\sum_{i=1}^ny_i+\cdots+y_n\sum_{i=1}^ny_i) \\
-&=\sum_{i=1}^ny_i^2-\frac{1}{n}\begin{bmatrix}\sum_{i=1}^ny_i & \sum_{i=1}^ny_i & \cdots & \sum_{i=1}^ny_i\end{bmatrix}\mathbf{y} \\
-&=\sum_{i=1}^ny_i^2-\frac{1}{n}\mathbf{y}^T\mathbf{J}\mathbf{y} \\
-&=\mathbf{y}^T\mathbf{y}-\frac{1}{n}\mathbf{y}^T\mathbf{J}\mathbf{y} \\
-&=\mathbf{y}^T(\mathbf{I}-\frac{1}{n}\mathbf{J})\mathbf{y} \\
+&=(\mathbf{y}-\bar{\mathbf{y}})^T(\mathbf{y}-\bar{\mathbf{y}}) \\
+&=\mathbf{y}^T\mathbf{y}-\mathbf{y}^T\bar{\mathbf{y}}-\bar{\mathbf{y}}^T\mathbf{y}+\bar{\mathbf{y}}^T\bar{\mathbf{y}} \\
+&=\mathbf{y}^T\mathbf{y}-2\mathbf{y}^T\bar{\mathbf{y}}+\bar{\mathbf{y}}^T\bar{\mathbf{y}} \\
+&=\mathbf{y}^T\mathbf{y}-2\mathbf{y}^T(\frac{1}{n}\mathbf{J}\mathbf{y})+(\frac{1}{n}\mathbf{J}\mathbf{y})^T(\frac{1}{n}\mathbf{J}\mathbf{y}) \\
+&=\mathbf{y}^T\mathbf{y}-2\mathbf{y}^T(\frac{1}{n}\mathbf{J})\mathbf{y}+\mathbf{y}^T(\frac{1}{n}\mathbf{J})^T(\frac{1}{n}\mathbf{J})\mathbf{y} \\
+&=\mathbf{y}^T\mathbf{y}-2\mathbf{y}^T(\frac{1}{n}\mathbf{J})\mathbf{y}+\mathbf{y}^T(\frac{1}{n}\mathbf{J})(\frac{1}{n}\mathbf{J})\mathbf{y} \\
+&=\mathbf{y}^T\mathbf{y}-2\mathbf{y}^T(\frac{1}{n}\mathbf{J})\mathbf{y}+\mathbf{y}^T(\frac{1}{n}\mathbf{J})^2\mathbf{y} \\
+&=\mathbf{y}^T\mathbf{y}-2\mathbf{y}^T(\frac{1}{n}\mathbf{J})\mathbf{y}+\mathbf{y}^T(\frac{1}{n}\mathbf{J})\mathbf{y} \\
+&=\mathbf{y}^T\mathbf{y}-\mathbf{y}^T(\frac{1}{n}\mathbf{J})\mathbf{y} \\
+&=\mathbf{y}^T(\mathbf{I}-\frac{1}{n}\mathbf{J})\mathbf{y}
 \end{aligned}
 $$
 
@@ -652,11 +693,11 @@ SSR
 &=\sum_{i=1}^n(\hat{y}_i-\bar{y})^2 \\
 &=(\hat{\mathbf{y}}-\bar{\mathbf{y}})^T(\hat{\mathbf{y}}-\bar{\mathbf{y}}) \\
 &=\hat{\mathbf{y}}^T\hat{\mathbf{y}}-\hat{\mathbf{y}}^T\bar{\mathbf{y}}-\bar{\mathbf{y}}^T\hat{\mathbf{y}}+\bar{\mathbf{y}}^T\bar{\mathbf{y}} \\
-&=(\mathbf{Hy})^T(\mathbf{Hy})-2\hat{\mathbf{y}}^T\bar{\mathbf{y}}+n(\frac{1}{n}\sum_{i=1}^ny_i)^2 \\
-&=\mathbf{y}^T\mathbf{H}^T\mathbf{Hy}-2(\mathbf{Hy})^T\bar{\mathbf{y}}+\frac{1}{n}(\sum_{i=1}^ny_i)^2 \\
-&=\mathbf{y}^T\mathbf{H}\mathbf{Hy}-2\mathbf{y}^T\mathbf{H}^T\bar{\mathbf{y}}+\frac{1}{n}(y_1\sum_{i=1}^ny_i+y_2\sum_{i=1}^ny_i+\cdots+y_n\sum_{i=1}^ny_i) \\
-&=\mathbf{y}^T\mathbf{H}^2\mathbf{y}-2\mathbf{y}^T\mathbf{H}\bar{\mathbf{y}}+\frac{1}{n}\begin{bmatrix}\sum_{i=1}^ny_i & \sum_{i=1}^ny_i & \cdots & \sum_{i=1}^ny_i\end{bmatrix}\mathbf{y} \\
-&=\mathbf{y}^T\mathbf{H}\mathbf{y}-2\mathbf{y}^T\mathbf{H}(\frac{1}{n}\mathbf{J}\mathbf{y})+\frac{1}{n}(\mathbf{y}^T\mathbf{J})\mathbf{y} \\
+&=(\mathbf{Hy})^T(\mathbf{Hy})-2\hat{\mathbf{y}}^T\bar{\mathbf{y}}+(\frac{1}{n}\mathbf{J}\mathbf{y})^T(\frac{1}{n}\mathbf{J}\mathbf{y}) \\
+&=\mathbf{y}^T\mathbf{H}^T\mathbf{Hy}-2(\mathbf{Hy})^T\bar{\mathbf{y}}+\mathbf{y}^T(\frac{1}{n}\mathbf{J})^T(\frac{1}{n}\mathbf{J})\mathbf{y} \\
+&=\mathbf{y}^T\mathbf{H}\mathbf{Hy}-2\mathbf{y}^T\mathbf{H}^T\bar{\mathbf{y}}+\mathbf{y}^T(\frac{1}{n}\mathbf{J})(\frac{1}{n}\mathbf{J})\mathbf{y} \\
+&=\mathbf{y}^T\mathbf{H}^2\mathbf{y}-2\mathbf{y}^T\mathbf{H}\bar{\mathbf{y}}+\mathbf{y}^T(\frac{1}{n}\mathbf{J})^2\mathbf{y} \\
+&=\mathbf{y}^T\mathbf{H}\mathbf{y}-2\mathbf{y}^T\mathbf{H}(\frac{1}{n}\mathbf{J}\mathbf{y})+\mathbf{y}^T(\frac{1}{n}\mathbf{J})\mathbf{y} \\
 &=\mathbf{y}^T\mathbf{H}\mathbf{y}-2\mathbf{y}^T(\frac{1}{n}\mathbf{H}\mathbf{J})\mathbf{y}+\mathbf{y}^T(\frac{1}{n}\mathbf{J})\mathbf{y} \\
 &=\mathbf{y}^T\mathbf{H}\mathbf{y}-2\mathbf{y}^T(\frac{1}{n}\mathbf{J})\mathbf{y}+\mathbf{y}^T(\frac{1}{n}\mathbf{J})\mathbf{y} \\
 &=\mathbf{y}^T\mathbf{H}\mathbf{y}-\mathbf{y}^T(\frac{1}{n}\mathbf{J})\mathbf{y} \\
@@ -673,46 +714,7 @@ $$
 
 $\mathbf{I}$, $\frac{1}{n}\mathbf{J}$, $\mathbf{H}$는 모두 Symmetric합니다. 그래서 $\mathbf{I}-\frac{1}{n}\mathbf{J}$, $\mathbf{I}-\mathbf{H}$, $\mathbf{H}-\frac{1}{n}\mathbf{J}$도 모두 Symmetric합니다.
 
-$\mathbf{I}$, $\mathbf{H}$는 모두 Idempotent합니다.
-
-$\frac{1}{n}\mathbf{J}$가 Idempotent한 것은 다음과 같이 확인할 수 있습니다.
-
-$$
-\begin{aligned}
-(\frac{1}{n}\mathbf{J})^2
-&=
-\frac{1}{n^2}
-\begin{bmatrix}
-1 & 1 & \cdots & 1 \\
-1 & 1 & \cdots & 1 \\
-\vdots & \vdots & \ddots & \vdots \\
-1 & 1 & \cdots & 1
-\end{bmatrix}
-\begin{bmatrix}
-1 & 1 & \cdots & 1 \\
-1 & 1 & \cdots & 1 \\
-\vdots & \vdots & \ddots & \vdots \\
-1 & 1 & \cdots & 1
-\end{bmatrix} \\
-&=
-\frac{1}{n^2}
-\begin{bmatrix}
-n & n & \cdots & n \\
-n & n & \cdots & n \\
-\vdots & \vdots & \ddots & \vdots \\
-n & n & \cdots & n
-\end{bmatrix} \\
-&=
-\frac{1}{n}
-\begin{bmatrix}
-1 & 1 & \cdots & 1 \\
-1 & 1 & \cdots & 1 \\
-\vdots & \vdots & \ddots & \vdots \\
-1 & 1 & \cdots & 1
-\end{bmatrix} \\
-&=\frac{1}{n}\mathbf{J}
-\end{aligned}
-$$
+$\mathbf{I}$, $\frac{1}{n}\mathbf{J}$, $\mathbf{H}$는 모두 Idempotent합니다.
 
 $\mathbf{I}-\frac{1}{n}\mathbf{J}$가 Idempotent한 것은 다음과 같이 확인해 볼 수 있습니다.
 
