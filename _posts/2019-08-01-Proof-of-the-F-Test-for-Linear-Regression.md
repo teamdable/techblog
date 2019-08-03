@@ -38,7 +38,7 @@ Linear Regression에서 Predictor와 Response가 얼마나 관계가 있는지 �
   \end{aligned}
   $$
 
-* $\mathbf{A}$가 Eigen Decomposition을 통해 $\mathbf{Q\Lambda}\mathbf{Q}^{-1}$로 표현될 수 있다면 $tr(\mathbf{A})$를 아래와 같이 Eigenvalue의 합으로 구할 수 있습니다.
+* $\mathbf{A}$가 Eigen Decomposition을 통해 $\mathbf{Q\Lambda}\mathbf{Q}^{-1}$로 표현될 수 있다면 $tr(\mathbf{A})$를 아래와 같이 Eigenvalue의 합으로 구합니다.
 
   $$
   \begin{aligned}
@@ -59,7 +59,7 @@ Linear Regression에서 Predictor와 Response가 얼마나 관계가 있는지 �
   \mathbf{x}^T\mathbf{A}\mathbf{x} \gt 0
   $$
 
-* Positive Definite Matrix $\mathbf{A}$가 Eigen Decomposition을 통해 $\mathbf{Q\Lambda}\mathbf{Q}^{-1}$로 표현될 수 있다면 아래와 같이 $\mathbf{A}$의 모든 Eigenvalue가 $0$보다 크다는 것을 알 수 있습니다. 참고로 $\mathbf{A}$는 Symmetric Matrix이므로 $\mathbf{A}$의 Eigenvector로 이루어진 $\mathbf{Q}$는 Orthogonal Matrix이므로 $\mathbf{Q}^{-1}=\mathbf{Q}^T$가 성립합니다.
+* Positive Definite Matrix $\mathbf{A}$가 Eigen Decomposition을 통해 $\mathbf{Q\Lambda}\mathbf{Q}^{-1}$로 표현될 수 있다면 아래와 같이 $\mathbf{A}$의 모든 Eigenvalue가 $0$보다 큽니다. 참고로 $\mathbf{A}$는 Symmetric Matrix이므로 $\mathbf{A}$의 Eigenvector로 이루어진 $\mathbf{Q}$는 Orthogonal Matrix이므로 $\mathbf{Q}^{-1}=\mathbf{Q}^T$가 성립합니다.
 
   $$
   \begin{aligned}
@@ -87,7 +87,7 @@ $$
 
 ## Cholesky Decomposition {#Cholesky-Decomposition}
 
-$\mathbf{A}$가 Positive Definite일 때 모든 Eigenvalue가 $0$보다 큰 사실을 이용해서 LDLT Decomposition의 결과에서 $\mathbf{L}\mathbf{L}^T$로 Decomposition을 하는 것을 Cholesky Decomposition이라고 정의합니다.
+$\mathbf{A}$가 [Positive Definite Matrix](#Positive-Definite-Matrix)일 때 모든 Eigenvalue가 $0$보다 큰 사실을 이용해서 [LDLT Decomposition](#LDLT-Decomposition)의 결과에서 $\mathbf{L}\mathbf{L}^T$로 Decomposition을 하는 것을 Cholesky Decomposition이라고 정의합니다.
 
 $$
 \begin{aligned}
@@ -106,7 +106,7 @@ $$
   \mathbf{A}^2=\mathbf{A}
   $$
 
-* $\mathbf{A}$가 Idempotent Matrix이고 임의의 Eigenvalue를 $\lambda$라 하고 임의의 Eigenvector를 $\mathbf{x}$라고 할 때 $rank(\mathbf{A})$를 다음과 같이 구할 수 있습니다.
+* $\mathbf{A}$가 Idempotent Matrix이고 Eigenvalue를 $\lambda$라 하고 Eigenvector를 $\mathbf{x}$라고 할 때 $rank(\mathbf{A})$를 다음과 같이 구합니다. [Trace](#Trace)의 성질을 이용합니다.
 
   $$
   \begin{aligned}
@@ -128,7 +128,7 @@ $$
 
 Matirx $\mathbf{A}$, $\mathbf{B}$가 같은 Eigenvector로 Diagonalize가 가능하면 Simultaneously Diagonalizable라고 정의합니다.
 
-* $\mathbf{A}$, $\mathbf{B}$가 Simultaneously Diagonalizable하면 $\mathbf{AB}=\mathbf{BA}$를 만족하는 것은 다음과 같이 증명할 수 있습니다.
+* $\mathbf{A}$, $\mathbf{B}$가 Simultaneously Diagonalizable하면 $\mathbf{AB}=\mathbf{BA}$를 만족하는 것은 다음과 같이 증명합니다.
 
   $$
   \mathbf{P}^{-1}\mathbf{A}\mathbf{P}=
@@ -167,7 +167,7 @@ Matirx $\mathbf{A}$, $\mathbf{B}$가 같은 Eigenvector로 Diagonalize가 가능
   \mathbf{A}\mathbf{B}=\mathbf{B}\mathbf{A}
   $$
 
-* $\mathbf{AB}=\mathbf{BA}$를 만족하고 $\mathbf{A}$의 모든 Eigenvalue가 서로 다를 때 $\mathbf{A}$의 Eigenvector는 $\mathbf{B}$의 Eigenvector라는 것을 다음과 같이 증명할 수 있습니다.
+* $\mathbf{AB}=\mathbf{BA}$를 만족하고 $\mathbf{A}$의 모든 Eigenvalue가 서로 다를 때 $\mathbf{A}$의 Eigenvector는 $\mathbf{B}$의 Eigenvector라는 것을 다음과 같이 증명합니다.
 
   $\mathbf{v}$가 $\mathbf{A}$의 Eigenvector이고 $\lambda$가 $\mathbf{A}$의 Eigenvalue일 때 다음과 같이 정리할 수 있습니다.
 
@@ -179,7 +179,7 @@ Matirx $\mathbf{A}$, $\mathbf{B}$가 같은 Eigenvector로 Diagonalize가 가능
 
   $\mathbf{Bv}$도 $\mathbf{A}$의 Eigenvector가 됩니다. $\mathbf{A}$의 모든 Eigenvalue는 서로 다르기 때문에 $\mathbf{Bv}=\mu\mathbf{v}$로 표현이 가능해야만 합니다. 만약에 표현이 불가능하다면 한 Eigenvalue에 두 Eigenvector가 존재하게 되어서 $\mathbf{A}$의 모든 Eigenvalue는 서로 달라야 한다는 가정에 모순이 발생하기 때문입니다. 즉, $\mathbf{Bv}=\mu\mathbf{v}$이며 $\mathbf{v}$는 $\mathbf{B}$의 Eigenvector가 됩니다.
 
-* $\mathbf{AB}=\mathbf{BA}$를 만족할 때 $\mathbf{A}$의 Eigenvector가 $\mathbf{B}$의 Eigenvector라는 것을 다음과 같이 증명할 수 있습니다.
+* $\mathbf{AB}=\mathbf{BA}$를 만족할 때 $\mathbf{A}$의 Eigenvector가 $\mathbf{B}$의 Eigenvector라는 것을 다음과 같이 증명합니다.
 
   $$
   \mathbf{D}=\mathbf{P}^{-1}\mathbf{A}\mathbf{P}=
@@ -376,7 +376,7 @@ $\mathbf{A}$가 Symmetric할 때 $\mathbf{x}^T\mathbf{A}\mathbf{x}$ 형태의 �
   (\mathbf{\Sigma}^{\frac{1}{2}}\mathbf{A}\mathbf{\Sigma}^{\frac{1}{2}})^2=\mathbf{\Sigma}^{\frac{1}{2}}\mathbf{A}\mathbf{\Sigma}^{\frac{1}{2}}\mathbf{\Sigma}^{\frac{1}{2}}\mathbf{A}\mathbf{\Sigma}^{\frac{1}{2}}=\mathbf{\Sigma}^{\frac{1}{2}}(\mathbf{A\Sigma A})\mathbf{\Sigma}^{\frac{1}{2}}=\mathbf{\Sigma}^{\frac{1}{2}}\mathbf{A}\mathbf{\Sigma}^{\frac{1}{2}}
   $$
 
-  $\mathbf{\Sigma}^{\frac{1}{2}}\mathbf{A}\mathbf{\Sigma}^{\frac{1}{2}}$는 Idempotent하다는 것을 알 수 있습니다. 그리고 $\mathbf{A}$는 정의에 의해 Symmetric이고 $\mathbf{\Sigma}$는 Covariance Matrix이기 때문에 Symmetric하여 $\mathbf{\Sigma}^{\frac{1}{2}}\mathbf{A}\mathbf{\Sigma}^{\frac{1}{2}}$도 Symmetric합니다. $rank(\mathbf{A})=r$이고 $rank(\mathbf{\Sigma})=n$이기 때문에 $rank(\mathbf{\Sigma}^{\frac{1}{2}}\mathbf{A}\mathbf{\Sigma}^{\frac{1}{2}})=r$이 됩니다. $\mathbf{B}=\mathbf{\Sigma}^{\frac{1}{2}}\mathbf{A}\mathbf{\Sigma}^{\frac{1}{2}}$와 같이 $\mathbf{B}$를 정의합니다. $\mathbf{B}$는 Symmetric하고, Idempotent하고, $rank(\mathbf{B})=r$이 됩니다.
+  $\mathbf{\Sigma}^{\frac{1}{2}}\mathbf{A}\mathbf{\Sigma}^{\frac{1}{2}}$는 Idempotent합니다. 그리고 $\mathbf{A}$는 정의에 의해 Symmetric이고 $\mathbf{\Sigma}$는 Covariance Matrix이기 때문에 Symmetric하여 $\mathbf{\Sigma}^{\frac{1}{2}}\mathbf{A}\mathbf{\Sigma}^{\frac{1}{2}}$도 Symmetric합니다. $rank(\mathbf{A})=r$이고 $rank(\mathbf{\Sigma})=n$이기 때문에 $rank(\mathbf{\Sigma}^{\frac{1}{2}}\mathbf{A}\mathbf{\Sigma}^{\frac{1}{2}})=r$이 됩니다. $\mathbf{B}=\mathbf{\Sigma}^{\frac{1}{2}}\mathbf{A}\mathbf{\Sigma}^{\frac{1}{2}}$와 같이 $\mathbf{B}$를 정의합니다. $\mathbf{B}$는 Symmetric하고, Idempotent하고, $rank(\mathbf{B})=r$이 됩니다.
 
   $$
   \mathbf{x}^T\mathbf{A}\mathbf{x}=\mathbf{v}^T\mathbf{B}\mathbf{v} \sim \chi_r^2
@@ -466,15 +466,13 @@ $\mathbf{A}$가 Symmetric할 때 $\mathbf{x}^T\mathbf{A}\mathbf{x}$ 형태의 �
   \end{aligned}
   $$
 
-  $\mathbf{Q}^T\mathbf{C}\mathbf{Q}$를 살펴보면 $\mathbf{x}^T\mathbf{Ax}$는 $\mathbf{v}$중에서 Random Variable $v_1$, $v_2$, $\cdots$, $v_r$에만 Depend하고, $\mathbf{Q}^T\mathbf{K}\mathbf{Q}$를 살펴보면 $\mathbf{x}^T\mathbf{Bx}$는 $\mathbf{v}$중에서 Random Variable $v_{r+1}$, $v_{r+2}$, $\cdots$, $v_n$에만 Depend하다는 사실을 알 수 있습니다. 그래서 $\mathbf{x}^T\mathbf{Ax}$와 $\mathbf{x}^T\mathbf{Bx}$는 Independent합니다.
+  $\mathbf{Q}^T\mathbf{C}\mathbf{Q}$를 살펴보면 $\mathbf{x}^T\mathbf{Ax}$는 $\mathbf{v}$중에서 Random Variable $v_1$, $v_2$, $\cdots$, $v_r$에만 Depend하고, $\mathbf{Q}^T\mathbf{K}\mathbf{Q}$를 살펴보면 $\mathbf{x}^T\mathbf{Bx}$는 $\mathbf{v}$중에서 Random Variable $v_{r+1}$, $v_{r+2}$, $\cdots$, $v_n$에만 Depend합니다. 그래서 $\mathbf{x}^T\mathbf{Ax}$와 $\mathbf{x}^T\mathbf{Bx}$는 Independent합니다.
 
 ## Non-central Chi-squared Distribution {#Non-central-Chi-squared-Distribution}
 
 [Central Chi-squared Distribution](/techblog/Derivation-of-the-Probability-Distribution-Functions#Chi-squared)은 $X_i$가 iid이고, $X_i \sim N(0,1)$일 때, $\sum_{i=1}^r X_i^2 \sim \chi_r^2$와 같이 정의합니다.
 
 Non-central Chi-squared Distribution은 $X_i$가 iid이고, $X_i \sim N(\mu_i,1)$이고, $\lambda=\sum_{i=1}^r\mu_i^2$일 때, $\sum_{i=1}^r X_i^2 \sim \chi_r^2(\lambda)$와 같이 정의합니다.
-
-[Quadratic Form](#Quadratic-Form)을 참조해 보면 $\mathbf{x} \sim N(\mathbf{0},\sigma^2\mathbf{I})$이고, $rank(\mathbf{A})=r$이고, $\mathbf{A}$가 Symmetric하고, $\mathbf{A}$가 Idempotent할 때, $\frac{\mathbf{x}^T\mathbf{A}\mathbf{x}}{\sigma^2} \sim \chi^2_r$이 됩니다. 같은 조건에서 $\mathbf{x} \sim N(\boldsymbol{\mu},\sigma^2\mathbf{I})$인 경우를 살펴보면 $\frac{\mathbf{x}^T\mathbf{A}\mathbf{x}}{\sigma^2} \sim \chi^2_r(\frac{\boldsymbol{\mu}^T\mathbf{A}\boldsymbol{\mu}}{\sigma^2})$가 됩니다.
 
 [Quadratic Form](#Quadratic-Form)을 참조해 보면 $\mathbf{x} \sim N(\mathbf{0},\mathbf{\Sigma})$이고, $rank(\mathbf{A})=r$이고, $\mathbf{A}$가 Symmetric하고, $\mathbf{A\Sigma}$가 Idempotent할 때, $\mathbf{x}^T\mathbf{A}\mathbf{x} \sim \chi^2_r$이 됩니다. 같은 조건에서 $\mathbf{x} \sim N(\boldsymbol{\mu},\mathbf{\Sigma})$인 경우를 살펴보면 $\mathbf{x}^T\mathbf{A}\mathbf{x} \sim \chi^2_r(\boldsymbol{\mu}^T\mathbf{A}\boldsymbol{\mu})$가 됩니다.
 
@@ -554,7 +552,7 @@ X_{41} & X_{42} & X_{43} & \cdots & X_{4p}
 \end{align}
 $$
 
-각각의 Error는(첫번째 Data에 대한 Error, 두번째 Data에 대한 Error, ...) iid하고 Independent해서 $Var(\boldsymbol{\epsilon})=\sigma^2\mathbf{I}$가 됩니다.
+각각의 Error는(첫번째 Data에 대한 Error, 두번째 Data에 대한 Error, ...) iid하므로 $Var(\boldsymbol{\epsilon})=\sigma^2\mathbf{I}$가 됩니다.
 
 Linear Regression에서 $\beta_1$은 Input Data에 영향을 받지 않고 Output Data에 직접 영향을 주도록 설정하는 것이 일반적입니다. 그렇게 하기 위해서 $\mathbf{X}$의 첫번째 Column은 모두 1로 설정합니다. 그래서 $X_{i1}$은 모두 1로 설정합니다.
 
@@ -571,7 +569,7 @@ $$
 
 $\frac{1}{n}\mathbf{J}$는 Symmetric합니다.
 
-$\frac{1}{n}\mathbf{J}$가 Idempotent한 것은 다음과 같이 확인할 수 있습니다.
+$\frac{1}{n}\mathbf{J}$가 Idempotent한 것은 다음과 같이 확인합니다.
 
 $$
 \begin{aligned}
@@ -629,7 +627,7 @@ SSTO
 \end{aligned}
 $$
 
-$\mathbf{H}$가 Symmetric한 것은 다음과 같이 확인할 수 있습니다.
+$\mathbf{H}$가 Symmetric한 것은 다음과 같이 확인합니다.
 
 $$
 \begin{aligned}
@@ -642,7 +640,7 @@ $$
 \end{aligned}
 $$
 
-$\mathbf{H}$가 Idempotent한 것은 다음과 같이 확인할 수 있습니다.
+$\mathbf{H}$가 Idempotent한 것은 다음과 같이 확인합니다.
 
 $$
 \begin{aligned}
@@ -682,6 +680,9 @@ $$
 $\mathbf{H}$는 $\mathbf{X}$의 Column Space로 Projection하는 Projection Matrix이고, $\frac{1}{n}\mathbf{J}$는 $\mathbf{1}$의 Column Space로 Projection하는 Projection Matrix입니다. 그리고 $X_{i1}$가 모두 $1$로 설정되어 있기 때문에 $\mathbf{X}$의 Column Space는 $\mathbf{1}$의 Column Space를 포함합니다. 그래서 $\mathbf{X}$의 Column Space로 Projection하고 $\mathbf{1}$의 Column Space로 Projection한 결과, $\mathbf{1}$의 Column Space로 Projection하고 $\mathbf{X}$의 Column Space로 Projection한 결과, $\mathbf{1}$의 Column Space로 Projection한 결과는 모두 동일합니다. 정리하면 다음이 성립합니다.
 
 $$
+(\text{Projection Matrix onto }CS(\mathbf{X}))=\mathbf{H} \\
+(\text{Projection Matrix onto }CS(\mathbf{1}))=\frac{1}{n}\mathbf{J} \\
+CS(\mathbf{X}) \supset CS(\mathbf{1}) \\
 \frac{1}{n}\mathbf{H}\mathbf{J}=\frac{1}{n}\mathbf{J}\mathbf{H}=\frac{1}{n}\mathbf{J}
 $$
 
@@ -705,7 +706,7 @@ SSR
 \end{aligned}
 $$
 
-$SSTO$, $SSR$, $SSE$를 종합해 보면 다음과 같이 $SSTO=SSR+SSE$의 관계가 있는 것을 확인할 수 있습니다.
+$SSTO$, $SSR$, $SSE$를 종합해 보면 다음과 같이 $SSTO=SSR+SSE$의 관계가 있습니다.
 
 $$
 SSTO=SSR+SSE \\
@@ -716,7 +717,7 @@ $\mathbf{I}$, $\frac{1}{n}\mathbf{J}$, $\mathbf{H}$는 모두 Symmetric합니다
 
 $\mathbf{I}$, $\frac{1}{n}\mathbf{J}$, $\mathbf{H}$는 모두 Idempotent합니다.
 
-$\mathbf{I}-\frac{1}{n}\mathbf{J}$가 Idempotent한 것은 다음과 같이 확인해 볼 수 있습니다.
+$\mathbf{I}-\frac{1}{n}\mathbf{J}$가 Idempotent한 것은 다음과 같이 확인합니다.
 
 $$
 \begin{aligned}
@@ -727,7 +728,7 @@ $$
 \end{aligned}
 $$
 
-$\mathbf{I}-\mathbf{H}$가 Idempotent한 것은 다음과 같이 확인해 볼 수 있습니다.
+$\mathbf{I}-\mathbf{H}$가 Idempotent한 것은 다음과 같이 확인합니다.
 
 $$
 \begin{aligned}
@@ -738,7 +739,7 @@ $$
 \end{aligned}
 $$
 
-$\mathbf{H}-\frac{1}{n}\mathbf{J}$이 Idempotent한 것은 다음과 같이 확인해 볼 수 있습니다. $\frac{1}{n}\mathbf{H}\mathbf{J}=\frac{1}{n}\mathbf{J}\mathbf{H}=\frac{1}{n}\mathbf{J}$을 이용합니다.
+$\mathbf{H}-\frac{1}{n}\mathbf{J}$이 Idempotent한 것은 다음과 같이 확인합니다. $\frac{1}{n}\mathbf{H}\mathbf{J}=\frac{1}{n}\mathbf{J}\mathbf{H}=\frac{1}{n}\mathbf{J}$을 이용합니다.
 
 $$
 \begin{aligned}
@@ -749,7 +750,7 @@ $$
 \end{aligned}
 $$
 
-$\mathbf{I}-\frac{1}{n}\mathbf{J}$, $\mathbf{I}-\mathbf{H}$, $\mathbf{H}-\frac{1}{n}\mathbf{J}$이 모두 Symmetric하고 Idempotent한 것을 확인했습니다. 이번에는 각각의 Rank를 구해 보도록 하겠습니다. [Idempotent Matrix](#Idempotent-Matrix)를 이용합니다. $\mathbf{X}$는 $n \times p$ Matrix이므로 $rank(\mathbf{H})=p$이 되는 것도 이용합니다.
+$\mathbf{I}-\frac{1}{n}\mathbf{J}$, $\mathbf{I}-\mathbf{H}$, $\mathbf{H}-\frac{1}{n}\mathbf{J}$이 모두 Symmetric하고 Idempotent한 것을 확인했습니다. 이번에는 각각의 Rank를 구해 보도록 하겠습니다. $\mathbf{A}$가 Idempotent일 때 $rank(\mathbf{A})=tr(\mathbf{A})$인 것은 [Idempotent Matrix](#Idempotent-Matrix)를 참조합니다. $\mathbf{X}$는 $n \times p$ Matrix이므로 $rank(\mathbf{H})=p$이 되는 것도 이용합니다.
 
 $$
 \begin{aligned}
@@ -798,32 +799,34 @@ $$
 
 ## F Test for Linear Regression
 
-[Linear Regression](#Linear-Regression)을 살펴보면 다음이 성립함을 알 수 있습니다.
+[Linear Regression](#Linear-Regression)을 살펴보면 다음이 성립합니다.
 
 $$
 \mathbf{y} \sim N(\mathbf{X}\boldsymbol{\beta},\sigma^2\mathbf{I})
 $$
 
-[Quadratic Form](#Quadratic-Form)과 [Linear Regression in Quadratic Form](#Linear-Regression-in-Quadratic-Form)을 살펴보면 $\mathbf{I}-\mathbf{H}$이 Symmetric하고 $\mathbf{H}-\frac{1}{n}\mathbf{J}$이 Symmetric하고 다음을 만족하기 때문에 $SSE=\mathbf{y}^T(\mathbf{I}-\mathbf{H})\mathbf{y}$와 $SSR=\mathbf{y}^T(\mathbf{H}-\frac{1}{n}\mathbf{J})\mathbf{y}$이 Independent하다는 것을 알 수 있습니다.
+[Quadratic Form](#Quadratic-Form)과 [Linear Regression in Quadratic Form](#Linear-Regression-in-Quadratic-Form)을 살펴보면 $\mathbf{A}=\mathbf{I}-\mathbf{H}$이 Symmetric하고 $\mathbf{B}=\mathbf{H}-\frac{1}{n}\mathbf{J}$이 Symmetric하고 다음과 같이 $\mathbf{A \Sigma B}=\mathbf{0}$을 만족하기 때문에 $\mathbf{y}^T\mathbf{A}\mathbf{y}=\mathbf{y}^T(\mathbf{I}-\mathbf{H})\mathbf{y}=SSE$와 $\mathbf{y}^T\mathbf{B}\mathbf{y}=\mathbf{y}^T(\mathbf{H}-\frac{1}{n}\mathbf{J})\mathbf{y}=SSR$이 Independent합니다.
 
 $$
 \begin{aligned}
-(\mathbf{I}-\mathbf{H})(\sigma^2\mathbf{I})(\mathbf{H}-\frac{1}{n}\mathbf{J})
+\mathbf{A \Sigma B}
+&=(\mathbf{I}-\mathbf{H})(\sigma^2\mathbf{I})(\mathbf{H}-\frac{1}{n}\mathbf{J}) \\
 &=\sigma^2(\mathbf{H}-\frac{1}{n}\mathbf{J}-\mathbf{H}^2+\frac{1}{n}\mathbf{H}\mathbf{J}) \\
 &=\sigma^2(\mathbf{H}-\frac{1}{n}\mathbf{J}-\mathbf{H}+\frac{1}{n}\mathbf{J}) \\
-&=0
+&=\mathbf{0}
 \end{aligned}
 $$
 
-$\mathbf{v}=\frac{\mathbf{y}}{\sigma}$로 $\mathbf{v}$를 정의하면, $\mathbf{v} \sim N(\frac{\mathbf{X}\boldsymbol{\beta}}{\sigma}, \mathbf{I})$이 됩니다. [Non-central Chi-squared Distribution](#Non-central-Chi-squared-Distribution)을 살펴보면 $\mathbf{I}-\mathbf{H}$가 Symmetric하고 $(\mathbf{I}-\mathbf{H})\mathbf{I}$가 Idempotent하기 때문에 다음이 성립한다는 것을 알 수 있습니다. $rank(\mathbf{I}-\mathbf{H})=n-p$는 [Linear Regression in Quadratic Form](#Linear-Regression-in-Quadratic-Form)를 참조합니다.
+$\mathbf{v}=\frac{\mathbf{y}}{\sigma}$로 $\mathbf{v}$를 정의하면, $\mathbf{v} \sim N(\frac{\mathbf{X}\boldsymbol{\beta}}{\sigma}, \mathbf{I})$이 됩니다. [Non-central Chi-squared Distribution](#Non-central-Chi-squared-Distribution)을 살펴보면 $\mathbf{A}=\mathbf{I}-\mathbf{H}$가 Symmetric하고 $\mathbf{A\Sigma}=(\mathbf{I}-\mathbf{H})\mathbf{I}$가 Idempotent하기 때문에 다음이 성립합니다. $rank(\mathbf{I}-\mathbf{H})=n-p$는 [Linear Regression in Quadratic Form](#Linear-Regression-in-Quadratic-Form)를 참조합니다.
 
 $$
 \frac{SSE}{\sigma^2}
+=\mathbf{v}^T\mathbf{A}\mathbf{v}
 =(\frac{\mathbf{y}}{\sigma})^T(\mathbf{I}-\mathbf{H})(\frac{\mathbf{y}}{\sigma})
 \sim \chi_{n-p}^2((\frac{\mathbf{X}\boldsymbol{\beta}}{\sigma})^T(\mathbf{I}-\mathbf{H})(\frac{\mathbf{X}\boldsymbol{\beta}}{\sigma}))
 $$
 
-마찬가지 방법으로 $\mathbf{H}-\frac{1}{n}\mathbf{J}$가 Symmetric하고 $(\mathbf{H}-\frac{1}{n}\mathbf{J})\mathbf{I}$가 Idempotent하기 때문에 다음이 성립한다는 것을 알 수 있습니다. $rank(\mathbf{H}-\frac{1}{n}\mathbf{J})=p-1$는 [Linear Regression in Quadratic Form](#Linear-Regression-in-Quadratic-Form)를 참조합니다.
+마찬가지 방법으로 $\mathbf{H}-\frac{1}{n}\mathbf{J}$가 Symmetric하고 $(\mathbf{H}-\frac{1}{n}\mathbf{J})\mathbf{I}$가 Idempotent하기 때문에 다음이 성립합니다. $rank(\mathbf{H}-\frac{1}{n}\mathbf{J})=p-1$는 [Linear Regression in Quadratic Form](#Linear-Regression-in-Quadratic-Form)를 참조합니다.
 
 $$
 \frac{SSR}{\sigma^2}
@@ -838,7 +841,7 @@ $$
 \frac{SSR}{\sigma^2}=\chi_{p-1}^2
 $$
 
-SSR과 SSE는 Independent하므로 F Statistic을 다음과 같이 계산할 수 있습니다. F Distribution에 대해서는 [Derivation of the Probability Distribution Functions](/techblog/Derivation-of-the-Probability-Distribution-Functions#F)을 참조합니다.
+$SSR$과 $SSE$는 Independent하므로 F Statistic을 다음과 같이 계산할 수 있습니다. F Distribution에 대해서는 [Derivation of the Probability Distribution Functions](/techblog/Derivation-of-the-Probability-Distribution-Functions#F)을 참조합니다.
 
 $$
 F=\frac{\frac{\frac{SSR}{\sigma^2}}{p-1}}{\frac{\frac{SSE}{\sigma^2}}{n-p}}=\frac{\frac{SSR}{p-1}}{\frac{SSE}{n-p}}=\frac{\frac{SSTO-SSE}{p-1}}{\frac{SSE}{n-p}} \sim F(p-1,n-p)
