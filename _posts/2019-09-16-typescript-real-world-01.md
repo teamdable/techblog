@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "TypeScript in the real world - 01"
-date:   2019-09-17 11:00:00 +0900
+date:   2019-09-20 11:00:00 +0900
 author: MinJeong Kim
 tags: [ minjeongkim, typescript, programming ]
 ---
