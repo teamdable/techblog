@@ -3,17 +3,17 @@ layout: post
 title:  "BFCache 동작에서 발견된 ifrmae 내 비정상적 이벤트 발생 현상"
 date:   2019-10-07 02:00:00 +0900
 author: Changbae Bang
-tags: [ 방창배, bfcache, 모바일, 브라우져, 비정상동작 ]
+tags: [ 방창배, bfcache, 모바일, 브라우져,  ]
 ---
-안녕하세요. 방창배입니다..
+안녕하세요. 방창배입니다.
 
 최근 iOS에서만 발생하는 문제를 처리한 이슈를 소개하려고 합니다. 많은 프론트엔드 개발자들이 BFCache로 인해 페이지 이동 시에 발생하는 이벤트가 달라지는 고충을 겪는 것을 알고 있습니다. 하지만 이번에 소개하려는 내용은 페이지 이동 시 BFCache로 인해서 기대하는 이벤트가 발생하는 문제는 아닙니다. BFCache로 페이지가 이동한 후 `iframe`에서 정상적이지 않은 이벤트 흐름이 있는 것에 대해서 다루고자 합니다. 어떠한 조건으로 발생하는지, 그리고 해결책에는 어떤 것이 있을지 정리해보겠습니다.
 
 ## iPhone에서 클릭이 안 된다.
 이슈는 특정 버전의 iPhone 상의 모든 브라우저(사파리, 크롬, 네이버 앱)에서 간헐적으로 발생하는 문제였습니다. 더욱이 안드로이드의 어떠한 브라우저에서도 재현되지 않는 현상이었습니다. 아주 먼 예전에 브라우저를 개발할 때, 각 브라우저의 동작을 확인해보기 위해서 최소 단위의 샘플을 제작하면서 작업을 시작하였습니다. 이번 이슈도 최소 단위의 재현 샘플을 만들며 그 원인을 찾아보았습니다.
 
-# 발생 원인 요약
-이 이슈는 평상시에는 재현되지 않습니다. 또한 iOS가 아니면 재현되지 않습니다. iOS에서도 항상 발생하는 것은 아니며 **BFCache**(Back-Forwrad Cache)를 사용할 때 문제가 발생합니다.
+### 발생 원인 요약
+이 이슈는 평상시에는 재현되지 않습니다. 또한 iOS가 아니면 재현되지 않습니다. iOS에서도 항상 발생하는 것은 아니며 **BFCache**(Back-Forward Cache)를 사용할 때 문제가 발생합니다.
 
 문제를 만드는 조건을 정리하면 다음과 같습니다.
 
@@ -23,33 +23,39 @@ tags: [ 방창배, bfcache, 모바일, 브라우져, 비정상동작 ]
 
 재현 조건을 만족하는 부모 페이지는 아래와 같습니다.
 
-    <html lang="ko">
-      <head>
-        <title>iOS iframe click bug with history back</title>
-        <meta charset="utf-8">
-      </head>
-      <body>
-        <iframe src="./widget.html" style="border: 0px;"></iframe>
-      </body>
-    </html>
+```html
+<html lang="ko">
+  <head>
+    <title>iOS iframe click bug with history back</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <iframe src="./widget.html" style="border: 0px;"></iframe>
+  </body>
+</html>
+```
 
 재현 조건을 만족하는 자식 페이지는 다음과 같습니다.
 
-    <html><head>
-      <meta charset="utf-8">
-      <title>Child Page</title>
-      <link rel="stylesheet" href="./nothing.but.something.css">
-    </head>
-    <body >
-      <a href="http://naver.com" target="_top">아이 프레임 버그 발생</a>
+```html
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Child Page</title>
+    <link rel="stylesheet" href="./nothing.but.something.css">
+  </head>
+  <body >
+    <a href="http://dable.io" target="_top">아이 프레임 버그 발생</a>
+  </body>
+</html>
+```
 
-    </body></html>
+자식 페이지에서 `link` *element* 를 제거하면 이슈가 재현되지 않습니다. 위 샘플에서 보는 것과 같이 `link` *element* 에서 style sheet를 로드하지 못해도 `ifame` 내에 클릭 이벤트가 발생하지 않습니다.
 
-자식 페이지에서 `link` *element* 를 제거하면 이슈가 재현되지 않습니다. 위 샘플에서 보는 것과 같이 `link` *element* 에서 sytle sheet를 로드하지 못해도 `ifame` 내에 클릭 이벤트가 발생하지 않습니다.
-
-[https://bang-express-example.herokuapp.com/iframe-sample/](https://bang-express-example.herokuapp.com/iframe-sample/)
+[페이지 예제](https://bang-express-example.herokuapp.com/iframe-sample/)
 
 쉽게 확인을 하기 위해 위 경로에 샘플을 올려놓았습니다.
+
 
 ## 문제 처리 방안
 원인을 확인했으니 이제 처리 방안에 관해서 이야기하려고 합니다.
@@ -67,78 +73,89 @@ tags: [ 방창배, bfcache, 모바일, 브라우져, 비정상동작 ]
 
 간단하게 생각해 보면 `touchmove`를 감지하여 같은 자리에서 `touchestart`와 `toucheend`가 발생하였는지 확인할 수 있습니다. 이를 기반으로 `click`을 발생시킬 수 있습니다. 더욱 안전한 동작을 위해서 바로 `click`을 보내지 않고, 중간 이벤트를 만들어서 최대한 `click` 이 올라오는지 확인한 후 `click` 이 중간에 오면 `click` 이벤트 발생을 취소하고 이벤트가 발생하지 않는다면 구현을 통해서 이벤트를 발생시키도록 하였습니다.
 
-    let addLazyClick = (ele) => {
-      const target = ele;
-      let isMoved = false;
-      const timerInterval = 200;              // Allow to be Customized
-      let preventInifite = 10;              // Allow to be Customized
-      const triggingEventName = "click";      // Allow to be Customized
-      const  mediateEventName = "lazy-click";  // Allow to be Customized
+```javascript
+let addLazyClick = (ele) => {
+  const target = ele;
+  let isMoved = false;
+  const timerInterval = 200;              // Allow to be Customized
+  let preventInifite = 10;                // Allow to be Customized
+  const triggingEventName = "click";      // Allow to be Customized
+  let  mediateEventName = "lazy-click";   // Allow to be Customized
 
-      let isMediateEventNameVailable = () => {
-        // warn to infinite loop
-        while(ele["on"+mediateEventName] === "function") {
-          mediateEventName = "-" + mediateEventName;
-          preventInifite--;
-          if(preventInifite === 0){
-            throw new Error("custom event name could be not set.");
-          }
-        }
-      };
-      try{
-        isMediateEventNameVailable()
-      }catch(e) {
-        console.error("mediateEvent could not be used in this page");
-        return;
+  let isMediateEventNameVailable = () => {
+    // warn to infinite loop
+    while(ele["on"+mediateEventName] === "function") {
+      mediateEventName = "-" + mediateEventName;
+      preventInifite--;
+      if(preventInifite === 0){
+        throw new Error("custom event name could be not set.");
       }
-
-      let eventDispatcher = (targetElement, eventName) => {
-        console.info("trigging " + eventName);
-        let evObj = document.createEvent('Events');
-        evObj.initEvent(eventName, true, false);
-        targetElement.dispatchEvent(evObj);
-      };
-
-      ele.addEventListener("touchmove", () => {
-        isMoved = true;
-      });
-
-      ele.addEventListener("touchend", (_event_) => {
-        if(isMoved === false) {
-          let _lazyCilckTimer_ = undefined;
-          let _remove_timer_ = () => {
-            if(_lazyCilckTimer_){
-              console.info("remove timer " + _lazyCilckTimer_);
-              clearTimeout(_lazyCilckTimer_);
-              _lazyCilckTimer_ = undefined;
-            }
-          };
-          _lazyCilckTimer_ = setTimeout(() => {
-            console.info("remove " + triggingEventName + " handler for cleartimer");
-            target.removeEventListener(triggingEventName, _remove_timer_);
-
-            console.info("start " + mediateEventName + " event trigging.");
-            eventDispatcher(target, mediateEventName);
-          }, timerInterval);
-
-          target.addEventListener(triggingEventName, _remove_timer_);
-        }
-        isMoved = false;
-      });
-
-      ele.addEventListener(mediateEventName, () => eventDispatcher(target, triggingEventName) );
     }
+  };
+  try{
+    isMediateEventNameVailable()
+  }catch(e) {
+    console.error("mediateEvent could not be used in this page");
+    return;
+  }
+
+  let eventDispatcher = (targetElement, eventName) => {
+    console.info("trigging " + eventName);
+    let evObj = document.createEvent('Events');
+    evObj.initEvent(eventName, true, false);
+    targetElement.dispatchEvent(evObj);
+  };
+
+  ele.addEventListener("touchmove", () => {
+    isMoved = true;
+  });
+
+  ele.addEventListener("touchend", (_event_) => {
+    if(isMoved === false) {
+      let _lazyClickTimer_;
+      let _remove_timer_ = () => {
+        if(_lazyClickTimer_){
+          console.info("remove timer " + _lazyClickTimer_);
+          clearTimeout(_lazyClickTimer_);
+          _lazyClickTimer_ = undefined;
+        }
+      };
+      _lazyClickTimer_ = setTimeout(() => {
+        console.info("remove " + triggingEventName + " handler for cleartimer");
+        target.removeEventListener(triggingEventName, _remove_timer_);
+
+        console.info("start " + mediateEventName + " event trigging.");
+        eventDispatcher(target, mediateEventName);
+      }, timerInterval);
+
+      target.addEventListener(triggingEventName, _remove_timer_);
+    }
+    isMoved = false;
+  });
+
+  ele.addEventListener(mediateEventName, () => eventDispatcher(target, triggingEventName) );
+}
 
 
-    // iOS for iframe does not trigger click event with history back
-    let aElements = document.querySelectorAll("a");
-    aElements.forEach((ele) => addLazyClick(ele));
+// iOS for iframe does not trigger click event with history back
+let aElements = document.querySelectorAll("a");
+aElements.forEach((ele) => addLazyClick(ele));
+```
 
-[https://bang-express-example.herokuapp.com/iframe-sample-solution](https://bang-express-example.herokuapp.com/iframe-sample-solution)
+[자식 페이지](https://jsfiddle.net/1e9kzxva/3/)
+
+[전체 페이지](https://bang-express-example.herokuapp.com/iframe-sample-solution)
 
 쉽게 확인을 하기 위해 위 경로에 샘플을 올려놓았습니다.
 
-아름답지는 않지만, 해결은 됩니다. 하지만 다른 고민을 더 해보려고 합니다.
+아름답지는 않지만, 해결은 됩니다.
+
+자연스럽게 `click` 이벤트를 발생하여 페이지 이동을 하기 위해서 부자연스럽게 이벤트를 발생하는 코드가 추가 되었습니다.
+이 경우 개발자가 `click` 이벤트 조건을 판단해야 합니다. 플랫폼 환경에 따라 `click` 판정이 달라진다고 가정을 해보면 머리가 지끈지끈해줄 수 있습니다. 이번 경우에야 `touchmove`가 없는 것을 `click`으로 판단하였지만 만약 어느 정도 이동을 허용하는 플랫폼이 있다고 가정하면 개발자는 다양한 플랫폼을 하나의 코드에서 처리하고 관리해야 합니다. 또한 진짜 `click` 이벤트가 올라오는 지 감지하는 동작들에 많은 방어코드가 들어가 있습니다. 하지만 예외 상황을 벗어나는 동작이 발생할 경우에 대한 처리에 한계는 항상 있습니다. 위 예제 코드의 경우 `while` 을 사용하여 사용자 이벤트 등록 가능성을 확인하고 있습니다.
+
+이처럼 브라우저에서 자연스럽게 해줘야 할 것들을 브라우저 위에서 구현하려고 하는 것에는 한계가 있을 수 밖에 없습니다.
+
+그래서 다른 고민을 더 해보려고 합니다.
 
 ## iframe을 다시 로드하는 방법
 
@@ -157,68 +174,91 @@ tags: [ 방창배, bfcache, 모바일, 브라우져, 비정상동작 ]
 정리해 보면, BFCache 상황은 `pageshow` 가 발생하였을 때 이벤트에 `persisted`를 여부를 가지고 판단할 수 있습니다.
 그렇다면 이 상황에 필요한 `iframe`을 새로 갱신하여 이 문제를 처리할 수 있습니다.
 
-데이블에서는 `iframe` 을 사용하여 위짓을 만들고 있습니다. 데이블에서 사용하는 위짓 스크립트를 사용하여 이어 설명하려고 합니다.
+데이블에서는 `iframe` 을 사용하여 위젯을 만들고 있습니다. 데이블에서 사용하는 위젯 스크립트를 사용하여 이어 설명하려고 합니다.
 아래 코드를 이용하면 `iframe` 을 그리는 시점이 조금 밀리지만, 이제 `iframe` 에서 `click` 안되는 문제에서 간단하게 해결할 수 있습니다.
 
-    window.addEventListener("pageshow", () => {
-    	dable('setService', 'm.ytn.co.kr');
-    	dable('sendLogOnce') ;
+```javascript
+window.addEventListener("pageshow", () => {
+  dable('setService', 'm.ytn.co.kr');
+  dable('sendLogOnce') ;
+  dable('renderWidget', 'dablewidget_6XgaZL7N');
+});
+```
+
+## 위젯 스크립트에서 알아서 잘되도록 수정
+
+하지만 위 방법으로 처리하기 위해서는 기존 데이블 위젯을 사용하는 개발자들에게 새로운 가이드를 보내 다시 개발을 진행하게 하는 큰 불편함이 있습니다. 가이드를 바꾸는 것은 내부 개발자들에게 매우 편한 일이지만 이 가이드를 따르고 있는 사용자에게는 매우 번거로운 일입니다. 좋은 기술이 되기 위해서 사용자의 코드를 바꾸지 않는 선에서 처리하는 방법을 다시 찾아보려고 합니다.
+
+우선 많은 사용자가 사용하고 있는 위젯을 표현하는 스크립트는 변경하지 않으려고 합니다. 보통의 경우 인라인 스크립트를 사용하여 HTML 문서가 파싱될 때 인라인 스크립트로 사용하는 경우가 있었습니다.
+
       dable('renderWidget', 'dablewidget_6XgaZL7N');
-    });
 
-## 위짓 스크립트에서 알아서 잘되도록 수정
+그래서 내부적으로 위와 같은 위젯 명령이 전달될 때, 명령을 저장하는 동작을 새로 구현하였습니다.
 
-하지만 위 방법으로 처리하기 위해서는 기존 데이블 위짓을 사용하는 개발자들에게 새로운 가이드를 보내 다시 개발을 진행하게 하는 큰 불편함이 있습니다. 가이드를 바꾸는 것은 내부 개발자들에게 매우 편한 일이지만 이 가이드를 따르고 있는 사용자에게는 매우 번거로운 일입니다. 좋은 기술이 되기 위해서 사용자의 코드를 바꾸지 않는 선에서 처리하는 방법을 다시 찾아보려고 합니다.
-
-우선 많은 사용자가 사용하고 있는 위짓을 표현하는 스크립트는 변경하지 않으려고 합니다. 보통의 경우 인라인 스크립트를 사용하여 HTML 문서가 파싱될 때 인라인 스크립트로 사용하는 경우가 있었습니다.
-
-      dable('renderWidget', 'dablewidget_6XgaZL7N');
-
-그래서 내부적으로 위와 같은 위짓 명령이 전달될 때, 명령을 저장하는 동작을 새로 구현하였습니다.
-
-    push: (params) ->
-        # do not use Array.isArray because of old ~IE8
-        # supporting multiple commands.
-        if util.isArray(params[0])
-          @push(item) for item in params
-          return
-        if util.isIOSDevice() == true
-          @saveCommand params
-        @execute params
+```javascript
+CommandQueue.prototype.push = function(params) {
+  var i, item, len;
+  if (util.isArray(params[0])) {
+    for (i = 0, len = params.length; i < len; i++) {
+      item = params[i];
+      this.push(item);
+    }
+    return;
+  }
+  if (util.isIOSDevice() === true) {
+    this.saveCommand(params);
+  }
+  return this.execute(params);
+};
+```
 
 그리고 불필요한 이벤트 핸들러 등록을 막기 위해서 저장할 사항이 있으면 이벤트 핸들러를 등록할 수 있도록 저장 동작에서  `pageshow` 에 대한 이벤트 핸들러를 등록하도록 구현하였습니다.
 
-    saveCommand: (params) ->
-        # save render commands to re-build the widgets
-        ## if needed, insert the filter for the commands
-        return unless params[0] and params[0].toLowerCase() in @savableCommands
-        @commands.push params
-        unless @isPageShowEventHandlerReady() == true
-          @attachPageShowEventHandler()
+```javascript
+CommandQueue.prototype.saveCommand = function(params) {
+  this.commands.push(params);
+  if (this.isPageShowEventHandlerReady() !== true) {
+    return this.attachPageShowEventHandler();
+  }
+};
+```
 
 그리고 `pageshow` 이벤트가 발행하면 BFCache 상황인지를 판단하여 저장한 명령을 실행할 수 있도록 하였습니다.
 바로 명령을 실행하는 것이 아니라 이벤트를 발생하여 비동기로 수행할 수 있도록 구현하였습니다.
 
-    pageshowHandler: (e) ->
-        # persisted is the key about BFCached
-        return unless e.persisted == true
-        @dettachPageShowEventHandler()
-        @attachRebuildEventHandler()
-        event.postEvent document, "rebuild"
+```javascript
+CommandQueue.prototype.pageshowHandler = function(e) {
+  if (e.persisted !== true) {
+    return;
+  }
+  this.dettachPageShowEventHandler();
+  this.attachRebuildEventHandler();
+  return event.postEvent(document, "rebuild");
+};
+```
 
 발생시킨 사용자 이벤트를 감지하여 이전에 받은 명령을 다시 실행하였고 이 동작으로 `iframe`을 다시 갱신할 수 있습니다.
 
-    rebuildHandler: () ->
-        @dettachRebuildEventHandler()
-        tempCommands = @commands
-        @commands =  []
-        @push(command) for command in tempCommands
+```javascript
+CommandQueue.prototype.rebuildHandler = function() {
+  var command, i, len, results, tempCommands;
+  this.dettachRebuildEventHandler();
+  tempCommands = this.commands;
+  this.commands = [];
+  results = [];
+  for (i = 0, len = tempCommands.length; i < len; i++) {
+    command = tempCommands[i];
+    results.push(this.push(command));
+  }
+  return results;
+};
+```
 
 이러한 해결책을 통해서 사용자들의 개발 수정 없이 문제 사항을 제거해 보았습니다.
 
 # 마치며
 이 문제는 사실상 iOS에서 BFCache의 동작의 버그라고 생각합니다. 그래서 더더욱 어떤 식으로 플랫폼을 구현한 것인지 많이 궁금합니다.
-하지만 궁금함을 뒤로하고 사용자의 불편한 없이 문제를 해결하는 방안을 고민해 보았습니다. 물론 버그로 볼 수 있지만, 현재의 동작하지 않는 문제를 그냥 두고만 볼 수 없는 까닭일듯합니다. 비록 버그성 동작이지만 BFCache 상에서 `click` 에 대한 문제가 있는 다른 개발자들에게 도움이 되길 바라며 내용을 정리해보았습니다.
+하지만 궁금함을 뒤로하고 사용자의 불편함 없이 문제를 해결하는 방안을 고민해 보았습니다. 물론 버그로 볼 수 있지만, 현재의 동작하지 않는 문제를 그냥 두고만 볼 수 없는 까닭일듯합니다. 비록 버그성 동작이지만 BFCache 상에서 `click` 에 대한 문제가 있는 다른 개발자들에게 도움이 되길 바라며 내용을 정리해보았습니다.
 
 그리고 다행스럽게도 `iframe`에 대한 처리 동작을 명령으로 잘 구현해 놓았기에 큰 어려움 없이 `iframe`을 조정할 수 있었습니다.
 버그나 기능을 확장할 때 논리적인 명령을 잘 정리하는 것이 얼마나 중요한지 계속 깨닫습니다. 최근 합류한 Dable의 잘 정리된 코드들을 보면서 잘 합류하였다는 생각을 한 번 더 할 수 있었습니다.
