@@ -191,7 +191,9 @@ window.addEventListener("pageshow", () => {
 
 우선 많은 사용자가 사용하고 있는 위젯을 표현하는 스크립트는 변경하지 않으려고 합니다. 보통의 경우 인라인 스크립트를 사용하여 HTML 문서가 파싱될 때 인라인 스크립트로 사용하는 경우가 있었습니다.
 
-      dable('renderWidget', 'dablewidget_6XgaZL7N');
+```javascript
+dable('renderWidget', 'dablewidget_6XgaZL7N');
+```
 
 그래서 내부적으로 위와 같은 위젯 명령이 전달될 때, 명령을 저장하는 동작을 새로 구현하였습니다.
 
