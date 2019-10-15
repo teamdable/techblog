@@ -39,7 +39,7 @@ $$
 $$
 String = \{ "", "a", "aa", "aaa", ... "b" ... \}
 $$
-{: refdef}
+
 
 집합 원소 간에 연산할 때, 닫힘과 열림이라는 중요한 얘기가 나옵니다. 이에 대한 내용은 이 글 후반부인 `닫힘과 열림`에서 다루겠습니다. 지금은 `타입은 집합이다.`라고 생각합니다.
 
@@ -61,12 +61,19 @@ $$
 
 함수 $f$, $g$가 아래와 같을 때,
 
-$$ f: X \rightarrow Y $$
-$$ g: Y \rightarrow Z $$
+$$ 
+f: X \rightarrow Y 
+$$
+
+$$ 
+g: Y \rightarrow Z 
+$$
 
 두 함수를 합성한 합성 함수가 존재합니다.
 
-$$ g \circ f: X \rightarrow Z $$
+$$ 
+g \circ f: X \rightarrow Z 
+$$
 
 두 함수를 합성한 합성 함수가 존재합니다.
 
@@ -124,11 +131,15 @@ $$
 
 프로그래밍에서 말하는 사이드이펙트는 무엇이 있을까요? 함수가 반환해야 하는 결과를 반환하지 못하게 하는 모든 것을 의미합니다. 파일 이름을 주면 해당 이름을 갖는 파일 포인터를 반환하는 함수를 생각해 봅시다.
 
-$$ f: Name \rightarrow FILE $$
+$$ 
+f: Name \rightarrow FILE 
+$$
 
 파일 이름에 해당하는 파일이 없을 때는 FILE을 반환할 수 없습니다. 이번에는 네트워크 API 요청을 생각해 봅시다. 
 
-$$ g: Request \rightarrow Response $$
+$$ 
+g: Request \rightarrow Response 
+$$
 
 우리는 요청 $Request$를 보냈을 때 항상 응답 $Response$를 받을 수 없음을 잘 알고 있습니다. 서버 코드에 버그가 있을 수도 있고 통신이 안되는 음영지역에서 요청을 보낼 수도 있고 때로는 서버 머신을 호스팅하는 곳에 정전이 발생할 수도 있습니다. 이러한 점도 클라이언트와 서버에게는 사이드이펙트가 됩니다.
 
@@ -232,6 +243,7 @@ $$
 $$
 클래스 = 데이터 + 로직
 $$
+
 $$
 프로그램 = 클래스 + 관계
 $$
@@ -344,7 +356,7 @@ fun <T> add(a: T): (T) -> T {
 }
 ```
 
-실행지연을 사용하면, 커링을 적용하여 다양한 연산자를 만들 수 있습니다. 두 수를 더하는 함수는 보통 아래와 같을 것입니다.
+실행지연을 사용하면, [커링](https://en.wikipedia.org/wiki/Currying)을 적용하여 다양한 연산자를 만들 수 있습니다. 두 수를 더하는 함수는 보통 아래와 같을 것입니다.
 
 ```kotlin
 fun add(a: Int, b: Int): Int {
@@ -352,7 +364,7 @@ fun add(a: Int, b: Int): Int {
 }
 ```
 
-커링을 적용하면 아래와 같이 만들 수 있습니다.
+[커링](https://en.wikipedia.org/wiki/Currying)을 적용하면 아래와 같이 만들 수 있습니다.
 
 ```kotlin
 fun add(a: Int): (Int) -> Int {
@@ -362,7 +374,7 @@ fun add(a: Int): (Int) -> Int {
 }
 ```
 
-위 add 커링 함수를 사용하여 연산자를 만들어 보겠습니다.
+위 add [커링](https://en.wikipedia.org/wiki/Currying) 함수를 사용하여 연산자를 만들어 보겠습니다.
 
 ```kotlin
 val op10plus = add(10)
@@ -380,7 +392,7 @@ fun main(args: Array<String>) {
 }
 ```
 
-커링 함수에 제네릭을 적용하여 연산자를 만들 수도 있습니다.
+[커링](https://en.wikipedia.org/wiki/Currying) 함수에 제네릭을 적용하여 연산자를 만들 수도 있습니다.
 
 ```kotlin
 fun <T> operator(a: T, op: (T, T) -> T): (T) -> T {
@@ -404,9 +416,11 @@ fun main(args: Array<String>) {
 $$
 클래스 = 데이터 + 로직
 $$
+
 $$
 타입 = { 원시타입, 클래스, 함수 }
 $$
+
 $$
 프로그램 = 타입 + 흐름
 $$
@@ -452,15 +466,19 @@ $$
 $$
 A: N \rightarrow N
 $$
+
 $$
 f: N \rightarrow Z
 $$
+
 $$
 B: Z \rightarrow Z
 $$
+
 $$
 g: Z \rightarrow Q
 $$
+
 $$
 C: Q \rightarrow Q
 $$
@@ -484,9 +502,11 @@ $$
 $$
 p: g \circ f
 $$
+
 $$
 k: q \circ p
 $$
+
 $$
 ...
 $$
@@ -536,12 +556,15 @@ $$
 $$
 f: Monad \rightarrow Monad
 $$
+
 $$
 g: Monad \rightarrow Monad
 $$
+
 $$
 h: Monad \rightarrow Monad
 $$
+
 $$
 h \circ g \circ f: Monad \rightarrow Monad \rightarrow Monad
 $$
@@ -932,9 +955,11 @@ map은 내부에서 flatMap을 사용합니다. $f$가 Result.Fail을 반환하�
 $$
 클래스 = 데이터 + 로직
 $$
+
 $$
 타입 = { 원시타입, 클래스, 함수 }
 $$
+
 $$
 프로그램 = 타입 + 흐름
 $$
