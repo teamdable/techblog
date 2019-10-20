@@ -52,7 +52,7 @@ tags: [ 방창배, bfcache, 모바일, 브라우져,  ]
 
 자식 페이지에서 `link` *element* 를 제거하면 이슈가 재현되지 않습니다. 위 샘플에서 보는 것과 같이 `link` *element* 에서 style sheet를 로드하지 못해도 `ifame` 내에 클릭 이벤트가 발생하지 않습니다.
 
-[페이지 예제](https://bang-express-example.herokuapp.com/iframe-sample/)
+[페이지 예제](/techblog/example/bfcach-bug/sample/index.html)
 
 쉽게 확인을 하기 위해 위 경로에 샘플을 올려놓았습니다.
 
@@ -79,7 +79,7 @@ let addLazyClick = (ele) => {
   let isMoved = false;
   const timerInterval = 200;              // Allow to be Customized
   let preventInifite = 10;                // Allow to be Customized
-  const triggingEventName = "click";      // Allow to be Customized
+  const triggeringEventName = "click";      // Allow to be Customized
   let  mediateEventName = "lazy-click";   // Allow to be Customized
 
   let isMediateEventNameVailable = () => {
@@ -100,7 +100,7 @@ let addLazyClick = (ele) => {
   }
 
   let eventDispatcher = (targetElement, eventName) => {
-    console.info("trigging " + eventName);
+    console.info("triggering " + eventName);
     let evObj = document.createEvent('Events');
     evObj.initEvent(eventName, true, false);
     targetElement.dispatchEvent(evObj);
@@ -121,19 +121,19 @@ let addLazyClick = (ele) => {
         }
       };
       _lazyClickTimer_ = setTimeout(() => {
-        console.info("remove " + triggingEventName + " handler for cleartimer");
-        target.removeEventListener(triggingEventName, _remove_timer_);
+        console.info("remove " + triggeringEventName + " handler for cleartimer");
+        target.removeEventListener(triggeringEventName, _remove_timer_);
 
-        console.info("start " + mediateEventName + " event trigging.");
+        console.info("start " + mediateEventName + " event triggering.");
         eventDispatcher(target, mediateEventName);
       }, timerInterval);
 
-      target.addEventListener(triggingEventName, _remove_timer_);
+      target.addEventListener(triggeringEventName, _remove_timer_);
     }
     isMoved = false;
   });
 
-  ele.addEventListener(mediateEventName, () => eventDispatcher(target, triggingEventName) );
+  ele.addEventListener(mediateEventName, () => eventDispatcher(target, triggeringEventName) );
 }
 
 
@@ -142,16 +142,14 @@ let aElements = document.querySelectorAll("a");
 aElements.forEach((ele) => addLazyClick(ele));
 ```
 
-[자식 페이지](https://jsfiddle.net/1e9kzxva/3/)
-
-[전체 페이지](https://bang-express-example.herokuapp.com/iframe-sample-solution)
+[전체 페이지](/techblog/example/bfcach-bug/triggering-event-solution/index.html)
 
 쉽게 확인을 하기 위해 위 경로에 샘플을 올려놓았습니다.
 
 아름답지는 않지만, 해결은 됩니다.
 
 자연스럽게 `click` 이벤트를 발생하여 페이지 이동을 하기 위해서 부자연스럽게 이벤트를 발생하는 코드가 추가 되었습니다.
-이 경우 개발자가 `click` 이벤트 조건을 판단해야 합니다. 플랫폼 환경에 따라 `click` 판정이 달라진다고 가정을 해보면 머리가 지끈지끈해줄 수 있습니다. 이번 경우에야 `touchmove`가 없는 것을 `click`으로 판단하였지만 만약 어느 정도 이동을 허용하는 플랫폼이 있다고 가정하면 개발자는 다양한 플랫폼을 하나의 코드에서 처리하고 관리해야 합니다. 또한 진짜 `click` 이벤트가 올라오는 지 감지하는 동작들에 많은 방어코드가 들어가 있습니다. 하지만 예외 상황을 벗어나는 동작이 발생할 경우에 대한 처리에 한계는 항상 있습니다. 위 예제 코드의 경우 `while` 을 사용하여 사용자 이벤트 등록 가능성을 확인하고 있습니다.
+이 경우 개발자가 `click` 이벤트 조건을 판단해야 합니다. 플랫폼 환경에 따라 `click` 판정이 달라진다고 가정을 해보면 머리가 지끈지끈해질 수 있습니다. 이번 경우에야 `touchmove`가 없는 것을 `click`으로 판단하였지만 만약 어느 정도 이동을 허용하는 플랫폼이 있다고 가정하면 개발자는 다양한 플랫폼을 하나의 코드에서 처리하고 관리해야 합니다. 또한 진짜 `click` 이벤트가 올라오는 지 감지하는 동작들에 많은 방어코드가 들어가 있습니다. 하지만 예외 상황을 벗어나는 동작이 발생할 경우에 대한 처리에 한계는 항상 있습니다. 위 예제 코드의 경우 `while` 을 사용하여 사용자 이벤트 등록 가능성을 확인하고 있습니다.
 
 이처럼 브라우저에서 자연스럽게 해줘야 할 것들을 브라우저 위에서 구현하려고 하는 것에는 한계가 있을 수 밖에 없습니다.
 
@@ -179,20 +177,27 @@ aElements.forEach((ele) => addLazyClick(ele));
 
 ```javascript
 window.addEventListener("pageshow", () => {
-  dable('setService', 'm.ytn.co.kr');
-  dable('sendLogOnce') ;
-  dable('renderWidget', 'dablewidget_6XgaZL7N');
+  dable('setService', 'standard_widget');
+  dable('renderWidget', 'dablewidget_GlGeZnox');
 });
 ```
 
+[전체 페이지](/techblog/example/bfcach-bug/defered-rendering-solution/index.html)
+
+쉽게 확인을 하기 위해 위 경로에 샘플을 올려놓았습니다.
+
+하지만 이번 경우에도 위젯 사용에 대한 방법을 변경해야 하는 상황이 있습니다. 이미 사용하고 있는 서비스들이 모두 수정을 해야 하는 번거로움이 발생하고 맙니다.
+
+
 ## 위젯 스크립트에서 알아서 잘되도록 수정
 
-하지만 위 방법으로 처리하기 위해서는 기존 데이블 위젯을 사용하는 개발자들에게 새로운 가이드를 보내 다시 개발을 진행하게 하는 큰 불편함이 있습니다. 가이드를 바꾸는 것은 내부 개발자들에게 매우 편한 일이지만 이 가이드를 따르고 있는 사용자에게는 매우 번거로운 일입니다. 좋은 기술이 되기 위해서 사용자의 코드를 바꾸지 않는 선에서 처리하는 방법을 다시 찾아보려고 합니다.
+위에서 언급한 것 처럼 위 방법으로 처리하기 위해서는 기존 데이블 위젯을 사용하는 개발자들에게 새로운 가이드를 보내 다시 개발을 진행하게 하는 큰 불편함이 있습니다. 가이드를 바꾸는 것은 내부 개발자들에게 매우 편한 일이지만 이 가이드를 따르고 있는 사용자에게는 매우 번거로운 일입니다. 좋은 기술이 되기 위해서 사용자의 코드를 바꾸지 않는 선에서 처리하는 방법을 다시 찾아보려고 합니다.
 
 우선 많은 사용자가 사용하고 있는 위젯을 표현하는 스크립트는 변경하지 않으려고 합니다. 보통의 경우 인라인 스크립트를 사용하여 HTML 문서가 파싱될 때 인라인 스크립트로 사용하는 경우가 있었습니다.
 
 ```javascript
-dable('renderWidget', 'dablewidget_6XgaZL7N');
+dable('setService', 'standard_widget');
+dable('renderWidget', 'dablewidget_GlGeZnox');
 ```
 
 그래서 내부적으로 위와 같은 위젯 명령이 전달될 때, 명령을 저장하는 동작을 새로 구현하였습니다.
@@ -257,6 +262,9 @@ CommandQueue.prototype.rebuildHandler = function() {
 ```
 
 이러한 해결책을 통해서 사용자들의 개발 수정 없이 문제 사항을 제거해 보았습니다.
+
+[전체 페이지](/techblog/example/bfcach-bug/plugin-updae-solution/index.html)
+
 
 # 마치며
 이 문제는 사실상 iOS에서 BFCache의 동작의 버그라고 생각합니다. 그래서 더더욱 어떤 식으로 플랫폼을 구현한 것인지 많이 궁금합니다.
