@@ -50,7 +50,7 @@ tags: [ 방창배, bfcache, 모바일, 브라우져,  ]
 </html>
 ```
 
-자식 페이지에서 `link` *element* 를 제거하면 이슈가 재현되지 않습니다. 위 샘플에서 보는 것과 같이 `link` *element* 에서 style sheet를 로드하지 못해도 `ifame` 내에 클릭 이벤트가 발생하지 않습니다.
+자식 페이지에서 `link` *element* 를 제거하면 이슈가 재현되지 않습니다. 위 샘플에서 보는 것과 같이 `link` *element* 에서 style sheet를 로드하지 못해도 `iframe` 내에 클릭 이벤트가 발생하지 않습니다.
 
 [페이지 예제](/techblog/example/bfcach-bug/sample/index.html)
 
