@@ -513,6 +513,36 @@ $$
 ...
 $$
 
+거꾸로 생각하면 덩치가 큰 문제를 작은 문제로 나누어 풀 수 있다는 것을 의미합니다. 텍스트 파일을 열어 모든 문자를 대문자로 변경한 후 화면에 출력하는 문제를 생각해 봅시다. 이 문제를 함수로 잘게 나누어 표현해 보면 아래와 같습니다.
+
+$$
+p: 텍스트 파일 \rightarrow 텍스트 문자열
+$$
+
+$$
+q: 텍스트 문자열 \rightarrow 대문자 텍스트 문자열
+$$
+
+$$
+r: 대문자 텍스트 문자열 \rightarrow 대문자 텍스트 문자열 화면에 출력
+$$
+
+이 것을 카테고리 이론으로 표현해 보면 아래와 같습니다.
+
+{:refdef: style="text-align: center;"}
+![](/techblog/assets/images/moand-and-functional-architecture/category_ex.png)
+{: refdef}
+
+$$
+f: 텍스트 파일 \rightarrow 대문자 텍스트 문자열 화면에 출력
+$$ 
+
+위처럼 작동하는 함수를 잘게 나누어 해결하고 각 결과를 합성하여 결국 원하는 함수를 만들 수 있음을 알 수 있습니다.
+
+$$
+f: r \circ q \circ p
+$$
+
 카테고리 이론에 대한 정말 좋은 책이 있습니다. [Category Theory for Programmers](https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/) 책으로 온라인으로 무료로 제공되고 있습니다. 카테고리 이론에 관한 내용은 이 책을 참고하시면 좋을 것 같습니다.
 
 ### 3-2. 순수 함수와 사이드 이펙트
