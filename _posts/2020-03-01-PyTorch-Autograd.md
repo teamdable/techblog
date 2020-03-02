@@ -930,6 +930,132 @@ $$
 \frac{\partial^2 z}{\partial x^2}=-\frac{3}{x^2}=-\frac{3}{25}=-0.12
 $$
 
+### Code 19 {#Code-19}
+
+```python
+import torch
+
+def get_tensor_info(tensor):
+  info = []
+  for name in ['requires_grad', 'is_leaf', 'retains_grad', 'grad_fn', 'grad']:
+    info.append(f'{name}({getattr(tensor, name, None)})')
+  info.append(f'tensor({str(tensor)})')
+  return ' '.join(info)
+
+x = torch.tensor(5.0, requires_grad=True)
+y = x ** 3
+z = torch.log(y)
+
+print('x', get_tensor_info(x))
+print('y', get_tensor_info(y))
+print('z', get_tensor_info(z))
+
+def hook_func(grad):
+  print('grad', grad)
+  return grad * 2
+
+hook = y.register_hook(hook_func)
+z.backward()
+hook.remove()
+
+print('x_after_backward', get_tensor_info(x))
+print('y_after_backward', get_tensor_info(y))
+print('z_after_backward', get_tensor_info(z))
+```
+
+[Code 4](#Code-4)에서 z.backward()를 호출하기 전에 y.register_hook()을 호출하여 backward hook을 register합니다.
+
+```
+x requires_grad(True) is_leaf(True) retains_grad(None) grad_fn(None) grad(None) tensor(tensor(5., requires_grad=True))
+y requires_grad(True) is_leaf(False) retains_grad(None) grad_fn(<PowBackward0 object at 0x7f67199d5ac8>) grad(None) tensor(tensor(125., grad_fn=<PowBackward0>))
+z requires_grad(True) is_leaf(False) retains_grad(None) grad_fn(<LogBackward object at 0x7f67199d5ac8>) grad(None) tensor(tensor(4.8283, grad_fn=<LogBackward>))
+grad tensor(0.0080)
+x_after_backward requires_grad(True) is_leaf(True) retains_grad(None) grad_fn(None) grad(1.2000000476837158) tensor(tensor(5., requires_grad=True))
+y_after_backward requires_grad(True) is_leaf(False) retains_grad(None) grad_fn(<PowBackward0 object at 0x7f67199d5ac8>) grad(None) tensor(tensor(125., grad_fn=<PowBackward0>))
+z_after_backward requires_grad(True) is_leaf(False) retains_grad(None) grad_fn(<LogBackward object at 0x7f67199d5ac8>) grad(None) tensor(tensor(4.8283, grad_fn=<LogBackward>))
+```
+
+y.register_hook(hook_func)를 호출하여 hook_func를 backward hook으로 register하면, z.backward()를 호출했을 때, 결국에 y.grad가 계산되고 y.grad에 Gradient 값이 저장되기 전에 hook_func가 불립니다. 참고로 y.is_leaf가 False라서 y.grad에 해당하는 Gradient는 계산되더라도 y.grad에 실제로 Gradient가 저장되지는 않습니다. y.grad에 실제로 Gradient가 저장되지 않더라도 hook_func는 불립니다. hook_func에서 grad를 확인해 보면 $\frac{\partial z}{\partial y}=0.008$입니다. 만약에 hook_func에서 grad를 그대로 return하지 않고 다른 grad를 return하면 저장되는 grad가 return한 grad로 바뀝니다. 여기서는 hook_func에서 grad * 2를 return해서 실제로 저장되는 y.grad가 $\frac{\partial z}{\partial y}=0.016$이 됩니다. 이것은 x.grad의 계산에도 영향을 미쳐, x.grad의 계산이 $\frac{\partial z}{\partial x}=\frac{\partial y}{\partial x}\frac{\partial z}{\partial y}=75 \times 0.016=1.2$처럼 변경됩니다.
+
+### Code 20 {#Code-20}
+
+```python
+import torch
+
+class MyPow(torch.autograd.Function):
+  @staticmethod
+  def forward(ctx, input_1, input_2):
+    ctx.save_for_backward(input_1, input_2)
+    result = input_1 ** input_2
+    return result
+
+  @staticmethod
+  def backward(ctx, grad_output):
+    input_1, input_2 = ctx.saved_tensors
+    grad_input_1 = grad_output * input_2 * input_1 ** (input_2 - 1)
+    grad_input_2 = grad_output * input_1 ** input_2 * torch.log(input_1)
+    return grad_input_1, grad_input_2
+
+myPow = MyPow.apply
+
+q = torch.tensor(3.0, dtype=torch.float64, requires_grad=True)
+x = torch.tensor(5.0, dtype=torch.float64, requires_grad=True)
+
+print(torch.autograd.gradcheck(myPow, (x, q)))
+```
+
+[Code 11](#Code-11)에서 MyPow.backward()를 직접 구현했는데 이것이 정상적으로 작동하는지 torch.autograd.gradcheck()를 호출하여 확인합니다.
+
+```
+True
+```
+
+torch.autograd.gradcheck(myPow, (x, q))은 x와 q를 살짝 움직여서 myPow.forward()가 return하는 결과값의 변화를 살펴봅니다. 그리고 이것을 myPow.backward()가 계산한 Gradient와 비교해서 차이가 충분히 작으면 True를 return하고, 아니면 Exception을 Throw합니다. 여기서 차이가 충분히 작은지 확인할 때 torch.float32를 사용하면 오차가 커서 확인이 힘든 이유로 torch.float64를 사용합니다. backward()를 직접 구현하고 backward()가 정상적으로 작동하는지 확인할 때 torch.autograd.gradcheck()을 호출하여 확인할 수 있습니다.
+
+### Code 21 {#Code-21}
+
+```python
+import torch
+
+class MyPow(torch.autograd.Function):
+  @staticmethod
+  def forward(ctx, input_1, input_2):
+    ctx.save_for_backward(input_1, input_2)
+    result = input_1 ** input_2
+    return result
+
+  @staticmethod
+  def backward(ctx, grad_output):
+    input_1, input_2 = ctx.saved_tensors
+    grad_input_1 = grad_output * input_2 * input_1 ** (input_2 - 1)
+    grad_input_2 = grad_output * input_1 ** input_2 * torch.log(input_1 + 1)
+    return grad_input_1, grad_input_2
+
+myPow = MyPow.apply
+
+q = torch.tensor(3.0, dtype=torch.float64, requires_grad=True)
+x = torch.tensor(5.0, dtype=torch.float64, requires_grad=True)
+
+print(torch.autograd.gradcheck(myPow, (x, q)))
+```
+
+[Code 20](#Code-20)에서 MyPow.backward() 안에 있는 grad_input_2의 값을 기존과 다르게 구현합니다.
+
+```
+Traceback (most recent call last):
+  File "c21.py", line 22, in <module>
+    print(torch.autograd.gradcheck(myPow, (x, q)))
+  File "/home/ohhara/pytorch/lib/python3.6/site-packages/torch/autograd/gradcheck.py", line 289, in gradcheck
+    'numerical:%s\nanalytical:%s\n' % (i, j, n, a))
+  File "/home/ohhara/pytorch/lib/python3.6/site-packages/torch/autograd/gradcheck.py", line 227, in fail_test
+    raise RuntimeError(msg)
+RuntimeError: Jacobian mismatch for output 0 with respect to input 1,
+numerical:tensor([[201.1797]], dtype=torch.float64)
+analytical:tensor([[223.9699]], dtype=torch.float64)
+```
+
+여기서는 MyPow.backward()가 잘못 구현되어 있습니다. 그래서 torch.autograd.gradcheck()을 호출하면 Exception을 Throw합니다.
+
 ## Conclusion {#Conclusion}
 
 PyTorch의 Autograd를 조금 깊게 살펴보았습니다. PyTorch의 Autograd의 모든 기능을 상세하게 살펴보지는 않았지만, 여기에서 다룬 내용을 숙지하고 PyTorch의 Autograd의 Document를 살펴보면, 이전에 이해가 잘 되지 않았던 내용을 이해하는데 도움이 될 것으로 생각합니다.
