@@ -10,7 +10,7 @@ tags: [ 오태호, PyTorch, Autograd ]
 
 PyTorch의 Autograd는 수식에서 미분을 자동으로 해 주는 매우 편리하면서 강력한 기능입니다. 하지만 PyTorch 공식 Tutorial이나 Document를 봐도 이해가 쉽지 않습니다. 이 글에서는 PyTorch의 Autograd에 대해 약간 더 깊게 설명을 해서 Autograd에 관심이 있는 분이 Autograd를 조금 더 깊게 이해할 수 있도록 도와드립니다.
 
-이 글은 PyTorch 1.4를 기준으로 작성하였습니다. 이 글을 이해하기 위해서는 고등학교 수준의 수학지식과 PyTorch에 대한 기초지식이 필요합니다.
+이 글은 PyTorch 1.4를 기준으로 작성하였습니다. 이 글을 이해하기 위해서는 미분에 대한 수학지식과 PyTorch에 대한 기초지식이 필요합니다.
 
 ## Differentiation {#Differentiation}
 
@@ -20,24 +20,24 @@ $$
 \frac{df(x)}{dx}=\lim_{h \rightarrow 0}\frac{f(x+h)-f(x)}{h}
 $$
 
-$x$가 살짝 증가할 때 $f(x)$도 살짝 증가(혹은 감소)할텐데, $x$가 살짝 증가할 때 $f(x)$가 얼마나 증가하는지에 대한 비율은, $f(x)$의 미분인 $\frac{df(x)}{dx}$을 이용하여 계산할 수 있으며, 이것은 $f(x)$에서 $x$지점에서의 접선의 기울기(Gradient)입니다.
+$x$가 살짝 증가할 때 $f(x)$도 살짝 증가(혹은 감소)할텐데, $x$가 살짝 증가할 때 $f(x)$가 얼마나 증가하는지에 대한 비율은, $f(x)$의 미분인 $\frac{df(x)}{dx}$을 이용하여 계산할 수 있으며, 이것은 $x$ 지점에서 $f(x)$의 접선의 기울기(Gradient)입니다.
 
 ## Partial Differentiation {#Partial-Differentiation}
 
-함수 $f(x,y)$에서 $x$와 $y$가 서로 Dependency가 없는 경우에 편미분(Partial Differentiation)은 다음과 같이 계산합니다.
+함수 $f(x,y)$에서 $x$와 $y$가 서로 Dependency가 없는 경우에, 즉 $x$의 변화가 $y$의 변화에 영향을 주지 않고 $y$의 변화가 $x$에 영향을 주지 않을 때, 편미분(Partial Differentiation)은 다음과 같이 계산합니다.
 
 $$
 \frac{\partial f(x,y)}{\partial x}=\lim_{h \rightarrow 0}\frac{f(x+h,y)-f(x,y)}{h} \\
 \frac{\partial f(x,y)}{\partial y}=\lim_{h \rightarrow 0}\frac{f(x,y+h)-f(x,y)}{h}
 $$
 
-$x$이외의 변수가 가만히 있고 $x$만 살짝 증가할 때 $f(x,y)$도 살짝 증가(혹은 감소)할텐데, 이때 $x$가 살짝 증가할 때 $f(x,y)$가 얼마나 증가하는지에 대한 비율은, $f(x,y)$의 편미분인 $\frac{\partial f(x,y)}{\partial x}$을 이용하여 계산할 수 있으며, 이것은 $f(x,y)$에서 $x$, $y$지점에서 $x$방향으로의 접선의 기울기(Gradient)입니다. $x$에 대해서 편미분할 때는 $x$ 외의 변수를 상수로 취급합니다.
+$x$ 이외의 변수가 가만히 있고 $x$만 살짝 증가할 때 $f(x,y)$도 살짝 증가(혹은 감소)할텐데, 이때 $x$가 살짝 증가할 때 $f(x,y)$가 얼마나 증가하는지에 대한 비율은, $f(x,y)$의 편미분인 $\frac{\partial f(x,y)}{\partial x}$을 이용하여 계산할 수 있으며, 이것은 $f(x,y)$에서 $x$, $y$ 지점에서 $x$ 방향으로의 접선의 기울기(Gradient)입니다. $x$에 대해서 편미분할 때는 $x$ 외의 변수를 상수로 취급합니다.
 
-$y$이외의 변수가 가만히 있고 $y$만 살짝 증가할 때 $f(x,y)$도 살짝 증가(혹은 감소)할텐데, 이때 $y$가 살짝 증가할 때 $f(x,y)$가 얼마나 증가하는지에 대한 비율은, $f(x,y)$의 편미분인 $\frac{\partial f(x,y)}{\partial y}$을 이용하여 계산할 수 있으며, 이것은 $f(x,y)$에서 $x$, $y$지점에서 $y$방향으로의 접선의 기울기(Gradient)입니다. $y$에 대해서 편미분할 때는 $y$ 외의 변수를 상수로 취급합니다.
+$y$ 이외의 변수가 가만히 있고 $y$만 살짝 증가할 때 $f(x,y)$도 살짝 증가(혹은 감소)할텐데, 이때 $y$가 살짝 증가할 때 $f(x,y)$가 얼마나 증가하는지에 대한 비율은, $f(x,y)$의 편미분인 $\frac{\partial f(x,y)}{\partial y}$을 이용하여 계산할 수 있으며, 이것은 $f(x,y)$에서 $x$, $y$ 지점에서 $y$ 방향으로의 접선의 기울기(Gradient)입니다. $y$에 대해서 편미분할 때는 $y$ 외의 변수를 상수로 취급합니다.
 
 ## Chain Rule {#Chain-Rule}
 
-함수 $y=f(x)$와 $z=g(y)$가 있을 때 Chain Rule(연쇄법칙)을 사용하여 $\frac{dz}{dx}$을 다음과 같이 계산합니다.
+함수 $y=f(x)$와 $z=g(y)$가 있을 때, 즉 $x$의 변화가 $y$의 변화에 영향을 주어 $x$와 $y$가 Dependency가 있고 $y$의 변화가 $z$에 영향을 주어 $y$와 $z$가 Dependency가 있을 때, Chain Rule(연쇄법칙)을 사용하여 $\frac{dz}{dx}$을 다음과 같이 계산합니다.
 
 $$
 \frac{dz}{dx}=\frac{dy}{dx}\frac{dz}{dy}=\frac{df(x)}{dx}\frac{dg(y)}{dy}
@@ -188,6 +188,10 @@ $$
 $$
 
 requires_grad가 True로 설정되어 있는 Tensor는 계산할 때 Gradient의 계산이 필요하다는 것을 의미합니다. x.requires_grad를 Tensor를 생성할 때 True로 설정해 줬기 때문에 z.backward()를 부른 후에 x.grad에는 $\frac{\partial z}{\partial x}=0.6$이 저장됩니다. x.requires_grad를 True로 설정하면 x로부터 파생되는 Tensor에는 requires_grad가 True로 자동으로 설정됩니다. 그래서 x로부터 파생된 y와 z도 requires_grad가 True로 설정됩니다. 하지만 Gradient를 계산하더라도 그 Gradient를 항상 저장하지는 않습니다. Tensor의 is_leaf가 True이고 requires_grad가 True인 경우에만 Gradient를 계산하고 grad에 Gradient를 저장합니다. Tensor의 requires_grad가 사용자에 의해 True로 설정된 경우에 is_leaf가 True로 설정되고, requires_grad가 True로 설정된 Tensor로부터 파생된 Tensor의 경우에는 is_leaf가 False로 설정됩니다. 그래서 x는 is_leaf가 True이고 y와 z는 is_leaf가 False입니다. y와 z의 is_leaf가 False라서, y와 z는 requires_grad가 True라도, y.grad와 z.grad가 z.backward()를 호출한 뒤에도 None이 됩니다. x.grad를 계산하기 위해서는 y.grad와 z.grad를 계산해서 Chain Rule을 사용해야 되기 때문에 x.grad를 계산하기 위해서는 y.grad와 z.grad가 저장이 되지 않더라도 계산은 필요합니다. 그래서 x.grad를 계산하기 위해서 y.grad와 z.grad에 Gradient가 저장이 되지 않더라도 y.requires_grad와 z.requires_grad는 True로 설정합니다.
+
+그림으로 다음과 같이 정리할 수 있습니다.
+
+![code-4](/techblog/assets/images/PyTorch-Autograd/code-4.svg)
 
 ### Code 5 {#Code-5}
 
@@ -672,6 +676,10 @@ $$
 \frac{\partial z}{\partial x}=\frac{\partial z}{\partial y_1}\frac{\partial y_1}{\partial x}+\frac{\partial z}{\partial y_2}\frac{\partial y_2}{\partial x}+\frac{\partial z}{\partial y_3}\frac{\partial y_3}{\partial x}=4 \times 2 + 7 \times 3 + 9 \times 5=8+21+45=74
 $$
 
+그림으로 다음과 같이 정리할 수 있습니다.
+
+![code-13](/techblog/assets/images/PyTorch-Autograd/code-13.svg)
+
 ### Code 14 {#Code-14}
 
 ```python
@@ -1055,6 +1063,57 @@ analytical:tensor([[223.9699]], dtype=torch.float64)
 ```
 
 여기서는 MyPow.backward()가 잘못 구현되어 있습니다. 그래서 torch.autograd.gradcheck()을 호출하면 Exception을 Throw합니다.
+
+### Code 22 {#Code-22}
+
+```python
+import torch
+
+def get_tensor_info(tensor):
+  info = []
+  for name in ['requires_grad', 'is_leaf', 'retains_grad', 'grad_fn', 'grad']:
+    info.append(f'{name}({getattr(tensor, name, None)})')
+  info.append(f'tensor({str(tensor)})')
+  return ' '.join(info)
+
+x = torch.tensor(5.0, requires_grad=True)
+y = x ** 3
+w = x ** 2
+z = torch.log(y) + torch.sqrt(w)
+
+print('x', get_tensor_info(x))
+print('y', get_tensor_info(y))
+print('w', get_tensor_info(w))
+print('z', get_tensor_info(z))
+
+print('z.grad_fn', z.grad_fn)
+print('z.grad_fn.next_functions', z.grad_fn.next_functions)
+print('y.grad_fn', z.grad_fn.next_functions[0][0].next_functions)
+print('x_1.grad_fn', z.grad_fn.next_functions[0][0].next_functions[0][0].next_functions)
+print('x_1_is_x', z.grad_fn.next_functions[0][0].next_functions[0][0].next_functions[0][0].variable is x)
+print('w.grad_fn', z.grad_fn.next_functions[1][0].next_functions)
+print('x_2.grad_fn', z.grad_fn.next_functions[1][0].next_functions[0][0].next_functions)
+print('x_2_is_x', z.grad_fn.next_functions[1][0].next_functions[0][0].next_functions[0][0].variable is x)
+```
+
+[Code 9](#Code-9)에서 grad_fn안의 내용을 자세하게 따라가며 출력합니다.
+
+```
+x requires_grad(True) is_leaf(True) retains_grad(None) grad_fn(None) grad(None) tensor(tensor(5., requires_grad=True))
+y requires_grad(True) is_leaf(False) retains_grad(None) grad_fn(<PowBackward0 object at 0x7f0a2accea90>) grad(None) tensor(tensor(125., grad_fn=<PowBackward0>))
+w requires_grad(True) is_leaf(False) retains_grad(None) grad_fn(<PowBackward0 object at 0x7f0a2accea90>) grad(None) tensor(tensor(25., grad_fn=<PowBackward0>))
+z requires_grad(True) is_leaf(False) retains_grad(None) grad_fn(<AddBackward0 object at 0x7f0a2accea90>) grad(None) tensor(tensor(9.8283, grad_fn=<AddBackward0>))
+z.grad_fn <AddBackward0 object at 0x7f0a2acceac8>
+z.grad_fn.next_functions ((<LogBackward object at 0x7f0a2accea90>, 0), (<SqrtBackward object at 0x7f0a2accea58>, 0))
+y.grad_fn ((<PowBackward0 object at 0x7f0a2acceac8>, 0),)
+x_1.grad_fn ((<AccumulateGrad object at 0x7f0a2accea58>, 0),)
+x_1_is_x True
+w.grad_fn ((<PowBackward0 object at 0x7f0a2acceac8>, 0),)
+x_2.grad_fn ((<AccumulateGrad object at 0x7f0a2accea90>, 0),)
+x_2_is_x True
+```
+
+z.grad_fn의 내용을 자세히 살펴보면 z.backward()를 호출했을 때 어떻게 backward()가 불리는지 알 수 있습니다. z.grad_fn은 z = torch.log(y) + torch.sqrt(w)의 +로 인해 AddBackward0가 설정됩니다. 다음에 호출될 backward()는 z.grad_fn.next_functions에 설정되어 있는 torch.log(y)의 LogBackward와 torch.sqrt(w)의 SqrtBackward입니다. 같은 방법으로 계속 거꾸로 거슬러 올라가면 결국에 x를 만나게 됩니다. 그런데 x가 y를 통해서도 z에 영향을 주고 w를 통해서도 z에 영향을 주기 때문에 backward()과정에서 x를 두 번 만나게 됩니다. 그래서 x_1_is_x와 x_2_is_x를 통해 확인해 보면 두 x가 동일한 x입니다.
 
 ## Conclusion {#Conclusion}
 
