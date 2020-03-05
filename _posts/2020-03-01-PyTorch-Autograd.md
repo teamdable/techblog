@@ -47,7 +47,7 @@ $x$가 변할 때 $z$가 얼마나 변하는지는($\frac{dz}{dx}$), $x$가 변�
 
 ## PyTorch Autograd {#PyTorch-Autograd}
 
-PyTorch의 Autograd를 간단한 PyTorch Code에 조금씩 살을 붙여 가면서 설명하도록 하겠습니다.
+PyTorch의 Autograd를 간단한 PyTorch를 사용한 Python Code에 조금씩 살을 붙여 가면서 설명하도록 하겠습니다.
 
 ### Code 1 {#Code-1}
 
@@ -96,6 +96,7 @@ print('dz/dx', (z2 - z) / (x2 - x))
 ```
 
 $x=5$일 때 $\frac{\partial z}{\partial x}$를 미분의 정의를 이용해서($x$를 $0.001$만큼 증가시켜서) 근사값을 계산해 보면 다음과 같이 $0.5999$라는 것을 알 수 있습니다.
+
 ```
 x tensor(5.)
 y tensor(125.)
@@ -162,7 +163,7 @@ print('y_after_backward', get_tensor_info(y))
 print('z_after_backward', get_tensor_info(z))
 ```
 
-x Tensor를 생성할 때 requires_grad를 True로 설정해 주고, z.backward()를 호출합니다.
+[Code 3](#Code-3)에서 x Tensor를 생성할 때 requires_grad를 True로 설정해 주고, z.backward()를 호출합니다.
 
 ```
 x requires_grad(True) is_leaf(True) retains_grad(None) grad_fn(None) grad(None) tensor(tensor(5., requires_grad=True))
@@ -173,7 +174,7 @@ y_after_backward requires_grad(True) is_leaf(False) retains_grad(None) grad_fn(<
 z_after_backward requires_grad(True) is_leaf(False) retains_grad(None) grad_fn(<LogBackward object at 0x7f7822fe19e8>) grad(None) tensor(tensor(4.8283, grad_fn=<LogBackward>))
 ```
 
-계산식을 살펴보면 x로부터 y를 계산하고 y로부터 z를 계산합니다. z.backward()를 호출하면 z에서 시작해서 계산식을 거꾸로 거슬러 올라가며 Gradient를 계산합니다. 각각의 Gradient는 다음과 같은 값을 가지게 됩니다.
+계산식을 살펴보면 x로부터 y를 계산하고 y로부터 z를 계산합니다. z.backward()를 호출하면 계산식을 거꾸로 거슬러 올라가며 z를 편미분하여 Gradient를 계산합니다. $\frac{\partial z}{\partial z}$가 z.grad에 저장되고 $\frac{\partial z}{\partial y}$가 y.grad에 저장되고 $\frac{\partial z}{\partial x}$가 x.grad에 저장됩니다. Gradient는 다음과 같이 계산합니다.
 
 $$
 \frac{\partial z}{\partial z}=1 \\
@@ -187,7 +188,7 @@ $$
 \frac{\partial z}{\partial x}=\frac{\partial y}{\partial x}\frac{\partial z}{\partial y}=75 \times 0.008=0.6
 $$
 
-requires_grad가 True로 설정되어 있는 Tensor는 계산할 때 Gradient의 계산이 필요하다는 것을 의미합니다. x.requires_grad를 Tensor를 생성할 때 True로 설정해 줬기 때문에 z.backward()를 부른 후에 x.grad에는 $\frac{\partial z}{\partial x}=0.6$이 저장됩니다. x.requires_grad를 True로 설정하면 x로부터 파생되는 Tensor에는 requires_grad가 True로 자동으로 설정됩니다. 그래서 x로부터 파생된 y와 z도 requires_grad가 True로 설정됩니다. 하지만 Gradient를 계산하더라도 그 Gradient를 항상 저장하지는 않습니다. Tensor의 is_leaf가 True이고 requires_grad가 True인 경우에만 Gradient를 계산하고 grad에 Gradient를 저장합니다. Tensor의 requires_grad가 사용자에 의해 True로 설정된 경우에 is_leaf가 True로 설정되고, requires_grad가 True로 설정된 Tensor로부터 파생된 Tensor의 경우에는 is_leaf가 False로 설정됩니다. 그래서 x는 is_leaf가 True이고 y와 z는 is_leaf가 False입니다. y와 z의 is_leaf가 False라서, y와 z는 requires_grad가 True라도, y.grad와 z.grad가 z.backward()를 호출한 뒤에도 None이 됩니다. x.grad를 계산하기 위해서는 y.grad와 z.grad를 계산해서 Chain Rule을 사용해야 되기 때문에 x.grad를 계산하기 위해서는 y.grad와 z.grad가 저장이 되지 않더라도 계산은 필요합니다. 그래서 x.grad를 계산하기 위해서 y.grad와 z.grad에 Gradient가 저장이 되지 않더라도 y.requires_grad와 z.requires_grad는 True로 설정합니다.
+requires_grad가 True로 설정되어 있는 Tensor는 계산할 때 Gradient의 계산이 필요하다는 것을 의미합니다. x.requires_grad를 Tensor를 생성할 때 True로 설정해 줬기 때문에 z.backward()를 부른 후에 x.grad에는 $\frac{\partial z}{\partial x}=0.6$이 저장됩니다. x.requires_grad를 True로 설정하면 x로부터 파생되는 Tensor에는 requires_grad가 True로 자동으로 설정됩니다. 그래서 x로부터 파생된 y와 z도 requires_grad가 True로 설정됩니다. 하지만 Gradient를 계산하더라도 그 Gradient를 항상 저장하지는 않습니다. Tensor의 is_leaf가 True이고 requires_grad가 True인 경우에만 Gradient를 계산하고 grad에 Gradient를 저장합니다. Tensor의 requires_grad가 사용자에 의해 True로 설정된 경우에 is_leaf가 True로 설정되고, requires_grad가 True로 설정된 Tensor로부터 파생된 Tensor의 경우에는 is_leaf가 False로 설정됩니다. 그래서 x는 is_leaf가 True이고 y와 z는 is_leaf가 False입니다. y와 z의 is_leaf가 False라서, y와 z는 requires_grad가 True라도, y.grad와 z.grad가 z.backward()를 호출한 뒤에도 Gradient가 저장되지 않고 None이 됩니다. x.grad를 계산하기 위해서는 y.grad와 z.grad를 계산해서 Chain Rule을 사용해야 되기 때문에 x.grad를 계산하기 위해서는 y.grad와 z.grad가 저장이 되지 않더라도 계산은 필요합니다. 그래서 x.grad를 계산하기 위해서 y.grad와 z.grad에 Gradient가 저장이 되지 않더라도 y.requires_grad와 z.requires_grad는 True로 설정합니다.
 
 그림으로 다음과 같이 정리할 수 있습니다.
 
@@ -222,7 +223,7 @@ print('y_after_backward', get_tensor_info(y))
 print('z_after_backward', get_tensor_info(z))
 ```
 
-z.backward()를 호출하기 전에 y.retain_grad()와 z.retain_grad()를 호출합니다.
+[Code 4](#Code-4)에서 z.backward()를 호출하기 전에 y.retain_grad()와 z.retain_grad()를 호출합니다.
 
 ```
 x requires_grad(True) is_leaf(True) retains_grad(None) grad_fn(None) grad(None) tensor(tensor(5., requires_grad=True))
@@ -264,7 +265,7 @@ print('z_after_backward', get_tensor_info(z))
 z.backward()
 ```
 
-z.backward()를 2번 연속으로 호출합니다.
+[Code 4](#Code-4)에서 z.backward()를 2번 연속으로 호출합니다.
 
 ```
 x requires_grad(True) is_leaf(True) retains_grad(None) grad_fn(None) grad(None) tensor(tensor(5., requires_grad=True))
@@ -318,7 +319,7 @@ print('y_after_2backward', get_tensor_info(y))
 print('z_after_2backward', get_tensor_info(z))
 ```
 
-z.backward(retain_graph=True)를 호출하고 z.backward()를 호출합니다.
+[Code 6](#Code-6)에서 z.backward(retain_graph=True)를 호출하고 z.backward()를 호출합니다.
 
 ```
 x requires_grad(True) is_leaf(True) retains_grad(None) grad_fn(None) grad(None) tensor(tensor(5., requires_grad=True))
@@ -368,7 +369,7 @@ print('y_after_2backward', get_tensor_info(y))
 print('z_after_2backward', get_tensor_info(z))
 ```
 
-z.backward(retain_graph=True)를 호출하고 z.backward()를 호출하는데 backward() 호출 사이에 x.grad를 In-place Operation을 사용해서 0으로 초기화합니다.
+[Code 7](#Code-7)에서 z.backward(retain_graph=True)를 호출하고 z.backward()를 호출하는 사이에 x.grad를 In-place Operation을 사용해서 0으로 초기화합니다.
 
 ```
 x requires_grad(True) is_leaf(True) retains_grad(None) grad_fn(None) grad(None) tensor(tensor(5., requires_grad=True))
@@ -414,7 +415,7 @@ print('w_after_backward', get_tensor_info(w))
 print('z_after_backward', get_tensor_info(z))
 ```
 
-z를 계산하는 계산식에 w를 추가합니다. w는 x로 계산합니다.
+[Code 4](#Code-4)에서 z를 계산하는 계산식에 w를 추가합니다. w는 x로 계산합니다.
 
 ```
 x requires_grad(True) is_leaf(True) retains_grad(None) grad_fn(None) grad(None) tensor(tensor(5., requires_grad=True))
@@ -443,7 +444,7 @@ $$
 \frac{\partial z}{\partial x}=\frac{\partial y}{\partial x}\frac{\partial z}{\partial y}+\frac{\partial w}{\partial x}\frac{\partial z}{\partial w}=75 \times 0.008 + 10 \times 0.1=1.6
 $$
 
-backward()에서 grad에 Gradient를 저장할 때 기존의 grad에 Gradient를 더하기 때문에 이런 계산이 자연스럽게 이루어집니다. Convolutional Neural Network의 Convolution Filter처럼 한 Weight가 여러 계산에 Sharing되면서 계산되는 경우에, 이런 식으로 Gradient가 합산되면서 grad에 저장됩니다.
+backward()에서 grad에 Gradient를 저장할 때 기존의 grad에 Gradient를 더하기 때문에 이런 계산이 자연스럽게 이루어집니다. Convolutional Neural Network의 Convolution Filter처럼 한 Weight가 여러 계산에 Share되면서 계산되는 경우에, 이런 식으로 Gradient가 합산되면서 grad에 저장됩니다.
 
 ### Code 10 {#Code-10}
 
@@ -504,6 +505,10 @@ $$
 
 x.grad($\frac{\partial z}{\partial x}$)에 $0.6$이 저장되고 q.grad($\frac{\partial z}{\partial q}$)에 $1.61$이 저장됩니다.
 
+그림으로 다음과 같이 정리할 수 있습니다.
+
+![code-10](/techblog/assets/images/PyTorch-Autograd/code-10.svg)
+
 ### Code 11 {#Code-11}
 
 ```python
@@ -528,6 +533,11 @@ class MyPow(torch.autograd.Function):
     input_1, input_2 = ctx.saved_tensors
     grad_input_1 = grad_output * input_2 * input_1 ** (input_2 - 1)
     grad_input_2 = grad_output * input_1 ** input_2 * torch.log(input_1)
+    print('input_1', input_1)
+    print('input_2', input_2)
+    print('grad_output', grad_output)
+    print('grad_input_1', grad_input_1)
+    print('grad_input_2', grad_input_2)
     return grad_input_1, grad_input_2
 
 myPow = MyPow.apply
@@ -555,12 +565,17 @@ print('z_after_backward', get_tensor_info(z))
 ```
 q requires_grad(True) is_leaf(True) retains_grad(None) grad_fn(None) grad(None) tensor(tensor(3., requires_grad=True))
 x requires_grad(True) is_leaf(True) retains_grad(None) grad_fn(None) grad(None) tensor(tensor(5., requires_grad=True))
-y requires_grad(True) is_leaf(False) retains_grad(None) grad_fn(<torch.autograd.function.MyPowBackward object at 0x7f331d8494a8>) grad(None) tensor(tensor(125., grad_fn=<MyPowBackward>))
-z requires_grad(True) is_leaf(False) retains_grad(None) grad_fn(<LogBackward object at 0x7f33475912b0>) grad(None) tensor(tensor(4.8283, grad_fn=<LogBackward>))
+y requires_grad(True) is_leaf(False) retains_grad(None) grad_fn(<torch.autograd.function.MyPowBackward object at 0x7f96e247e4a8>) grad(None) tensor(tensor(125., grad_fn=<MyPowBackward>))
+z requires_grad(True) is_leaf(False) retains_grad(None) grad_fn(<LogBackward object at 0x7f970c1db780>) grad(None) tensor(tensor(4.8283, grad_fn=<LogBackward>))
+input_1 tensor(5., requires_grad=True)
+input_2 tensor(3., requires_grad=True)
+grad_output tensor(0.0080)
+grad_input_1 tensor(0.6000)
+grad_input_2 tensor(1.6094)
 q_after_backward requires_grad(True) is_leaf(True) retains_grad(None) grad_fn(None) grad(1.6094379425048828) tensor(tensor(3., requires_grad=True))
 x_after_backward requires_grad(True) is_leaf(True) retains_grad(None) grad_fn(None) grad(0.6000000238418579) tensor(tensor(5., requires_grad=True))
-y_after_backward requires_grad(True) is_leaf(False) retains_grad(None) grad_fn(<torch.autograd.function.MyPowBackward object at 0x7f331d8494a8>) grad(None) tensor(tensor(125., grad_fn=<MyPowBackward>))
-z_after_backward requires_grad(True) is_leaf(False) retains_grad(None) grad_fn(<LogBackward object at 0x7f3347591828>) grad(None) tensor(tensor(4.8283, grad_fn=<LogBackward>))
+y_after_backward requires_grad(True) is_leaf(False) retains_grad(None) grad_fn(<torch.autograd.function.MyPowBackward object at 0x7f96e247e4a8>) grad(None) tensor(tensor(125., grad_fn=<MyPowBackward>))
+z_after_backward requires_grad(True) is_leaf(False) retains_grad(None) grad_fn(<LogBackward object at 0x7f970c1dba58>) grad(None) tensor(tensor(4.8283, grad_fn=<LogBackward>))
 ```
 
 실행결과는 [Code 10](#Code-10)과 동일합니다. 만약에 사용하고자 하는 연산자를 PyTorch에서 제공하지 않는 경우에는 직접 연산자를 구현해서 사용해야 합니다. 여기서는 연산자를 어떻게 구현할 수 있는지 알아보기 위해 PyTorch에서 제공하는 연산자를 직접 구현해 보았습니다. 연산자의 계산과정을(forward) 구현하는 것은 크게 어렵지 않은데 Gradient계산을 위한 부분은(backward)는 조금 신경을 써 줘야 합니다.
@@ -569,9 +584,9 @@ backward()를 호출하면 기존의 계산식을 거꾸로 거슬러 올라가�
 
 PyTorch에서 연산자를 정의할 때 torch.autograd.Function를 상속하여 forward()와 backward()를 구현합니다. forward()에는 ctx와 연산자에 전달되는 argument들이 차례대로 전달되고 이것을 이용해서 연산자가 계산해야 될 계산을 한 후에 계산결과를 return합니다. 여기서 추가로 처리해 줘야 할 것이 있는데, backward()에서 Gradient를 계산하기 위해서는 forward()의 연산 당시의 상태를 알고 있어야 하기 때문에, backward()에서 필요한 상태정보를 forward()에서 ctx.save_for_backward()를 호출하여 저장해 줘야 합니다. 예를 들어 $\frac{\partial y}{\partial x}=qx^{q-1}$라는 사실은 forward()의 연산당시의 상태를 몰라도 backward()에서 계산이 가능한데, Gradient를 구체적인 숫자로 계산하기 위해서는 forward()당시의 구체적인 q와 x의 값을 알아야 $\frac{\partial y}{\partial x}=qx^{q-1}=3 \times 5^{3-1}=75$ 와 같이 계산할 수 있습니다. MyPow.forward()에서는 이것을 위해 input_1로 전달된 x와 input_2로 전달된 q를 ctx.save_for_backward()를 호출하여 저장합니다.
 
-MyPower.backward()에서는 일단 ctx.saved_tensors를 통해서 MyPower.forward() 호출당시의 input_1과 input_2를 읽습니다. MyPower.backward()에 전달되는 grad_output argument는 $\frac{\partial z}{\partial y}=\frac{1}{y}=\frac{1}{x^3}=\frac{1}{125}=0.008$입니다. z.backward()가 호출되면 결국 계산해야 되는 목표는 $\frac{\partial z}{\partial x}$와 $\frac{\partial z}{\partial q}$의 계산입니다. 이것의 계산은 z에서부터 계산을 거꾸로 거슬러 올라가면서 backward()들을 차례차례 호출하면서 하게 되는데, MyPow.backward()의 경우에는 $\frac{\partial z}{\partial y}$를 grad_output argument로 넘겨받고 $\frac{\partial z}{\partial x}$와 $\frac{\partial z}{\partial q}$를 grad_input_1과 grad_input_2로 return합니다. forward()에서 $x$와 $q$를 받아서 $y$를 return하고, backward()에서 $\frac{\partial z}{\partial y}$를 받아서 $\frac{\partial z}{\partial x}$와 $\frac{\partial z}{\partial q}$를 return합니다. MyPow의 입장에서는 $\frac{\partial y}{\partial x}$와 $\frac{\partial y}{\partial q}$를 계산할 수 있기 때문에 $\frac{\partial z}{\partial x}=\frac{\partial y}{\partial x}\frac{\partial z}{\partial y}$과 $\frac{\partial z}{\partial q}=\frac{\partial y}{\partial q}\frac{\partial z}{\partial y}$와 같이 Chain Rule을 이용하여 $\frac{\partial z}{\partial x}$과 $\frac{\partial z}{\partial q}$을 계산해서 return할 수 있습니다.
+MyPow.backward()에서는 일단 ctx.saved_tensors를 통해서 MyPow.forward() 호출당시의 input_1과 input_2를 읽습니다. MyPow.backward()에 전달되는 grad_output argument는 $\frac{\partial z}{\partial y}=\frac{1}{y}=\frac{1}{x^3}=\frac{1}{125}=0.008$입니다. z.backward()가 호출되면 결국 계산해야 되는 목표는 $\frac{\partial z}{\partial x}$와 $\frac{\partial z}{\partial q}$의 계산입니다. 이것의 계산은 z에서부터 계산을 거꾸로 거슬러 올라가면서 backward()들을 차례차례 호출하면서 하게 되는데, MyPow.backward()의 경우에는 $\frac{\partial z}{\partial y}$를 grad_output argument로 넘겨받고 $\frac{\partial z}{\partial x}$와 $\frac{\partial z}{\partial q}$를 grad_input_1과 grad_input_2로 return합니다. forward()에서 $x$와 $q$를 받아서 $y$를 return하고, backward()에서 $\frac{\partial z}{\partial y}$를 받아서 $\frac{\partial z}{\partial x}$와 $\frac{\partial z}{\partial q}$를 return합니다. MyPow의 내부에서는 $\frac{\partial y}{\partial x}$와 $\frac{\partial y}{\partial q}$를 계산할 수 있기 때문에, $\frac{\partial z}{\partial y}$를 외부에서 전달받으면, $\frac{\partial z}{\partial x}=\frac{\partial y}{\partial x}\frac{\partial z}{\partial y}$과 $\frac{\partial z}{\partial q}=\frac{\partial y}{\partial q}\frac{\partial z}{\partial y}$와 같이 Chain Rule을 이용하여 $\frac{\partial z}{\partial x}$과 $\frac{\partial z}{\partial q}$을 계산해서 return할 수 있습니다.
 
-정리하면, MyPower.backward()에서 `grad_output`은 $\frac{\partial z}{\partial y}$, `input_1`은 $x$, `input_2`는 $q$, `input_2 * input_1 ** (input_2 - 1)`는 $\frac{\partial y}{\partial x}$, `input_1 ** input_2 * torch.log(input_1)`는 $\frac{\partial y}{\partial q}$, `grad_input_1`은 $\frac{\partial z}{\partial x}$, `grad_input_2`는 $\frac{\partial z}{\partial q}$입니다.
+정리하면, MyPow.backward()에서 `grad_output`은 $\frac{\partial z}{\partial y}$, `input_1`은 $x$, `input_2`는 $q$, `input_2 * input_1 ** (input_2 - 1)`는 $\frac{\partial y}{\partial x}$, `input_1 ** input_2 * torch.log(input_1)`는 $\frac{\partial y}{\partial q}$, `grad_input_1`은 $\frac{\partial z}{\partial x}$, `grad_input_2`는 $\frac{\partial z}{\partial q}$입니다.
 
 ### Code 12 {#Code-12}
 
@@ -760,7 +775,7 @@ print('w_after_backward', get_tensor_info(w))
 print('z_after_backward', get_tensor_info(z))
 ```
 
-[Code 14](#Code-14)에서 y.detach()를 호출하면 w의 requires_grad가 False로 설정되는데, w.requires_grad_()를 호출해서 w.requires_grad를 True로 설정합니다.
+[Code 14](#Code-14)에서 y.detach()를 호출하면 w의 requires_grad가 False로 설정되는데, w.requires_grad_()를 호출해서 w.requires_grad를 다시 True로 설정합니다.
 
 ```
 x requires_grad(True) is_leaf(True) retains_grad(None) grad_fn(None) grad(None) tensor(tensor(5., requires_grad=True))
@@ -820,7 +835,7 @@ w_after_backward requires_grad(True) is_leaf(True) retains_grad(None) grad_fn(No
 z_after_backward requires_grad(True) is_leaf(False) retains_grad(None) grad_fn(<DotBackward object at 0x7f517f15b9e8>) grad(None) tensor(tensor(370., grad_fn=<DotBackward>))
 ```
 
-z.backward()를 호출하면 w.grad에 $\begin{bmatrix}\frac{\partial z}{\partial y_1} & \frac{\partial z}{\partial y_2} & \frac{\partial z}{\partial y_3}\end{bmatrix}=\begin{bmatrix}4 & 7 & 9\end{bmatrix}$가 저장됩니다. y.backward()는 grad_output argument로 $\begin{bmatrix}\frac{\partial z}{\partial y_1} & \frac{\partial z}{\partial y_2} & \frac{\partial z}{\partial y_3}\end{bmatrix}$을 받고, $\frac{\partial y_1}{\partial x}$, $\frac{\partial y_2}{\partial x}$, $\frac{\partial y_3}{\partial x}$을 계산한 후에, $\frac{\partial z}{\partial x}=\frac{\partial z}{\partial y_1}\frac{\partial y_1}{\partial x}+\frac{\partial z}{\partial y_2}\frac{\partial y_2}{\partial x}+\frac{\partial z}{\partial y_3}\frac{\partial y_3}{\partial x}=4 \times 2 + 7 \times 3 + 9 \times 5=8+21+45=74$을 grad_input으로 return하면서 x.grad에 $74$가 저장됩니다. w.grad에 저장되어 있는 $\begin{bmatrix}\frac{\partial z}{\partial y_1} & \frac{\partial z}{\partial y_2} & \frac{\partial z}{\partial y_3}\end{bmatrix}$을 y.backward()에 전달해 주기 위해 y.backward(gradient=w.grad)와 전달합니다. 참고로 z와 다르게 y는 Scalar가 아니라서 y.backward()를 호출할 때는 gradient를 생략하면 안 되며 명시적으로 지정해 주어야 합니다. z와 같이 Scalar의 경우에는 backward()를 호출할 때 gradient를 특별히 설정하지 않으면 기본값 1($\frac{\partial z}{\partial z}$)로 설정됩니다.
+z.backward()를 호출하면 w.grad에 $\begin{bmatrix}\frac{\partial z}{\partial y_1} & \frac{\partial z}{\partial y_2} & \frac{\partial z}{\partial y_3}\end{bmatrix}=\begin{bmatrix}4 & 7 & 9\end{bmatrix}$가 저장됩니다. y.backward()는 grad_output argument로 $\begin{bmatrix}\frac{\partial z}{\partial y_1} & \frac{\partial z}{\partial y_2} & \frac{\partial z}{\partial y_3}\end{bmatrix}$을 외부에서 넘겨받고, $\frac{\partial y_1}{\partial x}$, $\frac{\partial y_2}{\partial x}$, $\frac{\partial y_3}{\partial x}$을 내부에서 계산한 후에, $\frac{\partial z}{\partial x}=\frac{\partial z}{\partial y_1}\frac{\partial y_1}{\partial x}+\frac{\partial z}{\partial y_2}\frac{\partial y_2}{\partial x}+\frac{\partial z}{\partial y_3}\frac{\partial y_3}{\partial x}=4 \times 2 + 7 \times 3 + 9 \times 5=8+21+45=74$을 grad_input으로 return하면서 x.grad에 $74$가 저장됩니다. w.grad에 저장되어 있는 $\begin{bmatrix}\frac{\partial z}{\partial y_1} & \frac{\partial z}{\partial y_2} & \frac{\partial z}{\partial y_3}\end{bmatrix}$을 y.backward()에 전달해 주기 위해 y.backward(gradient=w.grad)와 전달합니다. 참고로 z와 다르게 y는 Scalar가 아니라서 y.backward()를 호출할 때는 gradient를 생략하면 안 되며 명시적으로 지정해 주어야 합니다. z와 같이 Scalar의 경우에는 backward()를 호출할 때 gradient를 특별히 설정하지 않으면 기본값 1($\frac{\partial z}{\partial z}$)로 설정됩니다.
 
 ### Code 17 {#Code-17}
 
@@ -857,7 +872,7 @@ x_2nd_grad = torch.autograd.grad(x.grad, x)
 print('x_2nd_grad', x_2nd_grad)
 ```
 
-[Code 2](#Code-2)에서는 $\frac{\partial z}{\partial x}$를 x.grad에 저장했었는데, 여기서는 그 뒤에 torch.autograd.grad()를 사용하여 x.grad를 x로 미분해서 $\frac{\partial^2 z}{\partial x^2}$의 계산을 시도합니다.
+[Code 4](#Code-4)에서는 $\frac{\partial z}{\partial x}$를 x.grad에 저장했었는데, 여기서는 그 뒤에 torch.autograd.grad()를 사용하여 x.grad를 x로 미분해서 $\frac{\partial^2 z}{\partial x^2}$의 계산을 시도합니다.
 
 ```
 x requires_grad(True) is_leaf(True) retains_grad(None) grad_fn(None) grad(None) tensor(tensor(5., requires_grad=True))
@@ -931,11 +946,55 @@ x_2nd_grad (tensor(-0.1200),)
 
 z.backward()를 호출하는 대신에 z.backward(create_graph=True)로 호출하면 저장되는 x.grad도 Graph에 포함되면서, x.grad.requires_grad가 True로 설정되고 x.grad.grad_fn도 설정됩니다. torch.autograd.grad(x.grad, x)를 호출하면 $\frac{\partial^2 z}{\partial x^2}=-0.12$를 계산할 수 있습니다.
 
+계산과정이 다소 복잡하니 차근차근 자세히 살펴보겠습니다.
+
+처음 계산식은 다음과 같습니다.
+
 $$
-\frac{\partial z}{\partial y}=\frac{1}{y}=\frac{1}{x^3} \\
-\frac{\partial y}{\partial x}=3x^2 \\
-\frac{\partial z}{\partial x}=\frac{\partial y}{\partial x}\frac{\partial z}{\partial y}=3x^2\frac{1}{x^3}=\frac{3}{x} \\
-\frac{\partial^2 z}{\partial x^2}=-\frac{3}{x^2}=-\frac{3}{25}=-0.12
+x=5 \\
+y=x^3=125 \\
+z=\ln(y) \approx 4.83
+$$
+
+z.backward(create_graph=True)를 호출하면 다음과 같이 계산합니다. create_graph를 True로 설정했기 때문에 이때 파생되는 계산결과인 $\frac{\partial z}{\partial y}$, $\frac{\partial y}{\partial x}$, $\frac{\partial z}{\partial x}$도 Graph에 포함됩니다.
+
+$$
+\frac{\partial z}{\partial z}=1 \\
+\frac{\partial z}{\partial y}=\frac{1}{y}=0.008 \\
+\frac{\partial y}{\partial x}=3x^2=75 \\
+\frac{\partial z}{\partial x}=\frac{\partial y}{\partial x}\frac{\partial z}{\partial y}=0.6
+$$
+
+헷갈리지 않도록 a, b, c를 다음과 같이 정의합니다.
+
+$$
+a=\frac{\partial y}{\partial x} \\
+b=\frac{\partial z}{\partial y} \\
+c=\frac{\partial z}{\partial x}
+$$
+
+a, b, c를 포함한 새로운 계산식은 아래와 같습니다. z.backward()를 호출하게 되면 a, b, c가 상수로($a=75$, $b=0.008$, $c=0.6$) 생성되고, z.backward(create_graph=True)를 호출하게 되면 a, b, c가 아래처럼 Graph에 포함되면서 수식으로($a=3x^2$, $b=\frac{1}{y}$, $c=ab$) 생성됩니다.
+
+$$
+x=5 \\
+y=x^3=125 \\
+z=\ln(y) \approx 4.83 \\
+a=3x^2=75 \\
+b=\frac{1}{y}=0.008 \\
+c=ab=0.6
+$$
+
+이렇게 계산식을 구성하고 c.backward()를 호출하면 x.grad에 $\frac{\partial c}{\partial x}$가 저장되게 되는데 이 값은 $\frac{\partial^2 z}{\partial x^2}$과 동일합니다. c부터 시작해서 Chain Rule을 사용하여 다음과 같이 차례차례 계산합니다. x는 a를 통해 c에 영향을 주고, x는 y를 거처 b를 통해 c에 영향을 주는 것에 주의합니다.
+
+$$
+\frac{\partial c}{\partial c}=1 \\
+\frac{\partial c}{\partial a}=b=0.008 \\
+\frac{\partial a}{\partial x}=6x=30 \\
+\frac{\partial c}{\partial b}=a=75 \\
+\frac{\partial b}{\partial y}=-\frac{1}{y^2}=-0.000064 \\
+\frac{\partial y}{\partial x}=3x^2=75 \\
+\frac{\partial c}{\partial x}=\frac{\partial a}{\partial x}\frac{\partial c}{\partial a}+\frac{\partial y}{\partial x}\frac{\partial b}{\partial y}\frac{\partial c}{\partial b}=30 \times 0.008 + 75 \times (-0.000064) \times 75=0.24-0.36=-0.12 \\
+\frac{\partial^2 z}{\partial x^2}=\frac{\partial c}{\partial x}=-0.12
 $$
 
 ### Code 19 {#Code-19}
@@ -983,7 +1042,7 @@ y_after_backward requires_grad(True) is_leaf(False) retains_grad(None) grad_fn(<
 z_after_backward requires_grad(True) is_leaf(False) retains_grad(None) grad_fn(<LogBackward object at 0x7f67199d5ac8>) grad(None) tensor(tensor(4.8283, grad_fn=<LogBackward>))
 ```
 
-y.register_hook(hook_func)를 호출하여 hook_func를 backward hook으로 register하면, z.backward()를 호출했을 때, 결국에 y.grad가 계산되고 y.grad에 Gradient 값이 저장되기 전에 hook_func가 불립니다. 참고로 y.is_leaf가 False라서 y.grad에 해당하는 Gradient는 계산되더라도 y.grad에 실제로 Gradient가 저장되지는 않습니다. y.grad에 실제로 Gradient가 저장되지 않더라도 hook_func는 불립니다. hook_func에서 grad를 확인해 보면 $\frac{\partial z}{\partial y}=0.008$입니다. 만약에 hook_func에서 grad를 그대로 return하지 않고 다른 grad를 return하면 저장되는 grad가 return한 grad로 바뀝니다. 여기서는 hook_func에서 grad * 2를 return해서 실제로 저장되는 y.grad가 $\frac{\partial z}{\partial y}=0.016$이 됩니다. 이것은 x.grad의 계산에도 영향을 미쳐, x.grad의 계산이 $\frac{\partial z}{\partial x}=\frac{\partial y}{\partial x}\frac{\partial z}{\partial y}=75 \times 0.016=1.2$처럼 변경됩니다.
+y.register_hook(hook_func)를 호출하여 hook_func를 backward hook으로 register하면, z.backward()를 호출했을 때, 결국에 y.grad가 계산되고 y.grad에 Gradient 값이 저장되기 전에 hook_func가 불립니다. 참고로 y.is_leaf가 False라서 y.grad에 해당하는 Gradient는 계산되더라도 y.grad에 실제로 Gradient가 저장되지는 않습니다. y.grad에 실제로 Gradient가 저장되지 않더라도 hook_func는 불립니다. hook_func에서 grad를 확인해 보면 $\frac{\partial z}{\partial y}=0.008$입니다. 만약에 hook_func에서 grad를 그대로 return하지 않고 다른 grad를 return하면 저장되는 grad가 return한 grad로 바뀝니다. 여기서는 hook_func에서 grad * 2를 return해서 y.grad를 $\frac{\partial z}{\partial y}=0.016$로 강제로 변경했습니다. 이것은 x.grad의 계산에도 영향을 미쳐, x.grad의 계산이 $\frac{\partial z}{\partial x}=\frac{\partial y}{\partial x}\frac{\partial z}{\partial y}=75 \times 0.016=1.2$로 변경됩니다.
 
 ### Code 20 {#Code-20}
 
