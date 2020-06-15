@@ -127,7 +127,7 @@ $$
 
 #### Return {#Return}
 
-Trajectory $(s_0, a_0, r_0), (s_1, a_1, r_1), \cdots, (s_T, a_T, r_T)$를 $\tau$라고 하고, Trajectory $\tau$에서 얻는 모든 Reward의 합을 Return이라고 부르며 다음과 같이 표현할 수 있습니다.
+Trajectory $(s_0, a_0, r_0), (s_1, a_1, r_1), \cdots, (s_T, a_T, r_T)$를 $\tau$라고 하고, $\tau$ Trajectory에서 얻는 모든 Reward의 합을 Return이라고 부르며 다음과 같이 표현할 수 있습니다.
 
 $$
 G_0(\tau)=\sum_{t=0}^{T}r_t
@@ -164,10 +164,10 @@ $$
 Optimize(최적화)해야 하는 대상을 Objective(목표)라고 부릅니다. Objective는 구체적인 식으로 표현하고 Reinforcement Learning의 각종 기법을 사용하여 이것을 Optimize합니다. Reinforcement Learning에서 생각할 수 있는 Objective Function의 예는 다음과 같이 Return의 기대값을 Return하는 Function입니다.
 
 $$
-J(\tau)=E_{\tau \sim \pi}[G_0(\tau)]=E_{\tau \sim \pi}\left[\sum_{t=0}^{T}\gamma^t r_t\right]
+J(\pi)=E_{\tau \sim \pi}[G_0(\tau)]=E_{\tau \sim \pi}\left[\sum_{t=0}^{T}\gamma^t r_t\right]
 $$
 
-이 수식을 좀 더 자세히 풀어서 설명해 보겠습니다. $\pi$ Policy를 따라서 Action을 계속 취하게 되면 $\tau$ Trajectory를 얻게 됩니다. $\tau$ Trajectory를 하나 얻게 되면 Discounted Reward를 합한 $G_0(\tau)$ Return을 얻을 수 있습니다. 이 작업을 여러 번 반복해서 Return을 여러 개를 모아서 Return의 평균(Return의 기대값)을 계산합니다. 이 값을 $J(\tau)$ Objective로 설정합니다. 이와 같이 Objective가 결정되면, Reinforcement Learning의 각종 기법을 사용해 이 값을 Optimize(이 경우에는 Maximize)하여, Agent가 Return을 최대화시키는 방향으로 행동하도록 합니다.
+이 수식을 좀 더 자세히 풀어서 설명해 보겠습니다. $\pi$ Policy를 따라서 Action을 계속 취하게 되면 $\tau$ Trajectory를 얻게 됩니다. $\tau$ Trajectory를 하나 얻게 되면 Discounted Reward를 합한 $G_0(\tau)$ Return을 얻을 수 있습니다. 이 작업을 여러 번 반복해서 Return을 여러 개를 모아서 Return의 평균(Return의 기대값)을 계산합니다. 이 값을 $J(\pi)$ Objective로 설정합니다. 이와 같이 Objective가 결정되면, Reinforcement Learning의 각종 기법을 사용해 이 값을 Optimize(이 경우에는 Maximize)하여, Agent가 Return을 최대화시키는 방향으로 행동하도록 합니다.
 
 #### Value {#Value}
 
@@ -236,7 +236,7 @@ $$
 
 ## Value Iteration {#Value-Iteration}
 
-Value Iteration은 $V^{\pi}(s)$를 구하는 다음과 같은 Algorithm입니다. Policy $\pi$는 Optimal Policy $\pi^*$처럼 Value가 최대가 되는 방향으로 Action을 취한다고 가정하고 그때의 Value를 구합니다.
+Value Iteration은 $V^{\pi}(s)$를 구하는 다음과 같은 Algorithm입니다. $\pi$ Policy는 $\pi^*$ Optimal Policy처럼 Value가 최대가 되는 방향으로 Action을 취한다고 가정하고 그때의 Value를 구합니다.
 
 * 모든 State의 $V^{\pi}(s)$를 초기화합니다.
 * 모든 State의 $V^{\pi}(s)$가 안정될 때까지 반복합니다.
@@ -258,7 +258,7 @@ $$
 
 ## Q Learning {#Q-Learning}
 
-Q Learning은 $Q^{\pi}(s,a)$를 구하는 다음과 같은 Algorithm입니다. Policy $\pi$는 Optimal Policy $\pi^*$처럼 Action Value가 최대가 되는 방향으로 Action을 취한다고 가정하고 그때의 Action Value를 구합니다.
+Q Learning은 $Q^{\pi}(s,a)$를 구하는 다음과 같은 Algorithm입니다. $\pi$ Policy는 $\pi^*$ Optimal Policy처럼 Action Value가 최대가 되는 방향으로 Action을 취한다고 가정하고 그때의 Action Value를 구합니다.
 
 * 모든 State, Action의 $Q^{\pi}(s,a)$를 초기화합니다.
 * 모든 State, Action의 $Q^{\pi}(s,a)$가 안정될 때까지 반복합니다.
@@ -309,7 +309,7 @@ Reward는 한 Step이 지나면 1이 주어집니다. Pole이 균형을 잃어�
 
 ## Deep Q Network {#Deep-Q-Network}
 
-[Deep Q Network](#Deep-Q-Network)(DQN)는 [Q Learning](#Q-Learning)와 마찬가지로 $Q^{\pi}(s,a)$을 구해서 Optimal Policy $\pi^*$를 구하는데, $Q^{\pi}(s,a)$을 Deep Neural Network로 구성하여 구하는 Algorithm입니다.
+[Deep Q Network](#Deep-Q-Network)(DQN)는 [Q Learning](#Q-Learning)와 마찬가지로 $Q^{\pi}(s,a)$을 구해서 $\pi^*$ Optimal Policy를 구하는데, $Q^{\pi}(s,a)$을 Deep Neural Network로 구성하여 구하는 Algorithm입니다.
 
 [Q Learning](#Q-Learning)에서 봤었던 $Q^{\pi^*}(s,a)$의 수식을 다시 살펴보면 다음과 같습니다.
 
@@ -325,7 +325,7 @@ $$
 Q^{\pi}(s_t,a_t)=r_t+\gamma \max_{a_{t+1}} Q^{\pi}(s_{t+1},a_{t+1})
 $$
 
-그러기 위해서, Loss $L$을 다음과 같이 정의하고, 열심히 모은 $s_t, a_t, r_t, s_{t+1}$를 Loss $L$에 쏟아부으면서, Stochastic Gradient Descent를 이용하여 Loss $L$을 최소화하여, $Q^{\pi}(s,a)$를 구합니다.
+그러기 위해서, Loss $L$을 다음과 같이 정의하고, 열심히 모은 $s_t, a_t, r_t, s_{t+1}$를 Loss $L$에 쏟아부으면서, Stochastic Gradient Descent를 이용하여 Loss $L$을 Optimize(Minimize)하여, $Q^{\pi}(s,a)$를 구합니다.
 
 $$
 L=\left[Q^{\pi}(s_t,a_t)-(r_t+\gamma \max_{a_{t+1}} Q^{\pi}(s_{t+1},a_{t+1}))\right]^2
@@ -339,11 +339,13 @@ $Q^{\pi}(s,a)$를 구하기 위해 Trajectory를 모을 때 항상 $\arg\max_{a}
 
 Action을 $\arg\max_{a} Q^{\pi}(s,a)$와 같이 최적의 Action을 항상 선택하는 Policy를 Greedy Policy라 합니다. $1-\epsilon$ 확률만큼은 $\arg\max_{a} Q^{\pi}(s,a)$와 같이 최적의 Action을 취하고, $\epsilon$ 확률만큼은 Random한 Action을 취하는 Policy를 Epsilon Greedy Policy($\epsilon$ Greedy Policy)라고 합니다. $\epsilon$은 $Q^{\pi}(s,a)$를 구하는 초반에는 다소 높게 설정했다가 $Q^{\pi}(s,a)$가 안정적으로 작동하는 상황을 보면서 조금씩 낮게 설정하는 것이 일반적입니다.
 
-한 번도 방문하지 않았던 State에 방문해 보는 것을 Exploration이라고 하고, 자신이 방문했던 State중에 가장 좋은 State에 방문하는 것을 Exploitation이라고 합니다. Exploration과 Exploitation은 서로 Tradeoff관계를 가집니다.
+한 번도 방문하지 않았던 State에 방문해 보는 것을 Exploration이라고 하고, 자신이 방문했던 State중에 가장 좋은 State에 방문하는 것을 Exploitation이라고 합니다. Epsilon Greedy Policy에서 초반에 $\epsilon$이 크면 Exploration에 집중하게 되고 후반에 $\epsilon$이 작으면 Exploitation에 집중하게 됩니다. Exploration과 Exploitation은 서로 Tradeoff관계를 가집니다.
 
 #### Experience Replay {#Experience-Replay}
 
-앞에서 $Q^{\pi}(s,a)$을 구하기 위해서 Stochastic Gradient Descent를 사용했는데, Stochastic Gradient Descent를 사용하기 위해서는 학습에 사용하는 Batch가 iid하다는 가정이 필요합니다. 하지만 모은 Trajectory를 살펴보면 시간상으로 가까이 있는 Data는 상당히 Correlated되어 있기 때문에 Stochastic Gradient Descent를 사용해서 $Q^{\pi}(s,a)$을 구하는 것이 쉽지 않다는 것을 알 수 있습니다. 이 문제를 해결하기 위해 Trajectory를 많이 모아서 Buffer로 만들어 놓고, 원하는 Batch 크기 만큼 Random하게 Buffer에서 가져와서, Batch를 iid하게 만든 후에, Stochastic Gradient Descent를 사용하여 $Q^{\pi}(s,a)$를 구합니다. 이 방법을 Experience Replay라고 합니다.
+앞에서 $Q^{\pi}(s,a)$을 구하기 위해서 Stochastic Gradient Descent를 사용했는데, Stochastic Gradient Descent를 사용하기 위해서는 학습에 사용하는 Batch가 IID(Independent and Identically Distributed)하다는 가정이 필요합니다. 하지만 모은 Trajectory를 살펴보면 시간상으로 가까이 있는 Data는 상당히 Correlated되어 있기 때문에($s_{t+1}$이 무엇이냐는 $s_t$가 무엇이었냐에 크게 영향을 받기 때문에) 시간 순서로 구성한 Batch로 Stochastic Gradient Descent를 사용해서 $Q^{\pi}(s,a)$을 구하는 것이 쉽지 않다는 것을 알 수 있습니다. 이 문제를 해결하기 위해 Trajectory를 많이 모아서 Buffer로 만들어 놓고, 원하는 Batch 크기 만큼 Random하게 Buffer에서 가져와서, Batch를 IID하게 만든 후에, Stochastic Gradient Descent를 사용하여 $Q^{\pi}(s,a)$를 구합니다. 이 방법을 Experience Replay라고 합니다.
+
+#### How to Solve Cart Pole with Deep Q Network {#How-to-Solve-Cart-Pole-with-Deep-Q-Network}
 
 [Cart Pole](#Cart-Pole)을 [Deep Q Network](#Deep-Q-Network)을 사용하여 푸는 구체적인 방법은 [dqn.py](/techblog/assets/codes/Reinforcement-Learning/dqn.py)를 참조하기 바랍니다.
 
@@ -357,25 +359,25 @@ Cart가 취할 수 있는 Action은 $-1.0$부터 $+1.0$사이의 값을 가지�
 
 ## REINFORCE {#REINFORCE}
 
-[Deep Q Network](#Deep-Q-Network)에서는 $Q^{\pi}(s,a)$를 구해서 Optimal Policy $\pi^\*$를 간접적으로 구했습니다. [REINFORCE](#REINFORCE)는 $E_{\tau \sim \pi}[G_0(\tau)]$를 최대화시키는 $\pi$를 직접 구하는 Algorithm입니다. Vanilla Policy Gradient라고도 불립니다. 여기서는 $\pi$를 Deep Neural Network으로 구성해서 구합니다.
+[Deep Q Network](#Deep-Q-Network)에서는 $Q^{\pi}(s,a)$를 구해서 $\pi^\*$ Optimal Policy를 간접적으로 구했습니다. [REINFORCE](#REINFORCE)는 $E_{\tau \sim \pi}[G_0(\tau)]$를 최대화시키는 $\pi^\*$ Optimal Policy를 직접 구하는 Algorithm입니다. Vanilla Policy Gradient라고도 불립니다. 여기서는 $\pi$ Policy를 Deep Neural Network으로 구성해서 구합니다.
 
-Policy $\pi$를 Deep Neural Network으로 구성하는데 이때 Deep Neural Network의 Parameter들을 $\theta$로 표기하고 $\theta$들로 구성되어 있는 Policy를 $\pi_\theta$로 표기합니다. $\pi_\theta(a\|s)$는 $s$ State에서 $a$ Action을 취할 확률을 나타냅니다. $\pi_\theta(a\|s)$를 Deep Neural Network으로 구성할 때는 Input으로 $s$ State를 주면 Output으로 각각의 Action을 취할 확률이 되도록 구성합니다. 그런데 [Continuous Cart Pole](#Continuous-Cart-Pole)의 경우에는 Action이 Continuous하기 때문에, Action의 수가 무수히 많아서, Output의 수가 무수히 많아지기 때문에, 이렇게 구성하는 것이 불가능합니다. 그래서, 이런 경우에는 Deep Neural Network의 Output으로 Action의 Probability Distribution이 나오도록 하는데, 이 Probability Distribution이 [Normal Distribution](Derivation-of-the-Probability-Distribution-Functions#Normal)을 따른다고 가정하고, 이 Normal Distribution의 Mean과 Variance를 Deep Neural Network의 Output이 되도록 구성합니다. 정리하면, $\pi_\theta(a\|s)$의 Deep Neural Network은 Input으로 $s$ State를 주면 Output으로 [Normal Distribution](Derivation-of-the-Probability-Distribution-Functions#Normal)을 따르는 $a$ Action의 Mean과 Variance가 되도록 구성합니다.
+$\pi$ Policy를 Deep Neural Network으로 구성하는데 이때 Deep Neural Network의 Parameter들을 $\theta$로 표기하고 $\theta$들로 구성되어 있는 Policy를 $\pi_\theta$로 표기합니다. $\pi_\theta(a\|s)$는 $s$ State에서 $a$ Action을 취할 확률을 나타냅니다. $\pi_\theta(a\|s)$를 Deep Neural Network으로 구성할 때는 Input으로 $s$ State를 주면 Output으로 각각의 Action을 취할 확률이 되도록 구성합니다. 그런데 [Continuous Cart Pole](#Continuous-Cart-Pole)의 경우에는 Action이 Continuous하기 때문에, Action의 수가 무수히 많아서, Output의 수가 무수히 많아지기 때문에, 이렇게 구성하는 것이 불가능합니다. 그래서, 이런 경우에는 Deep Neural Network의 Output으로 Action의 Probability Distribution이 나오도록 하는데, 이 Probability Distribution이 [Normal Distribution](Derivation-of-the-Probability-Distribution-Functions#Normal)을 따른다고 가정하고, 이 Normal Distribution의 Mean과 Standard Deviation을 Deep Neural Network의 Output이 되도록 구성합니다. 정리하면, $\pi_\theta(a\|s)$의 Deep Neural Network은 Input으로 $s$ State를 주면 Output으로 [Normal Distribution](Derivation-of-the-Probability-Distribution-Functions#Normal)을 따르는 $a$ Action의 $\mu$ Mean과 $\sigma$ Standard Deviation이 되도록 구성합니다.
 
 #### Objective of REINFORCE {#Objective-of-REINFORCE}
 
-[REINFORCE](#REINFORCE)에서 Optimize(Maximize)하고자 하는 Objective는 다음과 같습니다.
+[REINFORCE](#REINFORCE)에서 Optimize(Maximize)하고자 하는 $J(\pi_\theta)$ Objective는 다음과 같습니다.
 
 $$
 J(\pi_\theta)=E_{\tau \sim \pi_\theta}[G_0(\tau)]
 $$
 
-이것을 Maximize해 주는 $\pi_\theta(a\|s)$를 찾기를 시도하는데, $\pi_\theta(a\|s)$을 찾는다는 것은 $\pi_\theta(a\|s)$을 구성하고 있는 Deep Neural Network의 Parameter들인 $\theta$를 찾는다는 뜻입니다. Objective를 Maximize해 주는 $\theta$는 Objective $J(\pi_\theta)$를 $\theta$에 대해 미분해서 Stochastic Gradient Ascent를 사용하여 구합니다. 다음과 같이 미분을 하고 이 정보를 이용해서 $\theta$를 구합니다.
+이것을 Maximize해 주는 $\pi_\theta(a\|s)$를 찾기를 시도하는데, $\pi_\theta(a\|s)$을 찾는다는 것은 $\pi_\theta(a\|s)$을 구성하고 있는 Deep Neural Network의 Parameter들인 $\theta$를 찾는 것을 의미합니다. Objective를 Maximize해 주는 $\theta$는 $J(\pi_\theta)$ Objective를 $\theta$에 대해 미분해서 Stochastic Gradient Ascent를 사용하여 구합니다. 다음과 같이 미분을 하고 이 정보를 이용해서 $\theta$를 구합니다.
 
 $$
 \nabla_\theta J(\pi_\theta)=\nabla_\theta E_{\tau \sim \pi_\theta}[G_0(\tau)]
 $$
 
-이것을 계산해 보면 다음과 같이 정리됩니다.
+계산과정이 다소 복잡한데, 이것을 계산해서 정리하면 다음과 같습니다.
 
 $$
 \nabla_\theta J(\pi_\theta)=E_{\tau \sim \pi_\theta}\left[\sum_{t=0}^T G_t(\tau)\nabla_\theta \ln\pi_\theta(a_t|s_t)\right]
@@ -403,7 +405,7 @@ $$
 \nabla_\theta J(\pi_\theta)=E_{\tau \sim \pi_\theta}\left[G_0(\tau)\nabla_\theta \ln p(\tau|\theta)\right]
 $$
 
-이 식의 $\nabla_\theta \ln p(\tau\|\theta)$는 다음과 같습니다.
+이 식의 $\nabla_\theta \ln p(\tau\|\theta)$는 다음과 같습니다. $p(\tau\|\theta)$는 $s_0$ State에서 $a_0$ Action을 취할 확률, $s_0$ State에서 $a_0$ Action을 취할 때 다음 State가 $s_1$이 될 확률, $s_1$ State에서 $a_1$ Action을 취할 확률, $s_1$ State에서 $a_1$ Action을 취할 때 다음 State가 $s_2$이 될 확률, ..., 이런 식으로 구한 모든 확률을 곱해서 구합니다.
 
 $$
 p(\tau|\theta)=\prod_{t=0}^T p(s_{t+1}|s_t, a_t)\pi_\theta(a_t|s_t) \\
@@ -444,7 +446,7 @@ $$
 G_t(\tau)=\sum_{t'=t}^{T}\gamma^{t'-t} r_{t'}
 $$
 
-$\pi_\theta(a_t\|s_t)$는 $s_t$ State에서 $a_t$ Action을 취할 확률입니다. 이것은 Deep Neural Network으로 구현합니다. Deep Neural Network Input은 $s_t$이며 Output은 [Normal Distribution](Derivation-of-the-Probability-Distribution-Functions#Normal)의 $\mu_\theta(s_t)$ Mean과 $$\sigma^2_\theta(s_t)$$ Variance입니다. 구체적으로 $\pi_\theta(a_t\|s_t)$은 다음과 같습니다.
+$\pi_\theta(a_t\|s_t)$는 $s_t$ State에서 $a_t$ Action을 취할 확률입니다. 이것은 Deep Neural Network으로 구현합니다. Deep Neural Network의 Input은 $s_t$이며 Output은 $a_t$의 확률분포를 표현하는 [Normal Distribution](Derivation-of-the-Probability-Distribution-Functions#Normal)의 $\mu_\theta(s_t)$ Mean과 $\sigma_\theta(s_t)$ Standard Deviation입니다. 구체적으로 $\pi_\theta(a_t\|s_t)$은 다음과 같습니다. 여기의 $\pi$는 Policy가 아니라 원주율인 것에 주의합니다.
 
 $$
 \pi_\theta(a_t|s_t)=\frac{1}{\sigma_\theta(s_t)\sqrt{2\pi}}\exp\left(-\frac{(a_t-\mu_\theta(s_t))^2}{2\sigma^2_\theta(s_t)}\right)
@@ -456,7 +458,7 @@ $$
 \ln \pi_\theta(a_t|s_t)=-\ln(\sigma_\theta(s_t))-\frac{1}{2}\ln 2\pi-\frac{(a_t-\mu_\theta(s_t))^2}{2\sigma^2_\theta(s_t)}
 $$
 
-$\mu_\theta(s_t)$, $\sigma_\theta(s_t)$, $$\sigma^2_\theta(s_t)$$는 $\theta$ Parameter들을 가지는 Deep Neural Network의 Output이기 때문에 $\nabla_\theta \ln \pi_\theta(a_t\|s_t)$과 같이 $\theta$로 미분한 값을 계산할 수 있습니다.
+$\mu_\theta(s_t)$, $\sigma_\theta(s_t)$는 $\theta$ Parameter들을 가지는 Deep Neural Network의 Output이기 때문에 $\nabla_\theta \ln \pi_\theta(a_t\|s_t)$과 같이 $\theta$로 미분한 값은 [PyTorch AutoGrad](PyTorch-Autograd)를 사용하여 계산할 수 있습니다.
 
 #### Intuition of the Objective {#Intuition-of-the-Objective}
 
@@ -466,21 +468,39 @@ $$
 \nabla_\theta J(\pi_\theta)=E_{\tau \sim \pi_\theta}\left[\sum_{t=0}^T G_t(\tau) \nabla_\theta \ln \pi_\theta(a_t|s_t)\right]
 $$
 
-$J(\pi_\theta)$ Objective가 커지게 하기 위해서는, $G_t(\tau)$ Discounted Sum이 클 때, $s_t$ State에 $a_t$ Action을 취할 확률이 높아지도록 만들어주는 방향으로, Deep Neural Network의 Parameter $\theta$가 변해야 합니다.
+$\tau \sim \pi_\theta$와 같이 $\pi_\theta$ Policy를 따라 $\tau$ Episode를 생성합니다. $(s_0, a_0, r_0), (s_1, a_1, r_1), \cdots, (s_T, a_T, r_T)$와 같이 Episode를 생성합니다. 이해를 쉽게 하기 위해 여기서는 Episode를 한 개만 생성해서 살펴봅니다.
+
+$\nabla_\theta J(\pi_\theta)$는 Deep Neural Network의 $\theta$ Parameter의 값이 약간 커졌을 때 $J(\pi_\theta)$ Objective가 얼마나 커지는지를 나타냅니다.
+
+$G_0(\tau)$는 $0$부터 $T$시점까지의 Discounted Reward의 합입니다. $\nabla_\theta \ln \pi_\theta(a_0\|s_0)$는 Deep Neural Network의 $\theta$ Parameter의 값이 약간 커졌을 때 $s_0$ State에서 $a_0$ Action을 취하는 확률이(정확하게는 확률의 $\ln$이) 얼마나 커지는지를 나타냅니다.
+
+$G_1(\tau)$는 $1$부터 $T$시점까지의 Discounted Reward의 합입니다. $\nabla_\theta \ln \pi_\theta(a_1\|s_1)$는 Deep Neural Network의 $\theta$ Parameter의 값이 약간 커졌을 때 $s_1$ State에서 $a_1$ Action을 취하는 확률이(정확하게는 확률의 $\ln$이) 얼마나 커지는지를 나타냅니다.
+
+...
+
+$G_T(\tau)$는 $T$부터 $T$시점까지의 Discounted Reward의 합입니다. Episode의 마지막으로 더 이상 Action과 Reward가 없습니다.
+
+Deep Neural Network의 $\theta$ Parameter의 값이 약간 커졌을 때 $J(\pi_\theta)$ Objective가 최대한 많이 커지도록 하기 위해서는, $G_t(\tau)$ Discounted Sum이 큰 $t$시점에서 Deep Neural Network의 $\theta$ Parameter의 값이 약간 커졌을 때 $s_t$ State에서 $a_t$ Action을 취하는 확률이 최대한 많이 커져야 합니다. 그리고 반대로 Deep Neural Network의 $\theta$ Parameter의 값이 약간 작아졌을 때 $J(\pi_\theta)$ Objective가 최대한 많이 커지도록 하기 위해서는, $G_t(\tau)$ Discounted Sum이 큰 $t$시점에서 Deep Neural Network의 $\theta$ Parameter의 값이 약간 작아졌을 때 $s_t$ State에서 $a_t$ Action을 취하는 확률이 최대한 많이 커져야 합니다.
+
+$J(\pi_\theta)$ Objective가 커지게 하기 위해서는, $G_t(\tau)$ Discounted Sum이 큰 $t$시점에서, $s_t$ State에 $a_t$ Action을 취할 확률이 높아지도록 만들어주는 방향으로, Deep Neural Network의 Parameter $\theta$가 변해야(커지거나 작아져야) 합니다.
+
+$\tau \sim \pi_\theta$와 같이 $\pi_\theta$ Policy를 따라 $\tau$ Episode를 생성하고, $\pi_\theta$ Policy에서 $\theta$를 어떻게 살짝 변경하면 $J(\pi_\theta)$가 살짝 개선되는지 살피면서, 조금씩 $\theta$를 변경하여, $\pi_\theta$ Policy를 개선시켜 나갑니다.
+
+$\pi_\theta(a_t\|s_t)$ Policy는 Deep Neural Network으로 구현하고 Input은 $s_t$이며 Output은 $a_t$의 확률분포를 표현하는 [Normal Distribution](Derivation-of-the-Probability-Distribution-Functions#Normal)의 $\mu_\theta(s_t)$ Mean과 $\sigma_\theta(s_t)$ Standard Deviation입니다. 학습 초반에는 어떤 Policy를 취하는 것이 유리한지 잘 모르기 때문에 $\sigma_\theta(s_t)$가 다소 큰 값이 나오면서 Exploration에 집중하고, 학습이 진행되면 조금씩 어떤 Policy를 취하는 것이 좋은지 확신이 생기기 시작하면서 $\sigma_\theta(s_t)$의 값이 점점 작아지며 Exploitation에 집중하게 됩니다.
 
 #### REINFORCE with Baseline {#REINFORCE-with-Baseline}
 
-$\nabla_\theta J(\pi_\theta)$을 다음과 같이 살짝 변형시켜서 성능을 향상시키는 기법을 [REINFORCE with Baseline](#REINFORCE-with-Baseline)이라고 합니다.
+$\nabla_\theta J(\pi_\theta)$의 $G_t(\tau)$를 다음과 같이 살짝 변형시켜서 성능을 향상시키는 기법을 [REINFORCE with Baseline](#REINFORCE-with-Baseline)이라고 합니다.
 
 $$
 \nabla_\theta J(\pi_\theta)=E_{\tau \sim \pi_\theta}\left[\sum_{t=0}^T (G_t(\tau)-b(s_t)) \nabla_\theta \ln \pi_\theta(a_t|s_t)\right]
 $$
 
-$b(s_t)$는 여러가지 형태로 지정해 줄 수 있습니다.
+$b(s_t)$는 여러가지 형태로 지정해 줄 수 있으며 어떻게 지정하느냐에 따라 성능에 영향을 줍니다. 간단하게는 $b(s_t)=\frac{1}{T}\sum_{t=0}^T G_t(\tau)$로 지정할 수도 있습니다.
 
-$G_t(\tau)$가 항상 Positive면 어느 State에서 어느 Action을 하는 것을 학습시키는 것이 바람직한지 다소 모호한 상황에 빠질 수가 있는데 이때 $b(s_t)=\frac{1}{T}\sum_{t=0}^T G_t(\tau)$로 지정해 주면 Trajectory에서 절반은 바람직한 Action으로 파악해서 적극적으로 학습시키는 것이 가능해 지면서 성능이 개선됩니다.
+$G_t(\tau)$가 항상 Positive면 어느 State에서 어느 Action을 하는 것을 학습시키는 것이 바람직한지 다소 모호한 상황에 빠질 수가 있는데 이때 $b(s_t)=\frac{1}{T}\sum_{t=0}^T G_t(\tau)$로 지정해 주면 Trajectory에서 절반정도를 바람직한 Action으로 파악해서 적극적으로 학습시키는 것이 가능해 지면서 성능이 개선됩니다.
 
-#### Solve Continuous Cart Pole with REINFORCE {#Solve-Continuous-Cart-Pole-with-REINFORCE}
+#### How to Solve Continuous Cart Pole with REINFORCE {#How-to-Solve-Continuous-Cart-Pole-with-REINFORCE}
 
 [Continuous Cart Pole](#Continuous-Cart-Pole)을 [REINFORCE](#REINFORCE)을 사용하여 푸는 구체적인 방법은 [reinforce.py](/techblog/assets/codes/Reinforcement-Learning/reinforce.py)를 참조하기 바랍니다.
 
@@ -488,7 +508,7 @@ $G_t(\tau)$가 항상 Positive면 어느 State에서 어느 Action을 하는 것
 
 Reinforcement Learning Algorithm을 분류하는 하나의 방법으로 Policy-based, Value-based가 있습니다.
 
-[REINFORCE](#REINFORCE)와 같이 직접 Policy $\pi$를 구하는 방법을 Policy-based라고 합니다.
+[REINFORCE](#REINFORCE)와 같이 직접 $\pi$ Policy를 구하는 방법을 Policy-based라고 합니다.
 
 [Value Iteration](#Value-Iteration), [Q Learning](#Q-Learning), [Deep Q Network](#Deep-Q-Network)와 같이 $V^\pi(s)$ 혹은 $Q^\pi(s,a)$를 구하는 방법을 Valued-based라고 합니다.
 
@@ -498,9 +518,19 @@ Reinforcement Learning Algorithm을 분류하는 하나의 방법으로 Policy-b
 
 Reinforcement Learning Algorithm을 분류하는 하나의 방법으로 On-Policy, Off-Policy가 있습니다.
 
-[REINFORCE](#REINFORCE)는 학습을 위해 Trajectory를 모을 때 Policy $\pi_\theta$를 기반으로 모으게 되는데, Policy $\pi_\theta$에서 $\theta$를 한 번 Update를 하고 나면 해당 Policy가 변경이 되어 버려서 과거의 Trajectory로 학습이 불가능해 집니다. 이와 같이 학습용 Trajectory를 현재 Policy에만 사용이 가능하고 Policy가 변경이 되면 사용이 불가능해 지는 것을 On-Policy라고 합니다.
+[REINFORCE](#REINFORCE)는 학습을 위해 $\tau$ Trajectory를 모을 때 $\pi_\theta$ Policy를 기반으로 모으고, $\pi_\theta$ Policy에서 $\theta$를 어떻게 살짝 변경해야 해당 $\tau$ Trajectory에서 $J(\pi_\theta)$ Objective가 얼마나 살짝 개선되는지를 살펴보고, 살짝 $\pi_\theta$ Policy를 개선합니다. 자세히 살펴보면 학습에 사용된 Trajectory는 해당 Trajectory를 생성한 Policy를 개선할 때만 유효하고 다른 Policy를 개선할 때는 사용이 불가능하다는 사실을 알 수 있습니다. 이런 이유로 $\pi_\theta$ Policy가 생성한 $\tau$ Trajectory는, $\pi_\theta$ Policy를 개선하기 위해 $\theta$를 한 번 변경하는데 사용되고 나면, 새로운 $\pi_\theta$ Policy를 개선하는데 더 이상 사용이 불가능해지는데, 이것을 On-Policy라고 합니다.
 
-[Deep Q Network](#Deep-Q-Network)와 같이 Policy를 변경하지 않으면서 $Q_\theta^\pi(s,a)$의 $\theta$만 Update하는 경우에는 이전에 모아두었던 학습용 Trajectory를 학습에 재활용하는 것이 가능합니다. 이와 같이 학습용 Trajectory를 $\theta$가 Update되더라도 재활용해서 쓸 수 있는 것을 Off-Policy라고 합니다.
+[Deep Q Network](#Deep-Q-Network)와 같이 Policy를 변경하지 않으면서 $Q_\theta^\pi(s,a)$의 $\theta$만 변경하는 경우에는 이전에 모아두었던 학습용 Trajectory를 학습에 재활용하는 것이 가능합니다. 이와 같이 학습용 Trajectory를 $\theta$가 변경되더라도 재활용해서 쓸 수 있는 것을 Off-Policy라고 합니다.
+
+On-Policy의 경우에는 [Experience Replay](#Experience-Replay)를 사용할 수 없지만, Off-Policy의 경우에는 [Experience Replay](#Experience-Replay)를 사용할 수 있어서, Off-Policy가 On-Policy에 비해 학습 데이터를 더 효율적으로 활용합니다.
+
+## Monte-Carlo Method vs Temporal Difference Method {#Monte-Carlo-Method-vs-Temporal-Difference-Method}
+
+Reinforcement Learning Algorithm을 분류하는 하나의 방법으로 Monte-Carlo(MC) Method, Temporal Difference(TD) Method가 있습니다.
+
+[REINFORCE](#REINFORCE)에서 학습과정을 보면 $\nabla_\theta J(\pi_\theta)=E_{\tau \sim \pi_\theta}\left[\sum_{t=0}^T G_t(\tau) \nabla_\theta \ln \pi_\theta(a_t\|s_t)\right]$ Objective를 구해야 하는데, 이것을 계산하기 위해 Episode 전체가 종료될 때까지 $\tau$ Trajectory를 $\pi_\theta$ Policy에 따라 직접 생성하기를 여러번 반복하여 평균을 계산합니다. 이와 같이 여러번 Sample해서 평균하는 방식을 Monte-Carlo Method라고 합니다.
+
+[Deep Q Network](#Deep-Q-Network)에서 학습과정을 보면 $L=\left[Q^{\pi}(s_t,a_t)-(r_t+\gamma \max_{a_{t+1}} Q^{\pi}(s_{t+1},a_{t+1}))\right]^2$ Loss를 구해야 하는데, 이것을 계산하기 위해 $\tau$ Trajectory에서 필요한 부분은 Episode 전체가 아니라 $s_t, a_t, r_t, s_{t+1}$입니다. 계산을 위해 Episode 전체가 끝날 때까지 기다릴 필요도 없습니다. 이와 같이 $\tau$ Trajectory상의 두 시점의 차이를 이용하는 방식을 Temporal Difference Method라고 합니다.
 
 ## Conclusion {#Conclusion}
 
@@ -508,4 +538,4 @@ Reinforcement Learning Algorithm을 분류하는 하나의 방법으로 On-Polic
 
 이 글에서는 이해를 돕기 위해 의도적으로 자세한 내용, 복잡한 내용, 최신 기법등을 포함시키지 않았으며 꼭 필요하다고 생각되는 최소한의 내용만을 포함하기 위해 노력하였습니다. 그런 관계로, 실제로 복잡한 문제를 여기에 소개된 [Deep Q Network](#Deep-Q-Network)나 [REINFORCE](#REINFORCE)을 이용해서 풀려고 하면 잘 풀리지 않을 것으로 생각합니다.
 
-만약에 복잡한 문제를 풀기 위한 비교적 최신 Algorithm에 관심이 있다면, Discrete Action의 경우에는 [Deep Q Network](#Deep-Q-Network)을 개선시키는 각종 기법들을(Experience Reply, Target Network, Double DQN, Duel DQN, 등등) 찾아서 살펴보기를 추천드립니다. Continuous Action의 경우에는 TD3 혹은 SAC를 찾아서 살펴보기를 추천드리는데 혹시 내용이 이해가 잘 되지 않는다면 Actor Critic, A2C, DDPG를 차례로 찾아서 살펴본 후에 TD3와 SAC를 살펴보시기를 추천드립니다.
+만약에 복잡한 문제를 풀기 위한 비교적 최신 Model-free Algorithm에 관심이 있다면, Discrete Action의 경우에는 [Deep Q Network](#Deep-Q-Network)을 개선시키는 각종 기법들을(Experience Reply, Target Network, Double DQN, Duel DQN, 등등) 찾아서 살펴보기를 추천드립니다. Continuous Action의 경우에는 TD3 혹은 SAC를 찾아서 살펴보기를 추천드리는데 혹시 내용이 이해가 잘 되지 않는다면 Actor Critic, A2C, DDPG를 차례로 찾아서 살펴본 후에 TD3와 SAC를 살펴보시기를 추천드립니다.
