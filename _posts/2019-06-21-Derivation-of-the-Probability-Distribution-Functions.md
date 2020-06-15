@@ -178,7 +178,7 @@ F_Y(y)
 &=P(Y \le y) \\
 &=1-P(Y>y) \\
 &=1-P(X_1-X_2>y) \\
-&=1-P(X_2<X_1+y) \\
+&=1-P(X_2<X_1-y) \\
 &=1-\int_y^\infty\int_0^{x_1-y} f_{X_1 X_2}(x_1,x_2)dx_2 dx_1 \\
 &=1-\int_y^\infty\int_0^{x_1-y} \lambda^2 e^{-\lambda(x_1+x_2)}dx_2 dx_1 \\
 &=1-\int_y^\infty \left [ \lambda^2 e^{-\lambda x_1}(-\frac{1}{\lambda}e^{-\lambda x_2}) \right ]_0^{x_1-y} dx_1 \\
