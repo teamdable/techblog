@@ -14,7 +14,7 @@ PyTorch를 쓰다 보면 Module을 자주 사용하게 됩니다. Module은 별 
 
 ## Module {#Module}
 
-PyTorch에서 Module은 Module자체로는 별다른 기능이 없지만 다른 여러 기능들을 포함해 주고 관리해 주는 Container입니다.
+PyTorch의 Module은 Tensor를 Input으로 받아 무언가 처리하고 처리 결과 Tensor를 Output로 내보내 주는 Container입니다. 통상적으로는 torch.nn에 있는 여러 Module을 조합해서 새로운 Module을 만들고 싶을 때 PyTorch의 Module을 직접 정의해서 사용합니다. 여러 Module들을 조합해 서 새로운 Module을 만들어 주는 특별한 기능이 없는 단순한 Container로 보이지만 여러가지 잘 보이지 않는 중요한 기능을 가지고 있습니다.
 
 ### Module Code 1 {#Module-Code-1}
 
