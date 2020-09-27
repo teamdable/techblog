@@ -12,7 +12,7 @@ tags: [ 오태호, 머신러닝 ]
 
 ## BFGS Method {#BFGS-Method}
 
-[Quasi-Newton-Method](Derivation-of-LBFGS-Part-2#Quasi-Newton-Method)중에 하나인 [SR1-Method](Derivation-of-LBFGS-Part-2#SR1-Method)는 $$\mathbf{H}_{k+1}$$을 안정적으로 구할 수 없는 문제가 있습니다. $$\mathbf{H}_{k+1}$$을 안정적으로 구하기 위해 SR1 Method를 조금 개량한 BFGS Method(Broyden Fletcher Goldfarb Shanno Method)를 알아보겠습니다.
+[Quasi Newton Method](Derivation-of-LBFGS-Part-2#Quasi-Newton-Method)중에 하나인 [SR1 Method](Derivation-of-LBFGS-Part-2#SR1-Method)는 $$\mathbf{H}_{k+1}$$을 안정적으로 구할 수 없는 문제가 있습니다. $$\mathbf{H}_{k+1}$$을 안정적으로 구하기 위해 SR1 Method를 조금 개량한 BFGS Method(Broyden Fletcher Goldfarb Shanno Method)를 알아보겠습니다.
 
 SR1 Method에서는 Rank 1 Matrix를 사용해서 $$\mathbf{B}_{k+1}$$을 구했는데 BFGS Method에서는 다음과 같이 Rank 2 Matrix를 사용해서 $$\mathbf{B}_{k+1}$$을 구합니다.
 
@@ -276,8 +276,8 @@ BFGS Method는 큰 단점이 하나 있습니다. Iteration마다 $\mathbf{H}_k$
 
 ## Conclusion {#Conclusion}
 
-이 글에서는 LBFGS를 살펴보기 위한 과정으로 BFGS Method에 대해 살펴보았습니다.
+이 글에서는 LBFGS Method를 살펴보기 위한 과정으로 BFGS Method에 대해 살펴보았습니다.
 
 BFGS Method에는 $\mathbf{x}$이 고차원인 경우에 $\mathbf{H}_k$를 저장하기가 쉽지 않은 문제가 있습니다.
 
-다음 Part에서는 $\mathbf{H}_k$를 저장하지 않고 BFGS Method를 수행하는 방법을 알아보도록 하겠습니다.
+[Derivation of LBFGS - Part 4](Derivation-of-LBFGS-Part-4)에서는 $\mathbf{H}_k$를 저장하지 않고 BFGS Method를 수행하는 방법을 알아보도록 하겠습니다.
