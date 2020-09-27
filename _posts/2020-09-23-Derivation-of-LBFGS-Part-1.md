@@ -8,9 +8,9 @@ tags: [ 오태호, 머신러닝 ]
 
 안녕하세요. 오태호입니다.
 
-이 글에서는 Optimization 기법중에 하나인 LBFGS(Limited Memory Broyden–Fletcher–Goldfarb–Shanno)의 수식을 여러 Part에 걸쳐서 차근차근 유도하여 LBFGS의 구조를 조금 깊게 살펴보도록 하겠습니다.
+이 글에서는 Optimization 기법중에 하나인 LBFGS Method(Limited Memory Broyden–Fletcher–Goldfarb–Shanno Method)의 수식을 여러 Part에 걸쳐서 차근차근 유도하여 LBFGS Method의 구조를 조금 깊게 살펴보도록 하겠습니다.
 
-pytorch.optim 패키지에 보면 SGD, Adadelta, Adagrad, RMSprop, Adam와 같은 Optimizer는 여러 곳에서 자세한 설명을 찾아볼 수 있습니다. 하지만 LBFGS의 경우에는 여러 곳에서 설명을 찾아 봐도 자세한 설명을 찾아보기가 쉽지 않아서 정리해 보았습니다.
+pytorch.optim 패키지에 보면 SGD, Adadelta, Adagrad, RMSprop, Adam와 같은 Optimizer는 여러 곳에서 자세한 설명을 찾아볼 수 있습니다. 하지만 LBFGS Method의 경우에는 여러 곳에서 설명을 찾아 봐도 자세한 설명을 찾아보기가 쉽지 않아서 정리해 보았습니다.
 
 이 글을 이해하기 위해서는 Calculus, Linear Algebra, Machine Learning에 대한 기초지식이 필요합니다.
 
@@ -267,8 +267,8 @@ $$
 
 ## Conclusion {#Conclusion}
 
-이 글에서는 LBFGS를 살펴보기 위한 첫단계로 Newton's Method에 대해 살펴보았습니다.
+이 글에서는 LBFGS Method를 살펴보기 위한 첫단계로 Newton's Method에 대해 살펴보았습니다.
 
 Newton's Method는 Gradient Descent에 비해서 방향을 잘 결정한다는 장점이 있지만 큰 단점이 하나 있습니다. Newton Direction을 계산하기 위해서는 Inverse Hessian $[\nabla^2 f(\mathbf{x}_k)]^{-1}$을 계산해야 하는데 이것은 $\mathbf{x}$의 차원이 높아지면 계산이 매우 힘들어집니다.
 
-다음 Part에서는 $\mathbf{x}$가 고차원일 경우에 어떻게 Inverse Hessian $[\nabla^2 f(\mathbf{x}_k)]^{-1}$를 계산해서 Newton's Method를 사용할 수 있는지 알아보도록 하겠습니다.
+[Derivation of LBFGS - Part 2](Derivation-of-LBFGS-Part-2)에서는 $\mathbf{x}$가 고차원일 경우에 어떻게 Inverse Hessian $[\nabla^2 f(\mathbf{x}_k)]^{-1}$를 계산해서 Newton's Method를 사용할 수 있는지 알아보도록 하겠습니다.
