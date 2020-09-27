@@ -142,8 +142,8 @@ SR Method는 큰 단점이 하나 있습니다. $$(\mathbf{y}_k-\mathbf{B}_k\mat
 
 ## Conclusion {#Conclusion}
 
-이 글에서는 LBFGS를 살펴보기 위한 과정으로 SR1 Method에 대해 살펴보았습니다.
+이 글에서는 LBFGS Method를 살펴보기 위한 과정으로 SR1 Method에 대해 살펴보았습니다.
 
 SR1 Method는 $\mathbf{H}_{k+1}$을 안정적으로 구할 수 없는 문제가 있습니다.
 
-다음 Part에서는 안정적으로 $\mathbf{H}_{k+1}$을 구하는 방법을 알아보도록 하겠습니다.
+[Derivation of LBFGS - Part 3](Derivation-of-LBFGS-Part-3)에서는 안정적으로 $\mathbf{H}_{k+1}$을 구하는 방법을 알아보도록 하겠습니다.
