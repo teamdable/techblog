@@ -182,7 +182,11 @@ $$
 \mathbf{H}_{k+1}=\mathbf{H}_k+\frac{(\mathbf{s}_k-\mathbf{H}_k\mathbf{y}_k)(\mathbf{s}_k-\mathbf{H}_k\mathbf{y}_k)^T}{(\mathbf{s}_k-\mathbf{H}_k\mathbf{y}_k)^T\mathbf{y}_k}
 $$
 
-SR Method는 큰 단점이 하나 있습니다. $$(\mathbf{y}_k-\mathbf{B}_k\mathbf{s}_k)^T\mathbf{s}_k \approx 0$$이 되면 $$\mathbf{B}_{k+1}=\mathbf{B}_k+\frac{(\mathbf{y}_k-\mathbf{B}_k\mathbf{s}_k)(\mathbf{y}_k-\mathbf{B}_k\mathbf{s}_k)^T}{(\mathbf{y}_k-\mathbf{B}_k\mathbf{s}_k)^T\mathbf{s}_k}$$에서 분모가 $0$이 되기 때문에 $$\mathbf{B}_{k+1}$$과 $$\mathbf{H}_{k+1}$$을 안정적으로 구할 수 없습니다.
+SR1 Method에는 몇 가지 단점이 있습니다.
+
+$$(\mathbf{y}_k-\mathbf{B}_k\mathbf{s}_k)^T\mathbf{s}_k \approx 0$$이 되면 $$\mathbf{B}_{k+1}=\mathbf{B}_k+\frac{(\mathbf{y}_k-\mathbf{B}_k\mathbf{s}_k)(\mathbf{y}_k-\mathbf{B}_k\mathbf{s}_k)^T}{(\mathbf{y}_k-\mathbf{B}_k\mathbf{s}_k)^T\mathbf{s}_k}$$에서 분모가 $0$이 되기 때문에 $$\mathbf{B}_{k+1}$$과 $$\mathbf{H}_{k+1}$$을 안정적으로 구할 수 없습니다.
+
+그리고 Newton's Method에서 $f(\mathbf{x})$의 최소값을 구하기 위해서는 $\nabla^2 f(\mathbf{x}_k)$이 Positive Definite Matrix가 되어야 하기 때문에 Quasi Newton Method에서도 $\mathbf{B}_k$와 $\mathbf{H}_k$가 Positive Definite Matrix가 되어야 합니다. 하지만 SR1 Method에서는 $\mathbf{B}_k$와 $\mathbf{H}_k$가 Positive Definite Matrix임을 보장하지 않습니다.
 
 ## Conclusion {#Conclusion}
 
