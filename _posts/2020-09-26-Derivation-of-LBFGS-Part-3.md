@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Derivation of LBFGS - Part 3"
+title:  "Derivation of LBFGS Part 3 - BFGS Method"
 date:   2020-09-26 23:00:00 +0900
 author: Taeho Oh
 tags: [ 오태호, 머신러닝 ]
@@ -8,7 +8,12 @@ tags: [ 오태호, 머신러닝 ]
 
 안녕하세요. 오태호입니다.
 
-이 글은 [Derivation of LBFGS - Part 3](Derivation-of-LBFGS-Part-3)입니다. 이 글을 읽기 전에 [Derivation of LBFGS - Part 1](Derivation-of-LBFGS-Part-1), [Derivation of LBFGS - Part 2](Derivation-of-LBFGS-Part-2)를 먼저 읽으시길 바랍니다.
+이 글에서는 Optimization 기법중에 하나인 LBFGS Method(Limited Memory Broyden–Fletcher–Goldfarb–Shanno Method)의 수식을 다음과 같이 4개의 Part에 걸쳐서 차근차근 유도하여 LBFGS Method의 구조를 조금 깊게 살펴보도록 하겠습니다.
+
+* [Derivation of LBFGS Part 1 - Newton's Method](Derivation-of-LBFGS-Part-1)
+* [Derivation of LBFGS Part 2 - SR1 Method](Derivation-of-LBFGS-Part-2)
+* Derivation of LBFGS Part 3 - BFGS Method
+* [Derivation of LBFGS Part 4 - LBFGS Method](Derivation-of-LBFGS-Part-4)
 
 ## BFGS Method {#BFGS-Method}
 
@@ -280,4 +285,4 @@ BFGS Method는 큰 단점이 하나 있습니다. Iteration마다 $\mathbf{H}_k$
 
 BFGS Method에는 $\mathbf{x}$이 고차원인 경우에 $\mathbf{H}_k$를 저장하기가 쉽지 않은 문제가 있습니다.
 
-[Derivation of LBFGS - Part 4](Derivation-of-LBFGS-Part-4)에서는 $\mathbf{H}_k$를 저장하지 않고 BFGS Method를 수행하는 방법을 알아보도록 하겠습니다.
+[Derivation of LBFGS Part 4 - LBFGS Method](Derivation-of-LBFGS-Part-4)에서는 $\mathbf{H}_k$를 저장하지 않고 BFGS Method를 수행하는 방법을 알아보도록 하겠습니다.
