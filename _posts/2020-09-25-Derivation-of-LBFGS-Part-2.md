@@ -39,7 +39,7 @@ $[\nabla^2 f(\mathbf{x}_k)]^{-1}$를 근사해서 구하기 위해 일단 $\nabl
 
 ## Secant Equation {#Secant-Equation}
 
-$\mathbf{B}_k$를 $\nabla^2 f(\mathbf{x}_k)$에 근사시키기 위해 다음과 같은 식을 만족시키도록 합니다. 이 식은 Secant Equation이라고 합니다.
+$\mathbf{B}_{k+1}$를 $\nabla^2 f(\mathbf{x}_k)$에 근사시키기 위해 다음과 같은 식을 만족시키도록 합니다. 이 식은 Secant Equation이라고 합니다.
 
 $$
 \mathbf{B}_{k+1}\mathbf{s}_k=\mathbf{y}_k
@@ -68,6 +68,45 @@ $$
 &=\mathbf{I}
 \end{aligned}
 $$
+
+Sherman Morrison Woodbury Formula가 성립하기 위해서는 $\mathbf{A}^{-1}$와 $\mathbf{C}^{-1}$와 $(\mathbf{C}^{-1}+\mathbf{V}\mathbf{A}^{-1}\mathbf{U})^{-1}$가 존재해야 합니다.
+
+이 글에서는 $\mathbf{A}$가 [Positive Definite Matrix](Proof-of-the-F-Test-for-Linear-Regression#Positive-Definite-Matrix)이고 $\mathbf{C}=\mathbf{I}$이고 $\mathbf{V}=\mathbf{U}^T$인 경우에 Sherman Morrison Woodbury Formula를 사용합니다. 이때 $\mathbf{A}^{-1}$와 $\mathbf{C}^{-1}$와 $(\mathbf{C}^{-1}+\mathbf{V}\mathbf{A}^{-1}\mathbf{U})^{-1}$가 존재한다는 것은 다음과 같이 확인합니다.
+
+$\mathbf{A}$가 Positive Definite Matrix라면, $\mathbf{A}$의 Eigenvalue는 모두 Positive가 되어서, $\mathbf{A}$는 Full Rank Matrix가 되어 $\mathbf{A}^{-1}$이 존재합니다.
+
+$\mathbf{C}=\mathbf{I}$라면 $\mathbf{C}^{-1}$가 당연히 존재합니다.
+
+$\mathbf{A}$가 Positive Definite Matrix이기 때문에, $\mathbf{A}^{-1}$도 Positive Definite Matrix가 되며, $\mathbf{A}^{-1}$는 [Cholesky Decomposition](Proof-of-the-F-Test-for-Linear-Regression#Cholesky-Decomposition)에 의해 $\mathbf{L}\mathbf{L}^T$으로 표현할 수 있습니다.
+
+$\mathbf{P}$를 아래와 같이 정의합니다.
+
+$$
+\mathbf{P}=\mathbf{C}^{-1}+\mathbf{V}\mathbf{A}^{-1}\mathbf{U}
+$$
+
+$\mathbf{P}\mathbf{x}=\mathbf{0}$을 만족하는 경우가 $\mathbf{x}=\mathbf{0}$이 유일한 경우라면 $\mathbf{P}^{-1}$이 존재합니다.
+
+$\mathbf{P}\mathbf{x}=\mathbf{0}$을 만족하는 $\mathbf{x}\neq\mathbf{0}$인 $\mathbf{x}$가 존재한다면 $\mathbf{x}^T\mathbf{P}\mathbf{x}=\mathbf{0}$을 만족하는 $\mathbf{x}\neq\mathbf{0}$인 $\mathbf{x}$가 존재합니다.
+
+$\mathbf{x}^T\mathbf{P}\mathbf{x}=\mathbf{0}$을 만족하는 $\mathbf{x}\neq\mathbf{0}$인 $\mathbf{x}$가 존재하지 않는다면 $\mathbf{P}\mathbf{x}=\mathbf{0}$을 만족하는 $\mathbf{x}\neq\mathbf{0}$인 $\mathbf{x}$가 존재하지 않습니다.
+
+$\mathbf{x}^T\mathbf{P}\mathbf{x}=\mathbf{0}$을 만족하는 경우가 $\mathbf{x}=\mathbf{0}$이 유일한 경우라면 $\mathbf{P}\mathbf{x}=\mathbf{0}$을 만족하는 경우는 $\mathbf{x}=\mathbf{0}$이 유일한 경우입니다.
+
+$\mathbf{x}^T\mathbf{P}\mathbf{x}=\mathbf{0}$을 만족하는 경우가 $\mathbf{x}=\mathbf{0}$이 유일한 경우라면 $\mathbf{P}^{-1}$이 존재합니다.
+
+$$
+\begin{aligned}
+\mathbf{x}^T\mathbf{P}\mathbf{x}
+&=\mathbf{x}^T(\mathbf{C}^{-1}+\mathbf{V}\mathbf{A}^{-1}\mathbf{U})\mathbf{x} \\
+&=\mathbf{x}^T(\mathbf{I}^{-1}+\mathbf{U}^T\mathbf{A}^{-1}\mathbf{U})\mathbf{x} \\
+&=\mathbf{x}^T(\mathbf{I}+\mathbf{U}^T\mathbf{L}\mathbf{L}^T\mathbf{U})\mathbf{x} \\
+&=\mathbf{x}^T\mathbf{x}+(\mathbf{L}^T\mathbf{U}\mathbf{x})^T(\mathbf{L}^T\mathbf{U}\mathbf{x}) \\
+&=\|\mathbf{x}\|^2+\|\mathbf{L}^T\mathbf{U}\mathbf{x}\|^2 \\
+\end{aligned}
+$$
+
+$\mathbf{x}^T(\mathbf{C}^{-1}+\mathbf{V}\mathbf{A}^{-1}\mathbf{U})\mathbf{x}=\mathbf{0}$을 만족하는 경우는 $\mathbf{x}=\mathbf{0}$인 경우가 유일하므로 $(\mathbf{C}^{-1}+\mathbf{V}\mathbf{A}^{-1}\mathbf{U})^{-1}$이 존재합니다.
 
 ## SR1 Method {#SR1-Method}
 
@@ -143,7 +182,7 @@ $$
 \mathbf{H}_{k+1}=\mathbf{H}_k+\frac{(\mathbf{s}_k-\mathbf{H}_k\mathbf{y}_k)(\mathbf{s}_k-\mathbf{H}_k\mathbf{y}_k)^T}{(\mathbf{s}_k-\mathbf{H}_k\mathbf{y}_k)^T\mathbf{y}_k}
 $$
 
-SR Method는 큰 단점이 하나 있습니다. $$(\mathbf{y}_k-\mathbf{B}_k\mathbf{s}_k)^T\mathbf{s}_k \approx 0$$이 되면 $$\mathbf{B}_{k+1}$$, $$\mathbf{H}_{k+1}$$을 안정적으로 구할 수 없습니다.
+SR Method는 큰 단점이 하나 있습니다. $$(\mathbf{y}_k-\mathbf{B}_k\mathbf{s}_k)^T\mathbf{s}_k \approx 0$$이 되면 $$\mathbf{B}_{k+1}=\mathbf{B}_k+\frac{(\mathbf{y}_k-\mathbf{B}_k\mathbf{s}_k)(\mathbf{y}_k-\mathbf{B}_k\mathbf{s}_k)^T}{(\mathbf{y}_k-\mathbf{B}_k\mathbf{s}_k)^T\mathbf{s}_k}$$에서 분모가 $0$이 되기 때문에 $$\mathbf{B}_{k+1}$$과 $$\mathbf{H}_{k+1}$$을 안정적으로 구할 수 없습니다.
 
 ## Conclusion {#Conclusion}
 
