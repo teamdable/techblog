@@ -336,7 +336,7 @@ $$
 $$
 t_k \gt 0 \\
 0 \lt c_2 \lt 1 \\
-\mathbf{g}_k^T \mathbf{p}_k \lt 0 \\
+\mathbf{p}_k=-\mathbf{H}_k\mathbf{g}_k \\
 \mathbf{x}_{k+1}=\mathbf{x}_k+t_k\mathbf{p}_k \\
 \mathbf{p}_k^T \nabla f(\mathbf{x}_k+t_k\mathbf{p}_k) \ge c_2 \mathbf{p}_k^T \nabla f(\mathbf{x}_k) \\
 \mathbf{p}_k^T \nabla f(\mathbf{x}_{k+1}) \ge c_2 \mathbf{p}_k^T \nabla f(\mathbf{x}_k) \\
@@ -351,7 +351,9 @@ t_k\mathbf{p}_k^T \mathbf{g}_{k+1} \ge t_k c_2 \mathbf{p}_k^T \mathbf{g}_k \\
 \mathbf{y}_k^T \mathbf{s}_k \ge (c_2 - 1) \mathbf{g}_k^T \mathbf{s}_k
 &=(c_2 - 1) \mathbf{g}_k^T ( \mathbf{x}_{k+1} - \mathbf{x}_k ) \\
 &=(c_2 - 1) \mathbf{g}_k^T (t_k \mathbf{p}_k) \\
-&=t_k (c_2 - 1) \mathbf{g}_k^T \mathbf{p}_k \gt 0 \\
+&=t_k (c_2 - 1) \mathbf{g}_k^T \mathbf{p}_k \\
+&=t_k (c_2 - 1) \mathbf{g}_k^T (-\mathbf{H}_k\mathbf{g}_k) \\
+&=t_k (1 - c_2) (\mathbf{g}_k^T\mathbf{H}_k\mathbf{g}_k) \gt 0 \\
 \end{aligned} \\
 \mathbf{y}_k^T \mathbf{s}_k \gt 0
 $$
