@@ -83,7 +83,7 @@ Dable 관리 tool에서 모니터링하고 있는 EB 들은 위 cycle을 거치�
 
 첫째, ASG Launch Configuration으로 등록된 SPOT 타입의 물량이 부족할 경우입니다. 1순위건 2순위건 상관없이, 이러한 경우 경고 이벤트가 온 
 인스턴스들의 타입을 현재 ASG Launch Configuration와 비교하여 우선순위에서 몇 번째인지 체크한 후 다음 후보 Launch Configuration 타입을 파악하여 
-그것이 SPOT 타입이면 SPOT_REQUEST로, ONDEMAND 이면 ONDEMAND state로 넘어가게 됩니다. SPOT_REQUEST에서는 새로운 SPOT 요청들이 성공했는지 체크하고, 
+그것이 SPOT 타입이면 `SPOT_REQUEST`로, ON DEMAND 이면 `ONDEMAND` state로 넘어가게 됩니다. `SPOT_REQUEST`에서는 새로운 SPOT 요청들이 성공했는지 체크하고, 
 실패 시 SPOT_UNAVAILABLE로 넘어가 Launch Configuration을 바꾸는 작업을 반복합니다. ONDEMAND 상태에서는 ASG Launch Configuration를 
 1순위로 바꾸고 쿨타임 2시간이 지나면 5분 간격으로 ONDEMAND 타입 인스턴스들을 EB로부터 1대씩 분리 및 종료시켜 인스턴스를 교체합니다.
 
