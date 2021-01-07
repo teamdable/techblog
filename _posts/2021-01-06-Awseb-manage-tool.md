@@ -50,7 +50,7 @@ EB Managed Updates event가 발생하면 EBManagedUpdatesMonitor job이 실행�
 lambda job과 EventBridge 간 관계 설정은 lambda job 설정에서 할 수 있습니다.
 
 3. State Machine
-Dable EB 관리 서버는 15초에 한 번씩 돌아가는 worker로 구성됩니다. 이 main worker가 돌 때마다 DB에서 모니터링 대상 EB 들을 가져온 후, 
+Dable EB 관리 서버는 15초에 한 번씩 돌아가는 worker로 구성됩니다. 이 main worker가 돌 때마다 DB에서 모니터링 대상 EB들을 가져온 후, 
 각 EB들의 현재 state를 파악하여 state별 worker를 실행시키는 구조입니다. 한 개의 main worker 안에 여러 개의 state worker 들이 독립적으로 실행되는 모양새입니다. 
 State Machine 작동에 관해서는 아래에서 더 자세히 다루기로 하겠습니다.
 
