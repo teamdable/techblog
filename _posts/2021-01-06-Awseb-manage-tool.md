@@ -72,9 +72,7 @@ EB를 생성한 후 관리 tool client에서 모니터링을 시작한 후 아�
 
 <img src="/techblog/assets/images/Awseb-tool/awseb-ux.png" alt="EB Tool UX 이미지" width="800">
 
-1순위와 2순위는 SPOT 타입으로, 3순위는 안정성을 위해 ONDEMAND 타입으로 하는 것을 권장합니다. 2순위의 SPOT 인스턴스 타입은 1순위보다 1세대 낮은 것을 선택해,
- 상대적으로 수요가 많은 1순위 SPOT의 물량이 없을 시 대체재로 쓰이도록 합니다. 2순위로 넘어간 후에는 쿨타임을 2시간 주는데, 2시간 이내에 2순위 SPOT조차 
- 물량이 부족해진다면 3순위 ONDEMAND Launch Configuration으로 넘어가게 됩니다. 개발자들은 이러한 상태변화를 로그를 통해 확인할 수 있습니다.
+1순위와 2순위는 SPOT 타입으로, 3순위는 안정성을 위해 ONDEMAND 타입으로 하는 것을 권장합니다. 2순위의 SPOT 인스턴스 타입은 1순위보다 1세대 낮은 것을 선택해, 상대적으로 수요가 많은 1순위 SPOT의 물량이 없을 시 대체재로 쓰이도록 합니다. 2순위로 넘어간 후에는 쿨타임을 2시간 주는데, 2시간 이내에 2순위 SPOT조차 물량이 부족해진다면 3순위 ONDEMAND Launch Configuration으로 넘어가게 됩니다. 개발자들은 이러한 상태변화를 로그를 통해 확인할 수 있습니다.
 
 <img src="/techblog/assets/images/Awseb-tool/awseb-state-flow.png" alt="EB Tool state 머신 플로우" width="800">
 
