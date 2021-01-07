@@ -30,7 +30,7 @@ SPOT이 좋으면 그냥 AWS Auto Scaling Group (이하 ASG)의 Launch Configura
 AWS 은 ONDEMAND 보다 훨씬 저렴한 가격에 SPOT을 제공해 고객을 끌어모으는 대신, 해당 SPOT 타입이 인기가 많아 물량이 부족해지면 언제든 고객의 동의 없이 SPOT을 뺏어갈 수 있습니다. 
 이러한 점은 서비스의 안정성 측면에서 치명적인 장애를 일으킬 수 있어 개발자는 항상 언제 SPOT을 뺏길지 불안해하는 상황에 처하게 됩니다. 
 
-그래서 Dable 은 EB 당 Launch Configuration을 SPOT 타입과 ONDEMAND 타입을 복수로 만들어 두고, 
+그래서 Dable은 EB 당 Launch Configuration을 SPOT 타입과 ONDEMAND 타입을 복수로 만들어 두고, 
 Launch Configuration들의 우선순위를 정해 해당 순위 SPOT이 물량이 부족해 인스턴스들이 종료되기 전 ASG Launch Configuration을 다음 순위로 바꾸는 
 방법을 사용해 SPOT 물량이 부족해 생기는 장애를 예방하면서도, 다음 순위의 SPOT으로 인스턴스를 띄워 비용 절감도 해보자! 라는 생각을 했습니다.
 
