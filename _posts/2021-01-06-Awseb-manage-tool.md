@@ -25,7 +25,7 @@ Dable은 2015년부터 AWS Elastic Beanstalk service를 통해 EC2 서버들을 
 
 ### 핵심 아이디어
 SPOT이 좋으면 그냥 AWS Auto Scaling Group (이하 ASG)의 Launch Configuration (이하 LC)을 SPOT 타입으로 설정해 해당 EB에서 새로 생성되는 인스턴스는 
-자동으로 SPOT 타입으로 뜨게 하면 되지 않나? 왜 이를 위한 관리 도구 따로 필요하지? 라고 생각하실 수 있습니다. 문제는 AWS의 탁월한 비즈니스 모델에 있습니다.
+자동으로 SPOT 타입으로 뜨게 하면 되지 않나? 왜 이를 위한 관리 도구가 따로 필요하지? 라고 생각하실 수 있습니다. 문제는 AWS의 탁월한 비즈니스 모델에 있습니다.
 AWS는 ON DEMAND 보다 훨씬 저렴한 가격에 SPOT을 제공해 고객을 끌어모으는 대신, 해당 SPOT 타입이 인기가 많아 물량이 부족해지면 언제든 고객의 동의 없이 SPOT을 뺏어갈 수 있습니다. 
 이러한 점은 서비스의 안정성 측면에서 치명적인 장애를 일으킬 수 있어 개발자는 항상 언제 SPOT을 뺏길지 불안해하는 상황에 처하게 됩니다. 
 
@@ -34,7 +34,7 @@ LC들의 우선순위를 정해 해당 순위 SPOT이 물량이 부족해 인스
 방법을 사용해 SPOT 물량이 부족해 생기는 장애를 예방하면서도, 다음 순위의 SPOT으로 인스턴스를 띄워 비용 절감도 해보자! 라는 생각을 했습니다.
 
 ### Architecture
-<img src="/techblog/assets/images/Awseb-tool/awseb-architecture.png" alt="EB 도 아키텍처" width="800">
+<img src="/techblog/assets/images/Awseb-tool/awseb-architecture.png" alt="EB 도구 아키텍처" width="800">
 
 이러한 아이디어를 기반으로 설계된 데이블 내부 관리 도구의 아키텍처는 위와 같습니다.
 
