@@ -21,7 +21,7 @@ Dable은 2015년부터 AWS Elastic Beanstalk service를 통해 EC2 서버들을 
 > c5.4xlarge의 ON DEMAND 요금 0.7680 USD\
 > c5.4xlarge의 SPOT 요금 0.2397 USD
 >
-> 같은 instance type이어도 ON DEMAND 요금이 3배 이상 비쌉니다.
+같은 instance type이어도 ON DEMAND 요금이 3배 이상 비쌉니다.
 
 ### 핵심 아이디어
 SPOT이 좋으면 그냥 AWS Auto Scaling Group (이하 ASG)의 Launch Configuration (이하 LC)을 SPOT 타입으로 설정해 해당 EB에서 새로 생성되는 인스턴스는 
