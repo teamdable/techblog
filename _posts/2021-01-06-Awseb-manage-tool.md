@@ -76,7 +76,7 @@ EB를 생성한 후 관리 tool client에서 모니터링을 시작한 후 아�
 
 <img src="/techblog/assets/images/Awseb-tool/awseb-state-flow.png" alt="EB Tool state 머신 플로우" width="800">
 
-Dable 관리 tool에서 모니터링하고 있는 EB 들은 위 cycle을 거치게 됩니다. 어떤 EB의 상태가 SPOT_STABLE이라는 것은 해당 EB에 속한 모든 인스턴스의 타입이 SPOT이라는 의미이며, 
+Dable 관리 tool에서 모니터링하고 있는 EB들은 위 cycle을 거치게 됩니다. 어떤 EB의 상태가 SPOT_STABLE이라는 것은 해당 EB에 속한 모든 인스턴스의 타입이 SPOT이라는 의미이며, 
 안정적으로 운영되고 있다 뜻입니다. 그런데 세 가지 상황에서 SPOT_STABLE은 다른 state로 넘어가게 됩니다. 
 
 첫째, ASG Launch Configuration으로 등록된 SPOT 타입의 물량이 부족할 경우입니다. 1순위건 2순위건 상관없이, 이러한 경우 경고 이벤트가 온 
