@@ -25,7 +25,7 @@ c5.4xlarge 의 SPOT 요금 0.2397 USD
 ~~~
 
 ### 핵심 아이디어
-SPOT이 좋으면 그냥 AWS Auto Scaling Group (이하 ASG)의 Launch Configuration을 SPOT 타입으로 설정해 해당 EB에서 새로 생성되는 인스턴스는 
+SPOT이 좋으면 그냥 AWS Auto Scaling Group (이하 ASG)의 Launch Configuration (이하 LC)을 SPOT 타입으로 설정해 해당 EB에서 새로 생성되는 인스턴스는 
 자동으로 SPOT 타입으로 뜨게 하면 되지 않나? 왜 이를 위한 관리 tool이 따로 필요하지? 라고 생각하실 수 있습니다. 문제는 AWS의 탁월한 비즈니스 모델에 있습니다.
 AWS 은 ONDEMAND 보다 훨씬 저렴한 가격에 SPOT을 제공해 고객을 끌어모으는 대신, 해당 SPOT 타입이 인기가 많아 물량이 부족해지면 언제든 고객의 동의 없이 SPOT을 뺏어갈 수 있습니다. 
 이러한 점은 서비스의 안정성 측면에서 치명적인 장애를 일으킬 수 있어 개발자는 항상 언제 SPOT을 뺏길지 불안해하는 상황에 처하게 됩니다. 
