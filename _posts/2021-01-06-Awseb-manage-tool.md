@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "서비스 비용 절감을 위한 Dable의 자체 AWS Elastic Beanstalk 관리 내부 tool 을 소개합니다"
+title:  "서비스 비용 절감을 위한 Dable의 자체 AWS Elastic Beanstalk 관리 내부 도구를 소개합니다"
 date:   2021-01-06 15:00:00 +0900
 author: Yoonji Oh
 tags: [ 오윤지, AWS, Devops, 서버 ]
