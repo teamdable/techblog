@@ -16,7 +16,7 @@ Dable 은 2015년부터 AWS Elastic Beanstalk service를 통해 EC2 서버들을
 이 서비스의 목적은 "비싼 ONDEMAND 타입보다는 최대한 SPOT 타입 인스턴스를 구매해 사용하자" 입니다.
 
 ~~~
-* SPOT 타입과 ONDEMAND 타입의 비용 차이 (*linux, 서울 region 기준)
+* SPOT 타입과 ONDEMAND 타입의 비용 차이 (* linux, 서울 region 기준)
 
 c5.4xlarge의 ONDEMAND 요금 0.7680 USD
 c5.4xlarge의 SPOT 요금 0.2397 USD
