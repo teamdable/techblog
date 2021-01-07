@@ -47,7 +47,7 @@ AWS EventBridge는 고객이 알림 받고자 하는 이벤트를 EventBridge에
 EventBridge에 등록한 이벤트 알람을 받을 시 실행되길 원하는 lambda job이 필요합니다. 
 Spot instance Interruption warning이 발생하면 SpotInstanceMonitor job이 실행되고,
 EB Managed Updates event가 발생하면 EBManagedUpdatesMonitor job이 실행됩니다. 
-해당 job이 하는 일은 1) 각 이벤트가 발생한 인스턴스와 EB 환경 정보를 가져오고 2) 그 정보들을 Dable EB 관리 서버에 api 호출을 통해 알려주는 것입니다. 
+해당 job이 하는 일은 1) 각 이벤트가 발생한 인스턴스와 EB 환경 정보를 가져오고 2) 그 정보들을 Dable EB 관리 서버에 API 호출을 통해 알려주는 것입니다. 
 lambda job과 EventBridge 간 관계 설정은 lambda job 설정에서 할 수 있습니다.
 
 3. State Machine
