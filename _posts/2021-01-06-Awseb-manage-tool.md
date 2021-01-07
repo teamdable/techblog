@@ -91,9 +91,7 @@ Dable 관리 tool에서 모니터링하고 있는 EB 들은 위 cycle을 거치�
 바뀐 상태에서 ASG Launch Configuration을 1순위로 다시 바꿔주고, 2순위인 인스턴스들을 5분에 한 대씩 분리 및 종료를 시켜 
 1순위 Launch Configuration으로 새로 인스턴스들을 채웁니다. 이 작업은 떠 있는 인스턴스가 모두 1순위로 교체될 때까지 계속되며 모두 교체하면 다시 SPOT_STABLE로 넘어가게 됩니다. 
 
-셋째, EB의 Managed Update가 실행된 경우입니다. 주기적으로 maintenance가 필요한 EB의 경우 EB Managed Update 기능을 사용하실 텐데요, 
-문제는 이 작업이 끝나면 ASG Launch Configuration이 ONDEMAND 타입으로 초기화된다는 점이었습니다. 그래서 AWS EventBridge 에서 Managed Update가 
-끝나면 오는 이벤트를 람다잡으로 받아 이를 알리는 api 를 호출하여 EB_UPDATE_FINISHED 상태로 바꾸어주어 첫 번째 Launch Configuration으로 바꾸는 코드를 추가하였습니다.
+셋째, EB의 Managed Update가 실행된 경우입니다. 주기적으로 maintenance가 필요한 EB의 경우 EB Managed Update 기능을 사용하실 텐데요, 문제는 이 작업이 끝나면 ASG Launch Configuration이 ONDEMAND 타입으로 초기화된다는 점이었습니다. 그래서 AWS EventBridge 에서 Managed Update가 끝나면 오는 이벤트를 람다잡으로 받아 이를 알리는 api 를 호출하여 EB_UPDATE_FINISHED 상태로 바꾸어주어 첫 번째 Launch Configuration으로 바꾸는 코드를 추가하였습니다.
 
 이와 같은 방법을 통해 Dable은 EB의 인스턴스 구매 타입 관리를 자동화하고 있습니다. AWS EB를 대량으로 사용하고 있는 경우에 이처럼 AWS api를 활용하여 
 관리 tool을 만들어 사용하면 서버비 절감과 관리 편의성이라는 두 마리 토끼를 함께 잡을 수 있습니다.
