@@ -44,6 +44,8 @@ Kubernetes의 Master Node는 한 번 설정한 후에 IP Address가 변경되게
 
 여기서는 다음과 같은 IP Address 구성으로 Kubernetes Cluster를 설정할 예정입니다. External IP Address에 대해서는 나중에 다시 설명할 예정입니다. 일단 여기서는 External IP Address로 사용할 IP Address들을 적당히 확보합니다.
 
+* Host IP Address
+  * 172.30.1.201
 * Master Node IP Address
   * 172.30.1.231
 * Worker Node IP Address
@@ -67,6 +69,36 @@ Static IP Address의 구성을 위한 현재 Network 환경의 설정을 조사�
 * Name Server
   * 168.126.63.1
   * 168.126.63.2
+
+#### Setup NFS Server {#Setup-NFS-Server}
+
+Kubernetes Cluster의 각 Node에서 NFS를 Mount할 수 있게 하기 위해서 Host에 NFS Server를 설정합니다.
+
+Host에서 다음과 같이 실행하여 NFS Server를 설정합니다.
+
+```
+$ sudo apt-get install -y nfs-kernel-server
+$ sudo mkdir -p /mnt/nfs
+$ sudo chown -R nobody:nogroup /mnt/nfs
+$ sudo chmod 777 /mnt/nfs
+$ sudo vi /etc/exports
+```
+
+/etc/exports에 다음과 같이 설정해서 Kubernetes Cluster의 각 Node에서 Host의 NFS를 Mount할 수 있게 합니다.
+
+/etc/exports
+```
+/mnt/nfs 172.30.1.231(rw,sync,no_subtree_check,no_root_squash,insecure)
+/mnt/nfs 172.30.1.232(rw,sync,no_subtree_check,no_root_squash,insecure)
+/mnt/nfs 172.30.1.233(rw,sync,no_subtree_check,no_root_squash,insecure)
+/mnt/nfs 172.30.1.234(rw,sync,no_subtree_check,no_root_squash,insecure)
+```
+
+Host에서 다음과 같이 실행해서 /etc/exports의 변경내용을 적용합니다.
+
+```
+$ sudo exportfs -a
+```
 
 #### VirtualBox {#Install-VirtualBox}
 
@@ -116,6 +148,14 @@ $ sudo mount /dev/cdrom /media/cdrom
 $ cd /media/cdrom
 $ sudo ./VBoxLinuxAdditions.run
 $ sudo reboot
+```
+
+#### Install NFS Client {#Install-NFS-Client}
+
+Kubernetes의 각 Node에서 Host의 NFS를 Mount할 수 있게 하기 위해서, Guest에서 다음과 같이 실행해서 NFS Client를 설치합니다.
+
+```
+$ sudo apt-get install -y nfs-common
 ```
 
 #### Disable Swap {#Disable-Swap}
@@ -457,7 +497,7 @@ echo-pod Pod는 10.244.1.2 IP Address를 가지고 현재 worker-node-1 Node에�
 다음과 같이 echo-pod Pod 내부에서 curl을 사용해서 HTTP Server에 접속할 수 있습니다.
 
 ```
-$ kubectl exec echo-pod -- curl http://10.244.1.2:8080
+$ kubectl exec echo-pod -it -- curl http://10.244.1.2:8080
 You've hit echo-pod
 $
 ```
@@ -1200,7 +1240,7 @@ echo-pod Pod에 있는 echo-container Container의 환경변수에 echo-config-m
 $ kubectl apply -f echo-config-map.yaml
 configmap/echo-config-map created
 pod/echo-pod created
-$ kubectl exec echo-pod -- env
+$ kubectl exec echo-pod -it -- env
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 HOSTNAME=echo-pod
 NFS_SERVER=172.30.1.201
@@ -1271,7 +1311,7 @@ echo-pod Pod에 있는 echo-container Container의 환경변수에 echo-secret S
 $ kubectl apply -f echo-secret.yaml
 secret/echo-secret created
 pod/echo-pod created
-$ kubectl exec echo-pod -- env
+$ kubectl exec echo-pod -it -- env
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 HOSTNAME=echo-pod
 NFS_PATH=/mnt/nfs
@@ -1381,6 +1421,457 @@ $
 ```
 
 참고로 Job은 spec.completions과 spec.parallelism를 적절하게 설정하면 작업의 실행 횟수나 작업의 동시 실행 갯수 등을 설정할 수 있습니다.
+
+#### PersistentVolume {#PersistentVolume}
+
+Pod에는 File을 저장해도 Pod를 다시 실행하게 되면 저장한 File을 잃어버리게 됩니다. Pod가 다시 실행되더라도 저장한 File을 잃어버리지 않기 위해서 PersistentVolume을 사용합니다.
+
+PersistentVolume을 살펴보기에 앞서 emptyDir Volume을 사용하여 Pod에 File을 저장하는 방법을 알아보겠습니다.
+
+다음과 같이 fortune-empty-dir.yaml을 생성합니다.
+
+fortune-empty-dir.yaml
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fortune-pod
+spec:
+  containers:
+  - image: luksa/fortune
+    name: html-generator-container
+    volumeMounts:
+    - name: html-volume
+      mountPath: /var/htdocs
+  - image: nginx:alpine
+    name: web-server-container
+    volumeMounts:
+    - name: html-volume
+      mountPath: /usr/share/nginx/html
+      readOnly: true
+  volumes:
+  - name: html-volume
+    emptyDir: {}
+```
+
+[luksa/fortune](https://github.com/luksa/kubernetes-in-action/tree/master/Chapter06/fortune) Docker Container Image는 /var/htdocs/index.html에 10초마다 한 번씩 고전 인용 문구를 저장하며 Container의 이름은 html-generator-container입니다. nginx:alpine Docker Container Image는 /usr/share/nginx/html/index.html의 내용을 읽어서 보여주는 HTTP Server이며 Container의 이름은 web-server-container입니다. 비어있는 emptyDir Volume를 만들고 이름을 html-volume로 설정합니다. html-volume Volume을, html-generator-container Container의 /var/htdocs에 Mount하고, web-server-container Container의 /usr/share/nginx/html에 ReadOnly로 Mount합니다. 이렇게 하면 10초마다 한 번씩 생성되는 고전 인용 문구가 HTTP Server로 제공되게 됩니다. Pod개 재시작되는 경우에는 기존에 emptyDir Volume에 저장되어 있던 내용은 사라집니다.
+
+다음과 같이 fortune-empty-dir.yaml을 적용합니다.
+
+```
+$ apply -f fortune-empty-dir.yaml
+pod/fortune-pod created
+$ kubectl get pods -o wide
+NAME          READY   STATUS    RESTARTS   AGE   IP            NODE            NOMINATED NODE   READINESS GATES
+fortune-pod   2/2     Running   0          6s    10.244.3.64   worker-node-3   <none>           <none>
+$ kubectl exec fortune-pod -it -c web-server-container -- curl http://10.244.3.64
+Beware of a dark-haired man with a loud tie.
+$ kubectl exec fortune-pod -it -c web-server-container -- curl http://10.244.3.64
+You have no real enemies.
+$
+```
+
+fortune-pod Pod안에 있는 web-server-container Container에서 HTTP Server에 몇 번 접근해 보면 10초마다 변경된 고전 인용 문구가 HTTP Server로 제공되는 것을 확인할 수 있습니다.
+
+다음과 같이 fortune-pod Pod를 삭제합니다.
+
+```
+$ kubectl delete pod fortune-pod
+pod "fortune-pod" deleted
+$
+```
+
+이번에는 emptyDir Volume을 PersistentVolume으로 변경해 보겠습니다.
+
+다음과 같이 fortune-persistent-volume.yaml을 생성합니다.
+
+fortune-persistent-volume.yaml
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: fortune-persistent-volume
+spec:
+  capacity:
+    storage: 10Mi
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: fortune-storage-class
+  nfs:
+    path: /mnt/nfs
+    server: 172.30.1.201
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: fortune-persistent-volume-claim
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Mi
+  storageClassName: fortune-storage-class
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fortune-pod
+spec:
+  containers:
+  - image: luksa/fortune
+    name: html-generator-container
+    volumeMounts:
+    - name: html-volume
+      mountPath: /var/htdocs
+  - image: nginx:alpine
+    name: web-server-container
+    volumeMounts:
+    - name: html-volume
+      mountPath: /usr/share/nginx/html
+      readOnly: true
+  volumes:
+  - name: html-volume
+    persistentVolumeClaim:
+      claimName: fortune-persistent-volume-claim
+```
+
+html-volume volume에서, fortune-persistent-volume-claim PersistentVolumeClaim을 사용하여, ReadWriteOnce accessModes를(Write Mount는 한 번만 허용, Read Mount는 여러번 허용) 지원하는 fortune-storage-class StorageClassName의 PersistentVolume을 1Mi만큼 요구합니다. 해당 요구를 만족시킬 수 있는 fortune-persistent-volume PersistentVolume는 PersistentVolume을 제공합니다. fortune-persistent-volume PersistentVolume의 구체적인 구현은 NFS로 되어 있으며 Host에 설정한 [NFS Server](#Setup-NFS-Server)의 IP Address와 Path를 가집니다.
+
+다음과 같이 fortune-persistent-volume.yaml을 적용합니다.
+
+```
+$ kubectl apply -f fortune-persistent-volume.yaml
+persistentvolume/fortune-persistent-volume created
+persistentvolumeclaim/fortune-persistent-volume-claim created
+pod/fortune-pod created
+$ kubectl get persistentvolumes
+NAME                        CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                                     STORAGECLASS            REASON   AGE
+fortune-persistent-volume   10Mi       RWO            Retain           Bound    default/fortune-persistent-volume-claim   fortune-storage-class            7s
+$ kubectl get persistentvolumeclaims
+NAME                              STATUS   VOLUME                      CAPACITY   ACCESS MODES   STORAGECLASS            AGE
+fortune-persistent-volume-claim   Bound    fortune-persistent-volume   10Mi       RWO            fortune-storage-class   16s
+$ kubectl get pods -o wide
+NAME          READY   STATUS    RESTARTS   AGE   IP            NODE            NOMINATED NODE   READINESS GATES
+fortune-pod   2/2     Running   0          39s   10.244.3.65   worker-node-3   <none>           <none>
+$ kubectl exec fortune-pod -it -c web-server-container -- curl http://10.244.2.50
+Wrinkles should merely indicate where smiles have been.
+		-- Mark Twain
+$ kubectl exec fortune-pod -it -c web-server-container -- curl http://10.244.2.50
+Love is in the offing.  Be affectionate to one who adores you.
+$ cat /mnt/nfs/index.html
+Love is in the offing.  Be affectionate to one who adores you.
+$ cat /mnt/nfs/index.html
+You will get what you deserve.
+$ kubectl exec fortune-pod -it -c web-server-container -- curl http://10.244.2.50
+You will get what you deserve.
+$
+```
+
+다음과 같이 fortune-pod Pod, fortune-persistent-volume-claim PersistentVolumeClaim, fortune-persistent-volume PersistentVolume을 삭제합니다.
+
+```
+$ kubectl delete pod fortune-pod
+pod "fortune-pod" deleted
+$ kubectl delete persistentvolumeclaim fortune-persistent-volume-claim
+persistentvolumeclaim "fortune-persistent-volume-claim" deleted
+$ kubectl delete persistentvolume fortune-persistent-volume
+persistentvolume "fortune-persistent-volume" deleted
+$
+```
+
+#### StatefulSet {#StatefulSet}
+
+보통은 여러 개의 같은 Pod를 실행할 때 Pod가 다시 실행되었을 때 초기 State가 동일합니다. 만약에 Pod가 다시 실행되었을 때 직전의 State를 가지고 실행하고 싶다면 StatefulSet을 사용합니다.
+
+다음과 같이 pet-stateful-set.yaml을 생성합니다.
+
+pet-stateful-set.yaml
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pet-persistent-volume-0
+spec:
+  capacity:
+    storage: 2Mi
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: pet-storage-class
+  nfs:
+    path: /mnt/nfs/0
+    server: 172.30.1.201
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pet-persistent-volume-1
+spec:
+  capacity:
+    storage: 2Mi
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: pet-storage-class
+  nfs:
+    path: /mnt/nfs/1
+    server: 172.30.1.201
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pet-persistent-volume-2
+spec:
+  capacity:
+    storage: 2Mi
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: pet-storage-class
+  nfs:
+    path: /mnt/nfs/2
+    server: 172.30.1.201
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pet-persistent-volume-3
+spec:
+  capacity:
+    storage: 2Mi
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: pet-storage-class
+  nfs:
+    path: /mnt/nfs/3
+    server: 172.30.1.201
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pet-persistent-volume-4
+spec:
+  capacity:
+    storage: 2Mi
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: pet-storage-class
+  nfs:
+    path: /mnt/nfs/4
+    server: 172.30.1.201
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pet-headless-service
+spec:
+  clusterIP: None
+  selector:
+    app: pet-label
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pet-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: pet-label
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: pet-stateful-set
+spec:
+  serviceName: pet-headless-service
+  replicas: 5
+  selector:
+    matchLabels:
+      app: pet-label
+  template:
+    metadata:
+      labels:
+        app: pet-label
+    spec:
+      containers:
+      - name: pet-container
+        image: luksa/kubia-pet
+        volumeMounts:
+        - name: pet-data
+          mountPath: /var/data
+  volumeClaimTemplates:
+  - metadata:
+      name: pet-data
+    spec:
+      resources:
+        requests:
+          storage: 1Mi
+      accessModes:
+      - ReadWriteOnce
+      storageClassName: pet-storage-class
+```
+
+[luksa/kubia-pet](https://github.com/luksa/kubernetes-in-action/tree/master/Chapter10/kubia-pet-image) Docker Container Image는 POST로 받은 Data를 저장하고 나중에 GET을 하면 저장한 Data를 돌려주는 HTTP Server입니다. StatefulSet은 Pod들 마다 Unique하게 State를 관리하기 위해 각 Pod에게 Unique한 ID를 발급해 주어야 합니다. 이것을 clusterIP를 None로 설정한 pet-headless-service Headless Service가 관리합니다. Pod마다 다른 State를 가지기 위해서는 Pod마다 다른 PersistentVolumeClaim을 가져야 합니다. 그래서 volumeClaimTemplates을 이용해서 Pod마다 다른 PersistentVolumeClaim을 생성하여, Pod마다 다른 PersistentVolume을 요청합니다. 여기서는 StatefulSet의 Pod의 수가 5개이므로 PersistentVolumeClaim 5개가 생성되므로, 여기에 대응하기 위해 PersistentVolume을 5개를 미리 만들어 둡니다.
+
+다음과 같이 NFS Server에 5개의 PersistentVolume용 Directory를 미리 생성합니다.
+
+```
+$ sudo mkdir -p /mnt/nfs/0 /mnt/nfs/1 /mnt/nfs/2 /mnt/nfs/3 /mnt/nfs/4
+$ sudo chown -R nobody:nogroup /mnt/nfs/0 /mnt/nfs/1 /mnt/nfs/2 /mnt/nfs/3 /mnt/nfs/4
+$ sudo chmod 777 /mnt/nfs/0 /mnt/nfs/1 /mnt/nfs/2 /mnt/nfs/3 /mnt/nfs/4
+```
+
+다음과 같이 pet-stateful-set.yaml을 적용합니다.
+
+```
+$ kubectl apply -f pet-stateful-set.yaml
+persistentvolume/pet-persistent-volume-0 created
+persistentvolume/pet-persistent-volume-1 created
+persistentvolume/pet-persistent-volume-2 created
+persistentvolume/pet-persistent-volume-3 created
+persistentvolume/pet-persistent-volume-4 created
+service/pet-headless-service created
+service/pet-service created
+statefulset.apps/pet-stateful-set created
+$ kubectl get pods -o wide
+NAME                 READY   STATUS    RESTARTS   AGE   IP            NODE            NOMINATED NODE   READINESS GATES
+pet-stateful-set-0   1/1     Running   0          43s   10.244.3.66   worker-node-3   <none>           <none>
+pet-stateful-set-1   1/1     Running   0          36s   10.244.2.51   worker-node-2   <none>           <none>
+pet-stateful-set-2   1/1     Running   0          29s   10.244.3.67   worker-node-3   <none>           <none>
+pet-stateful-set-3   1/1     Running   0          22s   10.244.2.52   worker-node-2   <none>           <none>
+pet-stateful-set-4   1/1     Running   0          15s   10.244.2.53   worker-node-2   <none>           <none>
+$ kubectl get statefulsets -o wide
+NAME               READY   AGE   CONTAINERS      IMAGES
+pet-stateful-set   5/5     75s   pet-container   luksa/kubia-pet
+$ kubectl get persistentvolumeclaims
+NAME                          STATUS   VOLUME                    CAPACITY   ACCESS MODES   STORAGECLASS        AGE
+pet-data-pet-stateful-set-0   Bound    pet-persistent-volume-2   2Mi        RWO            pet-storage-class   2m23s
+pet-data-pet-stateful-set-1   Bound    pet-persistent-volume-0   2Mi        RWO            pet-storage-class   2m16s
+pet-data-pet-stateful-set-2   Bound    pet-persistent-volume-1   2Mi        RWO            pet-storage-class   2m9s
+pet-data-pet-stateful-set-3   Bound    pet-persistent-volume-4   2Mi        RWO            pet-storage-class   2m2s
+pet-data-pet-stateful-set-4   Bound    pet-persistent-volume-3   2Mi        RWO            pet-storage-class   115s
+$ kubectl get persistentvolumes
+NAME                      CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                                 STORAGECLASS        REASON   AGE
+pet-persistent-volume-0   2Mi        RWO            Retain           Bound    default/pet-data-pet-stateful-set-1   pet-storage-class            3m24s
+pet-persistent-volume-1   2Mi        RWO            Retain           Bound    default/pet-data-pet-stateful-set-2   pet-storage-class            3m24s
+pet-persistent-volume-2   2Mi        RWO            Retain           Bound    default/pet-data-pet-stateful-set-0   pet-storage-class            3m24s
+pet-persistent-volume-3   2Mi        RWO            Retain           Bound    default/pet-data-pet-stateful-set-4   pet-storage-class            3m24s
+pet-persistent-volume-4   2Mi        RWO            Retain           Bound    default/pet-data-pet-stateful-set-3   pet-storage-class            3m24s
+$ kubectl get services
+NAME                   TYPE           CLUSTER-IP     EXTERNAL-IP    PORT(S)        AGE
+kubernetes             ClusterIP      10.96.0.1      <none>         443/TCP        3d23h
+pet-headless-service   ClusterIP      None           <none>         <none>         5m33s
+pet-service            LoadBalancer   10.109.4.142   172.30.1.235   80:31126/TCP   5m33s
+$ curl http://172.30.1.235
+You've hit pet-stateful-set-3
+Data stored on this pod: No data posted yet
+$ curl http://172.30.1.235
+You've hit pet-stateful-set-4
+Data stored on this pod: No data posted yet
+$ curl http://172.30.1.235
+You've hit pet-stateful-set-1
+Data stored on this pod: No data posted yet
+$ curl http://172.30.1.235
+You've hit pet-stateful-set-2
+Data stored on this pod: No data posted yet
+$ curl http://172.30.1.235
+You've hit pet-stateful-set-3
+Data stored on this pod: No data posted yet
+$ curl http://172.30.1.235
+You've hit pet-stateful-set-0
+Data stored on this pod: No data posted yet
+$ curl http://172.30.1.235
+You've hit pet-stateful-set-1
+Data stored on this pod: No data posted yet
+$ curl -X POST -d 'state-a' http://172.30.1.235
+Data stored on pod pet-stateful-set-4
+$ curl -X POST -d 'state-b' http://172.30.1.235
+Data stored on pod pet-stateful-set-1
+$ curl -X POST -d 'state-c' http://172.30.1.235
+Data stored on pod pet-stateful-set-0
+$ curl -X POST -d 'state-d' http://172.30.1.235
+Data stored on pod pet-stateful-set-2
+$ curl -X POST -d 'state-e' http://172.30.1.235
+Data stored on pod pet-stateful-set-0
+$ curl -X POST -d 'state-f' http://172.30.1.235
+Data stored on pod pet-stateful-set-3
+$ curl -X POST -d 'state-g' http://172.30.1.235
+Data stored on pod pet-stateful-set-2
+$ curl http://172.30.1.235
+You've hit pet-stateful-set-2
+Data stored on this pod: state-g
+$ curl http://172.30.1.235
+You've hit pet-stateful-set-3
+Data stored on this pod: state-f
+$ curl http://172.30.1.235
+You've hit pet-stateful-set-4
+Data stored on this pod: state-a
+$ curl http://172.30.1.235
+You've hit pet-stateful-set-4
+Data stored on this pod: state-a
+$ curl http://172.30.1.235
+You've hit pet-stateful-set-0
+Data stored on this pod: state-e
+$ curl http://172.30.1.235
+You've hit pet-stateful-set-1
+Data stored on this pod: state-b
+$ curl http://172.30.1.235
+You've hit pet-stateful-set-3
+Data stored on this pod: state-f
+$
+```
+
+각 Pod에 POST로 Data를 저장하고 GET으로 Data를 잘 읽는 것을 확인할 수 있습니다.
+
+다음과 같이 Pod를 하나 삭제해서, Pod가 다시 시작되게 한 다음에, Pod가 이전에 가지고 있던 Data를 잘 읽을 수 있는지 확인합니다.
+
+```
+$ kubectl delete pod pet-stateful-set-2
+pod "pet-stateful-set-2" deleted
+$ kubectl get pods -o wide
+NAME                 READY   STATUS    RESTARTS   AGE   IP            NODE            NOMINATED NODE   READINESS GATES
+pet-stateful-set-0   1/1     Running   0          14m   10.244.3.66   worker-node-3   <none>           <none>
+pet-stateful-set-1   1/1     Running   0          14m   10.244.2.51   worker-node-2   <none>           <none>
+pet-stateful-set-2   1/1     Running   0          98s   10.244.3.68   worker-node-3   <none>           <none>
+pet-stateful-set-3   1/1     Running   0          14m   10.244.2.52   worker-node-2   <none>           <none>
+pet-stateful-set-4   1/1     Running   0          14m   10.244.2.53   worker-node-2   <none>           <none>
+$ curl http://172.30.1.235
+You've hit pet-stateful-set-4
+Data stored on this pod: state-a
+$ curl http://172.30.1.235
+You've hit pet-stateful-set-1
+Data stored on this pod: state-b
+$ curl http://172.30.1.235
+You've hit pet-stateful-set-2
+Data stored on this pod: state-g
+$
+```
+
+다음과 같이 pet-stateful-set StatefulSet, pet-headless-service Service, pet-service Service, pet-data-pet-stateful-set-0 pet-data-pet-stateful-set-1 pet-data-pet-stateful-set-2 pet-data-pet-stateful-set-3 pet-data-pet-stateful-set-4 PersistentVolumeClaim, pet-persistent-volume-0 pet-persistent-volume-1 pet-persistent-volume-2 pet-persistent-volume-3 pet-persistent-volume-4 PersistentVolume을 삭제합니다.
+
+```
+$ kubectl delete statefulset pet-stateful-set
+statefulset.apps "pet-stateful-set" deleted
+$ kubectl delete service pet-headless-service pet-service
+service "pet-headless-service" deleted
+service "pet-service" deleted
+$ kubectl delete persistentvolumeclaim pet-data-pet-stateful-set-0 pet-data-pet-stateful-set-1 pet-data-pet-stateful-set-2 pet-data-pet-stateful-set-3 pet-data-pet-stateful-set-4
+persistentvolumeclaim "pet-data-pet-stateful-set-0" deleted
+persistentvolumeclaim "pet-data-pet-stateful-set-1" deleted
+persistentvolumeclaim "pet-data-pet-stateful-set-2" deleted
+persistentvolumeclaim "pet-data-pet-stateful-set-3" deleted
+persistentvolumeclaim "pet-data-pet-stateful-set-4" deleted
+$ kubectl delete persistentvolume pet-persistent-volume-0 pet-persistent-volume-1 pet-persistent-volume-2 pet-persistent-volume-3 pet-persistent-volume-4
+persistentvolume "pet-persistent-volume-0" deleted
+persistentvolume "pet-persistent-volume-1" deleted
+persistentvolume "pet-persistent-volume-2" deleted
+persistentvolume "pet-persistent-volume-3" deleted
+persistentvolume "pet-persistent-volume-4" deleted
+$
+```
+
+참고로 여기서는 이해를 돕기 위해 5개의 별도의 PersistentVolume을 직접 하나하나 나열했지만, Dynamic Volume Provisioning을 사용하면, PersistentVolume을 직접 하나하나 나열할 필요 없이, 동적으로 PersistentVolume을 On-Demand로 생성할 수 있습니다.
 
 ## Conclusion {#Conclusion}
 
