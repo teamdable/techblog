@@ -38,7 +38,7 @@ TDD도 크게 다르진 않습니다. 다만 테스트 작성이 코드 작성�
 
 다만 **코드 작성 이전에 테스트를 먼저 작성한다는 게 가장 큰 차이점**입니다.
 
-![tdd](/techblog/assets/images/TDD-and-Wallaby/tdd.png)
+![tdd](/techblog/assets/images/TDD-and-Wallaby/TDD.png)
 
 테스트 주도 개발 글이나 블로그를 보시다 보면 위와 같은 그림을 많이 볼 수 있는데요, 각각의 의미는 다음과 같습니다.
 
