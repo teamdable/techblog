@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "TDD로 개발 진행히보기. (feat. wallaby.js)"
-date: 2021-01-27 15:00:00 +0900
+title: "TDD로 개발 진행해보기 (feat. wallaby.js)"
+date: 2021-02-25 15:00:00 +0900
 author: changhyun lim
 tags: [ 임창현, TDD, wallabyjs ]
 ---
