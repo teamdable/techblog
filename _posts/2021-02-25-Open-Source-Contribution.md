@@ -21,21 +21,21 @@ AMP 자체 버그가 의심되는 상황에서 제 의식의 흐름은 이랬습
 
 그럼 이슈라는 걸 등록해봐야겠다 싶어 Bug report를 올리려고 했으나..
 
-<img src="../assets/images/Open-Source-Contribution/bug-report.png" alt="AMP Bug Report format" width="600" style="display:block;margin:0 auto" />
+<img src="../assets/images/Open-Source-Contribution/bug-report.png" alt="AMP Bug Report format" />
 
 잘 정리된 이 리포트 포맷은 contributing에 대한 감이 없었던 저에겐 너무 복잡하게 느껴졌고, 버그라는 추측만 있었기에 "버그 리포트"라는 포맷에서 부담도 느껴졌습니다
 
 그렇게 뒷걸음질 치던 중 부담이 적은 Discussion channel 목록을 발견했고, 전 Slack을 선택했습니다
 AMP 그룹은 Stack Overflow를 통한 질문을 권장했지만, actively monitored라는 설명과는 달리 실제로 답변이 달린 케이스는 적었고, 혹시 답변이 달린다면 모니터링하기에는 Slack이 더 편하리라 판단했습니다
 
-<img src="../assets/images/Open-Source-Contribution/discussion-channel.png" alt="AMP Discussion Channel List" width="600" style="display:block;margin:0 auto" />
+<img src="../assets/images/Open-Source-Contribution/discussion-channel.png" alt="AMP Discussion Channel List" />
 
 이 문서가 당연히 README일거라 생각했다가 뒤늦게 아님을 알게 되었습니다
 
 간단한 샘플과 함께 짤막한 질문을 올리고 잠든 사이, AMP 그룹의 maintainer 개발자가 빠르게 버그를 확인하고 이슈를 올린 뒤, 수정 후 배포까지 해주었습니다
 
-<img src="../assets/images/Open-Source-Contribution/slack-question.png" alt="AMP Slack Question" width="600" style="display:block;margin:0 auto" />
-<img src="../assets/images/Open-Source-Contribution/slack-answer.png" alt="AMP Slack Answer" width="600" style="display:block;margin:0 auto" />
+<img src="../assets/images/Open-Source-Contribution/slack-question.png" alt="AMP Slack Question" />
+<img src="../assets/images/Open-Source-Contribution/slack-answer.png" alt="AMP Slack Answer" />
 
 빠른 대응에 고맙고 다행스러웠지만, Issue로 직접 등록했다면 더 많은 경험을 하고 Contributor로 이름도 올릴 수 있었을 것이라는 개인적인 아쉬움이 남았고, 오픈소스 기여에 대해 알아보는 계기가 되었습니다.
 
@@ -52,15 +52,14 @@ AMP 그룹은 Stack Overflow를 통한 질문을 권장했지만, actively monit
 오픈소스 소프트웨어(OSS)를 만든 사람 혹은 팀이 소스 코드를 공개하는 이유 중, 개인적으로 가장 중요하다고 생각하는 포인트는
 "많은 사람과 소통하며, 내가 발견하지 못했던 부족한 부분을 보완하고, 더 안정적이고 좋은 코드로 발전시키기 위함" 입니다
 
-<img src="../assets/images/Open-Source-Contribution/OSS-member.png" alt="Open Source Member Funnel" width="360" style="display:block; margin:0 auto" />
-<figcaption style="text-align:center">Author, Owner이면서 동시에 Maintainer일 수도 있으나 역할의 측면에서 구분했습니다</figcaption>
+<img src="../assets/images/Open-Source-Contribution/OSS-member.png" alt="Open Source Member Funnel" width="400" style="display:block; margin:0 auto" />
 
-그래서 오픈소스에는 "Contribution"이라는 개념이 있고, 다양한 방법을 통해 소스 코드 발전에 기여한다면 Community member 혹은 User에서 Contributor로, 소스 코드에 한 발 더 다가갈 수 있습니다. (Community member는 기여까지는 아니더라도 활동적으로 의견을 제시한다는 점에서 User와 구분해 지칭했습니다)
+그래서 오픈소스에는 "Contribution"이라는 개념이 있고, 다양한 방법을 통해 소스 코드 발전에 기여한다면 Community member 혹은 User에서 Contributor로, 소스 코드에 한 발 더 다가갈 수 있습니다. (Author, Owner이면서 동시에 Maintainer일 수도 있으나 역할의 측면에서, Community member는 기여까지는 아니더라도 활동적으로 의견을 제시한다는 점에서 User와 구분해 지칭했습니다)
 
-<img src="../assets/images/Open-Source-Contribution/OSS-contribution-survey.png" alt="The Survey of JetBrains about Open Source Contribution" width="600" style="display:block; margin:0 auto" />
-<figcaption style="text-align:center">@JetBrains [2020년도 개발자 에코시스템의 현황](https://www.jetbrains.com/ko-kr/lp/devecosystem-2020/)</figcaption>
+<img src="../assets/images/Open-Source-Contribution/OSS-contribution-survey.png" alt="The Survey of JetBrains about Open Source Contribution" />
+<figcaption style="text-align:center">_@JetBrains_</figcaption>
 
-2020년 초 2만 명의 개발자를 대상으로 진행한 JetBarains의 설문조사에 따르면 오픈소스 프로젝트에 기여를 해봤거나, 하고 있는 개발자는 52%에 불과합니다
+2020년 초 2만 명의 개발자를 대상으로 진행한 [JetBarains의 설문조사](https://www.jetbrains.com/ko-kr/lp/devecosystem-2020/)에 따르면 오픈소스 프로젝트에 기여를 해봤거나, 하고 있는 개발자는 52%에 불과합니다
 
 저는 이 "기여"의 과정을 코드에 마음을 여는 것이라고 표현했습니다. 저 역시 아직 마음을 열어본 경험이 없기 때문에 아래부터는 리서치와 여러 가이드를 참고해서 작성했습니다
 
