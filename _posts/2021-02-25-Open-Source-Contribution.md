@@ -58,7 +58,7 @@ AMP 그룹은 Stack Overflow를 통한 질문을 권장했지만, actively monit
 
 <img src="../assets/images/Open-Source-Contribution/OSS-contribution-survey.png" alt="The Survey of JetBrains about Open Source Contribution" />
 
-2020년 초 2만 명의 개발자를 대상으로 진행한 [JetBarains의 설문조사](https://www.jetbrains.com/ko-kr/lp/devecosystem-2020/)에 따르면 오픈소스 프로젝트에 기여를 해봤거나, 하고 있는 개발자는 52%에 불과합니다
+2020년 초 2만 명의 개발자를 대상으로 진행한 [JetBrains의 설문조사](https://www.jetbrains.com/ko-kr/lp/devecosystem-2020/)에 따르면 오픈소스 프로젝트에 기여를 해봤거나, 하고 있는 개발자는 52%에 불과합니다
 
 저는 이 "기여"의 과정을 코드에 마음을 여는 것이라고 표현했습니다. 저 역시 아직 마음을 열어본 경험이 없기 때문에 아래부터는 리서치와 여러 가이드를 참고해서 작성했습니다
 
