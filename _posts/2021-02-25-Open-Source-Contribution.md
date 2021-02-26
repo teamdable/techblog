@@ -57,7 +57,6 @@ AMP 그룹은 Stack Overflow를 통한 질문을 권장했지만, actively monit
 그래서 오픈소스에는 "Contribution"이라는 개념이 있고, 다양한 방법을 통해 소스 코드 발전에 기여한다면 Community member 혹은 User에서 Contributor로, 소스 코드에 한 발 더 다가갈 수 있습니다. (Author, Owner이면서 동시에 Maintainer일 수도 있으나 역할의 측면에서, Community member는 기여까지는 아니더라도 활동적으로 의견을 제시한다는 점에서 User와 구분해 지칭했습니다)
 
 <img src="../assets/images/Open-Source-Contribution/OSS-contribution-survey.png" alt="The Survey of JetBrains about Open Source Contribution" />
-<figcaption style="text-align:center">_@JetBrains_</figcaption>
 
 2020년 초 2만 명의 개발자를 대상으로 진행한 [JetBarains의 설문조사](https://www.jetbrains.com/ko-kr/lp/devecosystem-2020/)에 따르면 오픈소스 프로젝트에 기여를 해봤거나, 하고 있는 개발자는 52%에 불과합니다
 
