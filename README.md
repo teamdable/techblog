@@ -18,4 +18,4 @@ ruby + gem(Gemfile)로 의존성 패키지 설치 후 띄울 수 있다.
  * \_posts 파일명에 한글은 포함하지 않는다.
    * 2019-06-20-데이블-기술-블로그를-시작합니다.md (X)
    * 2019-06-23-CPU-GPU-and-TensorFlow.md (O)
- * 글 작성 후 PR 등록 전에 [한국어 맞춤법/문법 검사기](http://speller.cs.pusan.ac.kr/)를 통해 띄어쓰기, 오타 등을 수정하는 것을 추천.
+ * 글 작성 후 PR 등록 전에 한국어 맞춤법 검사기([[1]](http://speller.cs.pusan.ac.kr/), 혹은 [[2]](https://www.saramin.co.kr/zf_user/tools/character-counter)) 를 통해 띄어쓰기, 오타 등을 필수로 수정하자.
