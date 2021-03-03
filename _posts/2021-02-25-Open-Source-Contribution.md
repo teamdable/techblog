@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'How to Contribute to Open Source'
-date: 2021-02-25 23:00:00 +0900
+date: 2021-03-03 13:00:00 +0900
 author: Minji Cho
 tags: [조민지, OpenSource, Contribution]
 ---
@@ -30,7 +30,7 @@ AMP 그룹은 Stack Overflow를 통한 질문을 권장했지만, actively monit
 
 <img src="../assets/images/Open-Source-Contribution/discussion-channel.png" alt="AMP Discussion Channel List" />
 
-이 문서가 당연히 README일거라 생각했다가 뒤늦게 아님을 알게 되었습니다
+이 문서가 당연히 README 일 거라 생각했다가 뒤늦게 아님을 알게 되었습니다
 
 간단한 샘플과 함께 짤막한 질문을 올리고 잠든 사이, AMP 그룹의 maintainer 개발자가 빠르게 버그를 확인하고 이슈를 올린 뒤, 수정 후 배포까지 해주었습니다
 
