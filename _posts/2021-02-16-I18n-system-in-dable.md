@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Dable의 다국어 지원(i18n) 시스템"
-date:   2021-02-16 08:00:00 +0900
+date:   2021-03-03 09:00:00 +0900
 author: Woongki Kim
 tags: [ 김웅기, i18n, 다국어, 국제화 ]
 ---
