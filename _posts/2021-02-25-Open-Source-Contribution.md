@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'How to Contribute to Open Source'
-date: 2021-03-03 13:00:00 +0900
+date: 2021-03-05 13:00:00 +0900
 author: Minji Cho
 tags: [조민지, OpenSource, Contribution]
 ---
@@ -26,7 +26,7 @@ AMP 자체 버그가 의심되는 상황에서 제 의식의 흐름은 이랬습
 
 <br>
 
-<img src="/techblog/assets/images/Open-Source-Contribution/bug-report.png" alt="AMP Bug Report format" />
+<img src="/techblog/assets/images/Open-Source-Contribution/bug-report.png" alt="AMP Bug Report 템플릿" />
 
 <br>
 
@@ -36,7 +36,7 @@ AMP 자체 버그가 의심되는 상황에서 제 의식의 흐름은 이랬습
 
 AMP 그룹은 Stack Overflow를 통한 질문을 권장했지만, actively monitored라는 설명과는 달리 실제로 답변이 달린 케이스는 적었고, 혹시 답변이 달린다면 모니터링하기에는 Slack이 더 편하리라 판단했습니다.
 
-<img src="/techblog/assets/images/Open-Source-Contribution/discussion-channel.png" alt="AMP Discussion Channel List" />
+<img src="/techblog/assets/images/Open-Source-Contribution/discussion-channel.png" alt="AMP Discussion Channel List - GitHub Issues, Slack, Stack Overflow, amphtml-discuss Google Group" />
 
 (이 문서가 당연히 README 일 거라 생각했다가 뒤늦게 아님을 알게 되었습니다)
 
@@ -44,18 +44,14 @@ Slack 채널에 간단한 샘플과 함께 짤막한 질문을 올리고 잠든 
 
 <br>
 
-<img src="/techblog/assets/images/Open-Source-Contribution/slack-question.png" alt="AMP Slack Question" />
-<img src="/techblog/assets/images/Open-Source-Contribution/slack-answer.png" alt="AMP Slack Answer" />
+<img src="/techblog/assets/images/Open-Source-Contribution/slack-question.png" alt="AMP Slack 채널에 버그 제보" />
+<img src="/techblog/assets/images/Open-Source-Contribution/slack-answer.png" alt="AMP maintainer 개발자의 버그 대응" />
 
 <br>
 
 빠른 대응에 고맙고 다행스러웠지만, Issue로 직접 등록했다면 더 많은 경험을 하고 Contributor로 이름도 올릴 수 있었을 것이라는 개인적인 아쉬움이 남았고, 오픈소스 기여에 대해 알아보는 계기가 되었습니다.
 
-<br>
-
----
-
-<br>
+<hr>
 
 ## 오픈소스의 중심에서
 
@@ -70,14 +66,14 @@ Slack 채널에 간단한 샘플과 함께 짤막한 질문을 올리고 잠든 
 
 오픈소스 소프트웨어(OSS)를 만든 사람 혹은 팀이 소스 코드를 공개하는 이유 중, 개인적으로 가장 중요하다고 생각하는 포인트는 *"많은 사람과 소통하며, 내가 발견하지 못했던 부족한 부분을 보완하고, 더 안정적이고 좋은 코드로 발전시키기 위함"* 입니다.
 
-<img src="/techblog/assets/images/Open-Source-Contribution/OSS-member.png" alt="Open Source Member Funnel" width="400" style="display:block; margin:0 auto" />
+<img src="/techblog/assets/images/Open-Source-Contribution/OSS-member.png" alt="4가지 섹션으로 구분되는 오픈소스 프로젝트 멤버 구성 - Author or Owner, Maintainer, Contributor, Community member or User" width="400" style="display:block; margin:0 auto" />
 
 그래서 오픈소스에는 "Contribution"이라는 개념이 있고, 다양한 방법을 통해 소스 코드 발전에 기여한다면 Community member 혹은 User에서 Contributor로, 소스 코드에 한 발 더 다가갈 수 있습니다.  
 (Author, Owner이면서 동시에 Maintainer일 수도 있으나 역할의 측면에서, Community member는 기여까지는 아니더라도 활동적으로 의견을 제시한다는 점에서 User와 구분해 지칭했습니다)
 
 <br>
 
-<img src="/techblog/assets/images/Open-Source-Contribution/OSS-contribution-survey.png" alt="The Survey of JetBrains about Open Source Contribution" />
+<img src="/techblog/assets/images/Open-Source-Contribution/OSS-contribution-survey.png" alt="오픈소스 프로젝트 기여 여부에 대한 JetBrains의 설문조사 결과" />
 
 2020년 초 2만 명의 개발자를 대상으로 진행한 [JetBrains의 설문조사](https://www.jetbrains.com/ko-kr/lp/devecosystem-2020/)에 따르면 오픈소스 프로젝트에 기여를 해봤거나, 하고 있는 개발자는 52%에 불과합니다.
 
@@ -106,8 +102,6 @@ AMP 케이스처럼 우연히, 아직 발견되지 않은 버그를 먼저 발�
 
 ## 그래서 뭐부터 하면 되죠?
 
-<br>
-
 ### 프로젝트 선정 🔭
 
 수많은 오픈소스 중 어떤 프로젝트에 기여를 할지 모르겠다면, 이미 자주 쓰고 있거나 관심이 있었던 프로젝트부터 시작하는 것이 당연히 좋습니다. 다만, 해당 프로젝트가 기여하기에 적합한지는 확인이 필요합니다.  
@@ -122,8 +116,6 @@ AMP 케이스처럼 우연히, 아직 발견되지 않은 버그를 먼저 발�
 
 아직 assign 되지 않은 이슈 중 마음에 드는 프로젝트를 찾았다면 참여 의사를 밝히시면 됩니다. 고민하는 사이 다른 누군가가 assign 될 수도 있으니 빠르게 겟하세요!
 
-<br>
-
 ### 기여할 포인트 찾기 🔍
 
 오픈소스에는 언제나 "신선한 시각"이 필요합니다. 이미 너무 많이 쓰이는 소스 코드라고 해도, 다수에게 익숙해져 있기 때문에 발견하지 못하는 영역이 분명 있을 수 있습니다.
@@ -135,8 +127,6 @@ AMP 케이스처럼 우연히, 아직 발견되지 않은 버그를 먼저 발�
 기여할 포인트를 찾았다면 이미 누군가가 제시한 의견이거나, 작업 중이지는 않은 지 확인해보는 것이 좋습니다. 적당한 키워드로 프로젝트의 Issue, Stack Overflow에서 빠르게 확인해주세요.
 
 가장 중요한 것은, 기여를 위한 과도한 리소스 투입은 오히려 역효과가 날 수 있다는 사실입니다. 이미 자주 쓰고 있거나, 관심 있는 프로젝트 선정을 권장하는 이유가 바로 여기에 있습니다. 목표를 위한 목표를 세우는 과정에서 흥미를 잃지 않으셨으면 합니다.
-
-<br>
 
 ### 의견 제시 💬
 
@@ -150,8 +140,6 @@ CONTRIBUTING.md ([AMP 예시](https://github.com/ampproject/amphtml/blob/master/
 
 실제 프로젝트에 바로 기여하는 것이 부담된다면, Github에서 제공하는 [first contribution 가이드](https://github.com/firstcontributions/first-contributions/blob/master/translations/README.ko.md)로 연습해볼 수 있습니다.
 
-<br>
-
 ### 실망하지 않기☝🏻
 
 얼만큼의 리소스를 투입했던, 의견을 제시했다면 누군가의 피드백을 기다리고, 제안이 받아들여지길 기대하게 되고, Contributing의 가장 매력적인 결과물은 당연히 "contributor로 이름을 올리는 것"일 수 있습니다.
@@ -162,9 +150,7 @@ CONTRIBUTING.md ([AMP 예시](https://github.com/ampproject/amphtml/blob/master/
 
 <br>
 
----
-
-<br>
+## 마치며
 
 누구나 반드시 contribution을 해야 한다는 이야기가 아닙니다.
 
@@ -172,11 +158,7 @@ CONTRIBUTING.md ([AMP 예시](https://github.com/ampproject/amphtml/blob/master/
 
 세상엔 많은 오픈소스가 있고, 우리의 contributing을 기다리고 있습니다 🙌🏻
 
-<br>
-
----
-
-<br>
+<hr>
 
 ## 참고 자료
 
