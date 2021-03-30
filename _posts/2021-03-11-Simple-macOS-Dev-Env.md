@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "간단한 개발 환경 공유"
-date: 2021-03-11 15:00:00 +0900
+title: "간단한 macOS 개발 환경 공유"
+date: 2021-03-30 9:00:00 +0900
 author: Dong-jin Ahn
 tags: [안동진, dev, configuration]
 ---
@@ -103,11 +103,11 @@ windows:
 
 ### iTerm Hotkey 윈도우
 
-![](/techblog/assets/images/Simple-Dev-Env/iterm1.png)
+![iterm 설정 스크린샷1](/techblog/assets/images/Simple-Dev-Env/iterm1.png)
 
 iterm 설정 > keys > hotkey > create a dedicated hotkey window를 눌러 `ctrl + command + t`를 단축키로 hotkey window를 토글합니다.
 
-![](/techblog/assets/images/Simple-Dev-Env/iterm2.png)
+![iterm 설정 스크린샷2](/techblog/assets/images/Simple-Dev-Env/iterm2.png)
 
 그 뒤에는 profiles > hotkey window > window에서 transparency 0, rows 35로 사용합니다.
 
@@ -118,10 +118,10 @@ iterm 설정 > keys > hotkey > create a dedicated hotkey window를 눌러 `ctrl 
 - 폰트로는 Source code pro for powerline을 사용합니다. https://github.com/powerline/fonts
 - Oh-my-zsh 플러그인으로는 다음을 사용합니다.
     1. zsh-autosugesstions: https://github.com/zsh-users/zsh-autosuggestions
-        - ![](https://camo.githubusercontent.com/16e72effec8df52a27e3aa9b1d24f37f86215d500d06ef18247d4206863a4f52/68747470733a2f2f61736369696e656d612e6f72672f612f33373339302e706e67)
+        - ![iterm 사용 스크린샷1](https://camo.githubusercontent.com/16e72effec8df52a27e3aa9b1d24f37f86215d500d06ef18247d4206863a4f52/68747470733a2f2f61736369696e656d612e6f72672f612f33373339302e706e67)
         - 이전에 사용한 명령어들을 전부 다 입력하지 않아도 옅은 회색으로 보여줍니다.
     2. alias-tips: https://github.com/djui/alias-tips
-        - ![](/techblog/assets/images/Simple-Dev-Env/alias_tips.png)
+        - ![iterm 사용 스크린샷2](/techblog/assets/images/Simple-Dev-Env/alias_tips.png)
         - 더 나은 alias가 있는 경우 표시합니다.
     3. fzf: https://github.com/junegunn/fzf
         - 터미널에서 fuzzy search를 도와주는 툴입니다.
@@ -133,4 +133,4 @@ iterm 설정 > keys > hotkey > create a dedicated hotkey window를 눌러 `ctrl 
 - [Sip](https://setapp.com/apps/sip): 모니터에 보이는 색의 색상 코드를 쉽게 복사할 수 있습니다.
     - true-tone display가 꺼져있어야 정상적으로 작동합니다.
 - [Alfred font-awesome workflow](https://github.com/ruedap/alfred-font-awesome-workflow): alfred에서 빠르게 fa를 찾을 수 있도록 도와줍니다.
-    - ![](https://raw.githubusercontent.com/ruedap/alfred-font-awesome-workflow/assets/images/screencast-illustrator.gif)
+    - ![알프레드 폰트 어썸 워크플로우 동작 캡쳐](https://raw.githubusercontent.com/ruedap/alfred-font-awesome-workflow/assets/images/screencast-illustrator.gif)
