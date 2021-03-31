@@ -103,11 +103,11 @@ windows:
 
 ### iTerm Hotkey 윈도우
 
-![iterm 설정 스크린샷1](/techblog/assets/images/Simple-Dev-Env/iterm1.png)
+![iterm 설정 스크린샷1](/techblog/assets/images/Simple-macOS-Dev-Env/iterm1.png)
 
 iterm 설정 > keys > hotkey > create a dedicated hotkey window를 눌러 `ctrl + command + t`를 단축키로 hotkey window를 토글합니다.
 
-![iterm 설정 스크린샷2](/techblog/assets/images/Simple-Dev-Env/iterm2.png)
+![iterm 설정 스크린샷2](/techblog/assets/images/Simple-macOS-Dev-Env/iterm2.png)
 
 그 뒤에는 profiles > hotkey window > window에서 transparency 0, rows 35로 사용합니다.
 
@@ -121,7 +121,7 @@ iterm 설정 > keys > hotkey > create a dedicated hotkey window를 눌러 `ctrl 
         - ![iterm 사용 스크린샷1](https://camo.githubusercontent.com/16e72effec8df52a27e3aa9b1d24f37f86215d500d06ef18247d4206863a4f52/68747470733a2f2f61736369696e656d612e6f72672f612f33373339302e706e67)
         - 이전에 사용한 명령어들을 전부 다 입력하지 않아도 옅은 회색으로 보여줍니다.
     2. alias-tips: https://github.com/djui/alias-tips
-        - ![iterm 사용 스크린샷2](/techblog/assets/images/Simple-Dev-Env/alias_tips.png)
+        - ![iterm 사용 스크린샷2](/techblog/assets/images/Simple-macOS-Dev-Env/alias_tips.png)
         - 더 나은 alias가 있는 경우 표시합니다.
     3. fzf: https://github.com/junegunn/fzf
         - 터미널에서 fuzzy search를 도와주는 툴입니다.
