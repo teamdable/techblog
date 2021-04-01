@@ -105,7 +105,7 @@ nodejs 서버나 클라이언트에서 에러가 발생할 때, 로깅이 필요
 ```
 server_name: "api" AND message: "ERROR"
 ```
-![basic_query.png](/techblog/assets/images/introduce-ELK/basic_query.png)
+![kibana basic search query result for error tracking](/techblog/assets/images/introduce-ELK/basic_query.png)
 
 #### Log format
 
@@ -132,7 +132,7 @@ Kibana에서는 전송된 데이터에서 많이 사용되고 있는 key들을 �
 이처럼 Kibana를 잘 활용하면 원하는 데이터를 전송하고, 통계를 내는 등의 분석 작업을 수행할 수 있습니다.
 또한 Kibana 자체적으로 시각화 도구를 많이 갖추고 있으므로 유용하게 활용 가능하며 이렇게 정리된 데이터를 dashboard를 통해서 한눈에 확인할 수도 있습니다.
 
-![visualize.png](/techblog/assets/images/introduce-ELK/visualize.png)
+![kibana simple visualization with site statistics](/techblog/assets/images/introduce-ELK/visualize.png)
 
 이러한 기능을 잘 활용하기 위해서는 Elasticsearch에서 사용되는 쿼리문에 대해서 좀 더 깊은 이해가 필요할 수도 있습니다.
 이번 포스팅에서는 세부적인 내용에 대해서 다루지는 않을 예정이지만 잘 설명하고 있는 책들이 많으니 사보는 것을 추천해 드립니다.
@@ -144,7 +144,7 @@ Kibana에서 날리는 쿼리문에 대응되는 Elasticsearch의 쿼리문을 �
 특정 index나 특정 쿼리 조건에 맞는 숫자를 지정된 기간 모니터링하여 trigger 조건에 걸리게 되면 알림을 보내게 됩니다. 
 알림 방식은 Slack이나 AWS SNS, Custom webhook을 사용가능합니다.
 
-![monitor.png](/techblog/assets/images/introduce-ELK/monitor.png)
+![kibana monitoring result with alarm setting](/techblog/assets/images/introduce-ELK/monitor.png)
 
 ## 맺으며
 
