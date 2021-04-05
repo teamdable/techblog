@@ -3,14 +3,14 @@ layout: post
 title:  "Least Squares"
 date:   2021-04-03 23:00:00 +0900
 author: Taeho Oh
-tags: [ 오태호, 수학, 통계학, 머신러닝 ]
+tags: [ 오태호, 수학, 통계학 ]
 ---
 
 안녕하세요. 오태호입니다.
 
 이 글에서는 Least Squares와 관련된 몇 가지 수식을 유도하여 Least Squares에 대해 이해를 해 보도록 하겠습니다.
 
-이 글을 이해하기 위해서는 Linear Algebra, Statistics, Machine Learning에 대한 기초지식이 필요합니다.
+이 글을 이해하기 위해서는 Linear Algebra, Statistics에 대한 기초지식이 필요합니다.
 
 Matrix나 Vector는 굵은 글꼴로 표현하도록 하겠습니다. 그리고 Vector는 특별히 언급이 없으면 Column Vector를 의미합니다.
 
@@ -85,7 +85,7 @@ $$
 
 직관적으로는 다음과 같이 이해할 수 있습니다.
 
-$$\mathbf{x}$$를 여러가지로 바꾸어가며 $$\mathbf{A}\mathbf{x}$$가 $$\mathbf{b}$$와 최대한 비슷하게 만들기 위해 노력합니다. 가장 비슷해지는 경우는 $$\mathbf{b}$$를 $$\mathbf{A}$$의 Column Space에 Projection한 지점을 $$\mathbf{A}\mathbf{x}$$가 가지게 되는 경우입니다.
+$$\mathbf{A}\mathbf{x}$$에서 $$\mathbf{x}$$는 임의의 값을 가질 수 있는 Vector이고, $$\mathbf{A}\mathbf{x}$$는 $$\mathbf{A}$$의 Column Space상의 임의의 Vector를 표현할 수 있습니다. $$\mathbf{b}$$와 $$\mathbf{A}\mathbf{x}$$의 거리가 가장 가까운 지점은, $$\mathbf{b}$$와 $$\mathbf{A}$$의 Column Space상에서 가장 거리가 가까운 지점이 됩니다. 이 지점은 $$\mathbf{b}$$에서 $$\mathbf{A}$$의 Column Space에 수직이 되는 지점으로, 즉, $$\mathbf{b}$$를 $$\mathbf{A}$$의 Column Space에 Projection한 지점입니다. 이것을 정리해서 표현하면 $$proj_{CS(\mathbf A)}\mathbf{b}$$이 됩니다. 이 사실을 바탕으로 $$\mathbf{A}\mathbf{x}$$를 구하고 $$\mathbf{x}$$를 구합니다.
 
 ## Regularized Least Squares {#Regularized-Least-Squares}
 
@@ -391,8 +391,6 @@ $$
 &=\mathbf{W}^{-1}
 \end{aligned}
 $$
-
-
 
 ## Conclusion {#Conclusion}
 
