@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Least Squares"
-date:   2021-04-03 23:00:00 +0900
+date:   2021-04-06 23:00:00 +0900
 author: Taeho Oh
 tags: [ 오태호, 수학, 통계학 ]
 ---
