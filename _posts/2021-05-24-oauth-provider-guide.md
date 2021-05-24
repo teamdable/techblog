@@ -174,7 +174,7 @@ Oauth provider 작업은 크게 5단계로 나눌 수 있습니다. (걸린 시�
 ---
 
 ## 전체 Oauth 인증 flow 예시 (authorization code grant 방식)
-데이블에서 사용하는 Oauth 인증 및 사용과정의 전체 흐름 예시입니다. 상세 구현은 달라질 부분이 많기 때문에 참고용으로만 읽어 주세요.
+Oauth 인증 및 사용과정의 전체 흐름 예시입니다. 상세 구현은 달라질 부분이 많기 때문에 참고용으로만 읽어 주세요.
 
 
 **P** = oauth provider = Oauth host = 데이블.
