@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Oauth provider 제작 가이드"
-date: 2021-05-27 00:00:00 +0900
+date: 2021-06-21 00:00:00 +0900
 author: Sunghyun Lee
 tags: [이성현, oauth, oauth2, oauth provider, oauth server, oauth 서버]
 ---
@@ -15,13 +15,13 @@ tags: [이성현, oauth, oauth2, oauth provider, oauth server, oauth 서버]
 
 직접 구현하시면 사정에 맞게 달라질 부분이 많으므로 참고용으로만 읽어 주세요.
 
-**P** = oauth provider = Oauth host = 데이블.
+**P** = Oauth provider = Oauth host = 데이블.
 
-**C** = oauth client = 특정 유저의 데이블내 정보가 필요한 외부 app.
+**C** = Oauth client = 특정 유저의 데이블내 정보가 필요한 외부 app.
 
 **U** = user = C의 사용자. C를 통해 P로 로그인하여 C가 P의 인증 정보를 활용할 수 있도록 함.
 
-**(oauth provider 측이 미리 준비할 것)**
+**(Oauth provider 측이 미리 준비할 것)**
 
 1. **P**: 표준 절차대로 토큰을 발급하는 서버 제작
 2. **P**: resource 요청 시 access_token 검증하고 데이터를 내어주는 로직 구현
@@ -36,14 +36,14 @@ tags: [이성현, oauth, oauth2, oauth provider, oauth server, oauth 서버]
 **(client에서 유저가 Oauth 인증기능 사용 시작)**
 
 1. **U**: client 앱에서 "client 앱이 유저를 대행해 P에서 정보를 자동으로 조회할 수 있도록 만듭니다" 의미가 있는 연동 버튼 클릭
-2. **C**: 유저에게 P 로그인 페이지 팝업 오픈 (query string 파라미터에 client_id , callback_url 포함)
+2. **C**: 유저에게 P 로그인 페이지 팝업 오픈 (query string 파라미터에 callback_url, client_id 포함. client_secret 제외)
 3. **U**: P로그인 팝업에 id/password 입력, submit
 4. **P**: 유저 세션 데이터 생성, 유저에게 세션용 쿠키 set 및 /authorization endpoint로 redirect 응답
 5. **U**: P/login → P/authorize 이동 (등록된 client, 등록된 callback_url 인지 검증해서 ok일때만)
 6. **P**: 로그인 세션 확인 + 로그인 확인 문자열(authorization_code) 생성 후 callback_url 뒤에 붙여 redirect 응답
 7. **U**: P→C callback_url 이동
 8. **C**: callback_url 의 컨트롤러가 요청 url을 파싱하여 유저가 가지고 온 authorization_code 획득 및 저장
-9. **C→P**: authorization_code 사용해서 token 요청
+9. **C→P**: authorization_code 사용해서 token 요청 (client_secret 포함)
 10. **P→C**: token 생성 후 시스템에 저장하고 token 응답
 11. **C**: 유저 단위로 token 저장, 사용 준비 완료
 
@@ -65,9 +65,9 @@ tags: [이성현, oauth, oauth2, oauth provider, oauth server, oauth 서버]
 
 ### 1. client 별 권한 구분이 필요하면 권한부터 설계하자
 
-예를 들어 통계조회 기능을 oauth 인증으로 외부에서 접근할 수 있도록 개발 중이라면, 전체 통계를 조회할 수 있는 client와 일부 통계만 접근할 수 있는 client를 구분해야 할 수 있습니다. client는 필요한 권한을 텍스트로 scope 필드에 넣어 요청해야 하므로 사전에 권한 분석이 필요합니다.
+예를 들어 통계조회 기능을 Oauth 인증으로 외부에서 접근할 수 있도록 개발 중이라면, 전체 통계를 조회할 수 있는 client와 일부 통계만 접근할 수 있는 client를 구분해야 할 수 있습니다. client는 필요한 권한을 텍스트로 scope 필드에 넣어 요청해야 하므로 사전에 권한 분석이 필요합니다.
 
-공개된 api 가 몇 없고, 연동해서 쓸 client도 제한적인 상황이라면 권한을 분리해 관리할 필요가 없을 수 있습니다. 그러면 일단 한가지 권한으로만 운용하다가 분리가 필요해지는 상황에 scope를 추가하고 기존 범용 scope로 발급했던 token 들을 invalidate 하면 됩니다.
+공개된 api가 몇 없고, 연동해서 쓸 client도 제한적인 상황이라면 권한을 분리해 관리할 필요가 없을 수 있습니다. 그러면 일단 한가지 권한으로만 운용하다가 분리가 필요해지는 상황에 scope를 추가하고 기존 범용 scope로 발급했던 token들을 invalidate 하면 됩니다.
 
 ### 2. 데이터 저장 구조
 
@@ -87,7 +87,7 @@ Redis를 토큰 저장소로 쓰면서 expire를 지정한 경우 일정 시간�
 
 ### 3. access_token의 검증을 어디에서 할까
 
-Oauth provider 서버는 토큰 발급에 특별한 프로토콜을 요구하기 때문에 보통 resource server와 별개 서버로 개발합니다. 발급은 Oauth 서버에서 하는데, 목적 데이터는 다른 서버에 있는 상황입니다. 리소스 서버는 oauth 관련 코드도 없는데 어떻게 검증을 할까요? 각 리소스 서버마다 access_token 및 scope 검증 로직을 구현해야 할까요? [RFC6749](https://datatracker.ietf.org/doc/html/rfc6749) 문서는 리소스를 조회하는 과정을 정의하지 않으므로 access_token 검증을 시스템 어디에다 구현할지는 개발자가 결정해야 합니다.
+Oauth provider 서버는 토큰 발급에 특별한 프로토콜을 요구하기 때문에 보통 resource server와 별개 서버로 개발합니다. 발급은 Oauth 서버에서 하는데, 목적 데이터는 다른 서버에 있는 상황입니다. 리소스 서버는 Oauth 관련 코드도 없는데 어떻게 검증을 할까요? 각 리소스 서버마다 access_token 및 scope 검증 로직을 구현해야 할까요? [RFC6749](https://datatracker.ietf.org/doc/html/rfc6749) 문서는 리소스를 조회하는 과정을 정의하지 않으므로 access_token 검증을 시스템 어디에다 구현할지는 개발자가 결정해야 합니다.
 
 고민했던 위치는 크게 세 가지입니다.
 
@@ -99,13 +99,13 @@ Oauth provider 서버는 토큰 발급에 특별한 프로토콜을 요구하기
 
 - 리소스 조회용 proxy 서버를 만드는 방법입니다.
 
-  Oauth 서버는 token 발급용으로 그대로 두고, access_token 검증 및 데이터 proxy 요청 기능만 가진 별도 서버를 운영하는 형태입니다. 일종의 보안 gateway 역할이며 oauth를 사용하지 않던 기존 시스템을 손대지 않아도 되는 장점이 있습니다.
+  Oauth 서버는 token 발급용으로 그대로 두고, access_token 검증 및 데이터 proxy 요청 기능만 가진 별도 서버를 운영하는 형태입니다. 일종의 보안 gateway 역할이며 Oauth를 사용하지 않던 기존 시스템을 손대지 않아도 되는 장점이 있습니다.
 
 - 토큰 검증을 각 리소스 서버에서 하는 방법입니다.
 
   토큰 검증 로직을 매 서버에 일일이 작성하는 것은 유지보수 측면에서 권장하지 않습니다. 대신 사내 Oauth 토큰인증을 담당하는 라이브러리를 하나 만들고 각 서버에서 공유해 사용하시길 추천해 드립니다.
 
-  서버 대수가 많을경우 토큰 저장소에 요청횟수가 늘어 부하가 생길 수 있습니다. 이러면 일단 connection pool을 사용해 보시고, 그래도 감당이 안 되면 토큰형식을 JWT 로 변경해서 토큰 저장소 접근량을 줄이는 방법을 권장합니다.
+  서버 대수가 많을경우 토큰 저장소에 요청횟수가 늘어 부하가 생길 수 있습니다. 이러면 일단 connection pool을 사용해 보시고, 그래도 감당이 안 되면 토큰형식을 JWT로 변경해서 토큰 저장소 접근량을 줄이는 방법을 권장합니다.
 
   직접 인증을 하려면 리소스 서버들을 외부에 공개해야 하므로 보안에 민감한 서버에는 사용하기 어렵습니다. 이때는 리소스 조회용 proxy 서버를 사용해 데이터를 중계하는 방법을 검토해 보세요.
 
@@ -119,7 +119,7 @@ Oauth provider 서버는 토큰 발급에 특별한 프로토콜을 요구하기
 
 로그인 기능의 구현 위치는 세 가지 정도의 옵션이 있었습니다.
 
-- oauth서버
+- Oauth서버
 - 로그인만 담당하는 별도 서버
 - 기존 로그인 기능이 붙어있는 다른 서버에 붙인 후 세션을 공유
 
@@ -161,9 +161,9 @@ token의 사용기한 연장 방법은 크게 두가지입니다.
 
 access_token은 expire 되면 refresh_token으로 재발급받아 다시 쓸 수 있지만 refresh_token은 expire 되면 유저 로그인을 다시 거쳐야 합니다.
 
-refresh token 이 expire 되면, 유저가 client에 방문해 연동 절차를 다시 밟기 전까지 provider-client 간의 api 콜은 막히기 때문에 자동으로 반영되어야 할 데이터가 누락되는 등 유저가 불편을 느끼는 상황이 생길 수 있습니다. 따라서 provider 입장에서 재 로그인을 요청하는 빈도를 모든 유저에게 공통으로 적용할지, 활동이 있으면 조금씩 길게 연장해줄지, 그래도 최대 1년까지만 연장해줄지 등의 정책 결정이 필요합니다. 이 기간 조절은 refresh_token의 expire를 조절하는 방식으로 이루어집니다.
+refresh token이 expire 되면, 유저가 client에 방문해 연동 절차를 다시 밟기 전까지 provider-client 간의 api 콜은 막히기 때문에 자동으로 반영되어야 할 데이터가 누락되는 등 유저가 불편을 느끼는 상황이 생길 수 있습니다. 따라서 provider 입장에서 재 로그인을 요청하는 빈도를 모든 유저에게 공통으로 적용할지, 활동이 있으면 조금씩 길게 연장해줄지, 그래도 최대 1년까지만 연장해줄지 등의 정책 결정이 필요합니다. 이 기간 조절은 refresh_token의 expire를 조절하는 방식으로 이루어집니다.
 
-- 무한정 연장하는 방법: access_token 재발급 시점에 매번 refresh_token 도 재발급하고 유효기한을 처음부터 다시 설정하기
+- 무한정 연장하는 방법: access_token 재발급 시점에 매번 refresh_token도 재발급하고 유효기한을 처음부터 다시 설정하기
 - 최대 1년까지 연장하는 방법: access_token 재발급 시 refresh_token의 유효기한을 늘려주되 refresh_token의 최초 발급일로부터 1년을 넘지 않도록
 
 만약 access_token expire 시점마다 refresh_token을 재발급하기로 하셨다면 아직 유효기한이 남은 기존 refresh_token을 사용할 수 없도록 폐기할지 그대로 둘지를 선택해야 합니다. 표준에서는 정의하지 않았기 때문에 어떤 방식이든 가능하지만, 1 유저에 2개 이상의 key가 있으면 관리가 어려우므로 폐기를 권장합니다.
@@ -178,7 +178,7 @@ refresh token 이 expire 되면, 유저가 client에 방문해 연동 절차를 
 - access_token으로 access_token 및 refresh_token을 동시에 비활성화시키는 logout api
 - refresh_token으로 access_token을 찾거나 그 반대를 찾는 유틸리티 기능
 
-이런 요구사항이 생길 수 있는 것을 모르고 user 하위에만 토큰을 저장하는 구조를 사용하면 조회가 곤란한 상황이 생깁니다. 운영에 필요할 만한 api 가 뭐가 있을지 초기에 client측 개발자와 이야기해보고 저장 구조를 고민하시기 바랍니다.
+이런 요구사항이 생길 수 있는 것을 모르고 user 하위에만 토큰을 저장하는 구조를 사용하면 조회가 곤란한 상황이 생깁니다. 운영에 필요할 만한 api가 뭐가 있을지 초기에 client측 개발자와 이야기해보고 저장 구조를 고민하시기 바랍니다.
 
 데이블에서는 redis에 access_token 및 refresh_token을 따로 저장하지만, 내용물은 두 key 모두 동일하게 access_token, refresh_token, client, user 모두를 JSON string으로 저장합니다. 재발급 때 access, refresh token을 전부 폐기하고 새로 생성했기 때문에 string을 통으로 넣고 있지만, 일부 값을 업데이트할 필요가 있다면 hset 등을 이용해도 좋겠습니다.
 
@@ -190,7 +190,7 @@ refresh token 이 expire 되면, 유저가 client에 방문해 연동 절차를 
 
 표준이 정해준 영역은 잘 구현된 라이브러리를 사용하시는 것을 추천해 드립니다. Oauth 표준은 부분적으로 계속 패치되는 중이라 2021년 시점에 직접 구현을 하려면 읽어야 할 문서가 20종 정도로 매우 많아졌습니다. 또한 Oauth 표준을 직접 만들지 않더라도, 표준이 다루지 않는 스펙을 회사 맞춤으로 설계하느라 소모하는 시간이 생각보다 큽니다. 표준은 라이브러리에 맡기고 부가적인 기능만 구현하시더라도 처음 예상한 만큼의 시간이 걸릴 수 있습니다.
 
-경험 삼아 처음부터 구현해보고 싶을 때도 라이브러리 사용을 추천해 드립니다. 라이브러리를 쓴다고 하더라도 요청 validation, 응답 formatting 정도만 해줄 뿐 실제 동작에 필요한 코드는 개발자가 모두 작성해야 하므로 경험을 충분히 할 수 있습니다. 예를 들어 토큰 발급 요청에서 필수 파라미터가 없거나 유효하지 않은 요청이면 적절한 HTTP 응답 코드로 대응하는 것까진 라이브러리가 해주지만 요청에 담긴 client_id가 존재하는지, 토큰 발급/삭제/검증 로직, 권한 확인 로직 등은 저장하는 것까지 개발자가 모두 구현해야 합니다. 흔한 로직으로 미리 구현까지 완료되어서 저장소만 연결하면 되는 라이브러리가 있을지 찾아봤었는데 적어도 Node.js 쪽에서는 없었습니다. oauth provider를 만드는 경우가 드물어서 그런 것 같습니다.
+경험 삼아 처음부터 구현해보고 싶을 때도 라이브러리 사용을 추천해 드립니다. 라이브러리를 쓴다고 하더라도 요청 validation, 응답 formatting 정도만 해줄 뿐 실제 동작에 필요한 코드는 개발자가 모두 작성해야 하므로 경험을 충분히 할 수 있습니다. 예를 들어 토큰 발급 요청에서 필수 파라미터가 없거나 유효하지 않은 요청이면 적절한 HTTP 응답 코드로 대응하는 것까진 라이브러리가 해주지만 요청에 담긴 client_id가 존재하는지, 토큰 발급/삭제/검증 로직, 권한 확인 로직 등은 저장하는 것까지 개발자가 모두 구현해야 합니다. 흔한 로직으로 미리 구현까지 완료되어서 저장소만 연결하면 되는 라이브러리가 있을지 찾아봤었는데 적어도 Node.js 쪽에서는 없었습니다. Oauth provider를 만드는 경우가 드물어서 그런 것 같습니다.
 
 라이브러리가 처리하는 영역은 대부분 믿고 맡길 만하나, 표준의 모호한 표현이나 모순된 설명으로 인해 제작자가 임의로 설정하는 로직이 종종 있습니다. 예를 들어 라이브러리가 구현한 /authorize controller에서 client_id뿐만 아니라 client_secret 값을 필수로 설정하는 경우가 있었습니다. 하지만 client_secret은 유저에게 노출되는 경로에서는 사용되면 안 되는 값입니다. 한참을 삽질하다 알고 보니 버그는 아니었고 특수한 시나리오에서 authorize 단계부터 client_secret을 활용할 수가 있어 일단 구현은 그렇게 해두었다, 필요 없으면 덮어써서 secret을 필수가 아니도록 처리하라는 가이드를 Github 이슈 한구석의 코멘트에서 찾을 수 있었습니다. 라이브러리가 오류를 뱉는다고 다 구현해주지 마시고 이상한 동작이 보이면 의문을 가지시길 바랍니다.
 
@@ -198,9 +198,9 @@ refresh token 이 expire 되면, 유저가 client에 방문해 연동 절차를 
 
 개발 중에 client 입장, 유저 입장, provider 입장에서 요청을 보내고 기능을 따라다녀야 하는데, 도구가 없다면 굉장히 번거롭습니다.
 
-client 입장의 테스트는 서버를 만드시길 추천해 드립니다. client는 oauth_provider와 데이터를 주고받으면서 유저까지 redirect를 사용해서 왔다 갔다 시켜야 하며 하고 받은 토큰 등 state도 유지해야 합니다. Oauth 서버와 client의 통신은 간단한 request 가 아니기 때문에 client는 샘플 서버로 만들어 어느 정도 기능 구현을 해두고 로그를 듬뿍 찍으시길 바랍니다.
+client 입장의 테스트는 서버를 만드시길 추천해 드립니다. client는 Oauth provider와 데이터를 주고받으면서 유저까지 redirect를 사용해서 왔다 갔다 시켜야 하며 하고 받은 토큰 등 state도 유지해야 합니다. Oauth 서버와 client의 통신은 간단한 request가 아니기 때문에 client는 샘플 서버로 만들어 어느 정도 기능 구현을 해두고 로그를 듬뿍 찍으시길 바랍니다.
 
-처음에는 postman으로 몇몇 request 샘플만 만들어 작업했는데, 하다 보니 매번 새로 생기는 토큰을 계속 복사해 붙이는 등 state 유지 때문에 감당이 안 되었습니다. Node.js 진영에는 passport와 같은 oauth client가 잘 구현된 것들이 있어 쉽게 만들 수 있었습니다. user 입장에서의 테스트는 client 서버에 테스트 기능을 구현해서 하시면 됩니다.
+처음에는 postman으로 몇몇 request 샘플만 만들어 작업했는데, 하다 보니 매번 새로 생기는 토큰을 계속 복사해 붙이는 등 state 유지 때문에 감당이 안 되었습니다. Node.js 진영에는 passport와 같은 Oauth client가 잘 구현된 것들이 있어 쉽게 만들 수 있었습니다. user 입장에서의 테스트는 client 서버에 테스트 기능을 구현해서 하시면 됩니다.
 
 ### 3. 구현
 
