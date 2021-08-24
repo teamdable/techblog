@@ -1,21 +1,21 @@
 ---
 layout: post
-title: "드디어 Internet Explorer가 은퇴를 합니다"
-date: 2021-07-26 00:00:00 +0900
+title: '드디어 Internet Explorer가 은퇴를 합니다'
+date: 2021-08-24 00:00:00 +0900
 author: Minji Cho
 tags: [조민지, InternetExplorer, IE, Edge, IEmode]
 ---
 
 안녕하세요, 데이블 Publisher Platform 위젯 개발 담당 조민지입니다.
 
-지난 5월 19일, Internet Explorer(이하 IE) 데스크톱 앱에 대한 지원을 22년 6월 15일부로 종료할 것이라는 Microsoft의 공식 발표가 있었습니다.
+지난 5월 19일, Internet Explorer(이하 IE) 데스크톱 앱에 대한 지원을 22년 6월 15일부로 종료할 것이라는 [Microsoft의 공식 발표](https://blogs.windows.com/windowsexperience/2021/05/19/the-future-of-internet-explorer-on-windows-10-is-in-microsoft-edge/)가 있었습니다.
 
 <hr>
 
-## 정말 D-320 인가
+## 정말 D-300 인가
 
 IE의 모든 플랫폼에 대한 지원이 22년 6월에 일괄 종료되는 것은 아닙니다.
-하지만 종료 대상에 개인용 Windows 10의 IE 앱이 포함되고, 6월 공개된 Windows 11에서는 IE의 실행 자체가 막힌 것으로 보아 얼마 남지 않은 것은 확실해 보입니다.
+하지만 종료 대상에 개인용 Windows 10의 IE 앱이 포함되고, 6월 공개된d Windows 11에서는 IE의 실행 자체가 막힌 것으로 보아 얼마 남지 않은 것은 확실해 보입니다.
 
 22년 6월 이후에는 대부분 기업 대상의 지원이 유지됩니다. 아직 ActiveX를 사용하는 등 IE에 최적화된 사이트를 운영하는 기업을 위해, Microsoft는 Edge 브라우저에서 IE 모드라는 형태로 IE View를 지원하고 있습니다. 이 IE 모드마저도 지원이 종료되는 시점은 2029년입니다.
 
@@ -44,15 +44,15 @@ IE가 90년대 말 브라우저 시장을 장악했던 데에는 분명 그만�
 
 1. 커뮤니케이션
 
-    IE 버전별 사용률을 확인하고, 지원 여부와 범위에 대해 누군가를 설득해야만 하는 상황이 없어질 것입니다.
+   IE 버전별 사용률을 확인하고, 지원 여부와 범위에 대해 누군가를 설득해야만 하는 상황이 없어질 것입니다.
 
 2. 개발
 
-    우리의 NPC, caniuse.com에 들어갈 일이 현저히 줄어들 것입니다. 모든 브라우저의 호환성을 볼 수 있다고는 하지만 IE 지원 여부를 확인하는 목적이 가장 컸기 때문이죠. babel과 webpack으로 지원했던 자바스크립트와, `-ms-`가 잔뜩 붙은 vendor prefix나 트릭을 통해 지원했던 CSS 작업에서도 고민이 줄어들 것 같습니다. [IE 버전별 CSS hack](https://css-tricks.com/how-to-create-an-ie-only-stylesheet/)을 추가해야 했던 방식도 먼 과거의 이야기가 되겠죠.
+   caniuse.com에 들어갈 일이 현저히 줄어들 것입니다. 모든 브라우저의 호환성을 볼 수 있다고는 하지만 IE 지원 여부를 확인하는 목적이 가장 컸기 때문이죠. babel과 webpack으로 지원했던 자바스크립트와, `-ms-`가 잔뜩 붙은 vendor prefix나 트릭을 통해 지원했던 CSS 작업에서도 고민이 줄어들 것 같습니다. [IE 버전별 CSS hack](https://css-tricks.com/how-to-create-an-ie-only-stylesheet/)을 추가해야 했던 방식도 먼 과거의 이야기가 되겠죠.
 
 3. QA
 
-    가장 많은 리소스가 투입됐던 IE 버전별 QA 단계가 줄어들 것이고, 만약 IE에 최적화된 사이트를 디버깅하거나 QA를 진행하더라도 실제 IE가 아닌 Edge 브라우저의 IE모드를 활용하게 될 것입니다. 물론 이것도 2029년까지만이겠지만요.
+   가장 많은 리소스가 투입됐던 IE 버전별 QA 단계가 줄어들 것이고, 만약 IE에 최적화된 사이트를 디버깅하거나 QA를 진행하더라도 실제 IE가 아닌 Edge 브라우저의 IE모드를 활용하게 될 것입니다. 물론 이것도 2029년까지지만요.
 
 ### 데이블 위젯의 관점
 
@@ -60,30 +60,34 @@ IE가 90년대 말 브라우저 시장을 장악했던 데에는 분명 그만�
 
 1. CSS
 
-    먼저, 사용 가능한 CSS 범위가 확장된다는 것이 가장 큰 변화일 듯합니다.
-    `flex/grid`, `line-clamp`, `css variables`, `calc`,  `object-fit` 등 최선의 CSS가 IE에서 지원되지 않아 대안으로 적용하다 보니 불필요한 CSS가 추가되었던 케이스, 이미 쓰고는 있지만 크로스 브라우징을 위해 별도의 트릭을 추가해야 했던 케이스도 점점 사라질 것입니다. 더 간결하게 동작하기 때문에 에러를 방지할 수 있고 유지보수비용도 절감할 수 있습니다.
+   먼저, 사용 가능한 CSS 범위가 확장된다는 것이 가장 큰 변화일 듯합니다.
+   `flex/grid`, `line-clamp`, `css variables`, `calc`, `object-fit` 등 최선의 CSS가 IE에서 지원되지 않아 대안으로 적용하다 보니 불필요한 CSS가 추가되었던 케이스, 이미 쓰고는 있지만 크로스 브라우징을 위해 별도의 트릭을 추가해야 했던 케이스도 점점 사라질 것입니다. 더 간결하게 동작하기 때문에 에러를 방지할 수 있고 유지보수비용도 절감할 수 있습니다.
 
 2. 웹폰트
 
-    간혹 웹폰트로 매체의 폰트를 지원해야 하는 경우가 있습니다. 브라우저마다 지원하는 폰트 포맷이 달라 eot, svg, ttf, woff, woff2까지도 지원해야 했는데, IE 구버전을 위해 지원했던 eot 포맷을 믿고 거를 수 있게 됩니다.
+   간혹 웹폰트로 매체의 폰트를 지원해야 하는 경우가 있습니다. 브라우저마다 지원하는 폰트 포맷이 달라 eot, svg, ttf, woff, woff2까지도 지원해야 했는데, IE 구버전을 위해 지원했던 eot 포맷을 믿고 거를 수 있게 됩니다.
 
-    <img src="/techblog/assets/images/IE-Retirement/webfont-format.png" alt="브라우저별 웹폰트 지원 포맷" />
-    <small style="display:block;text-align:right">출처) [w3schools.com](https://www.w3schools.com/Css/css3_fonts.asp)</small>
+   <img src="/techblog/assets/images/IE-Retirement/webfont-format.png" alt="브라우저별 웹폰트 지원 포맷" />
+   <small style="display:block;text-align:right">출처) [w3schools.com](https://www.w3schools.com/Css/css3_fonts.asp)</small>
 
 3. 이미지
 
-    위젯에서 가장 중요한 요소라고 할 수 있는 섬네일의 포맷에도 변화를 줄 수 있습니다. (현재 데이블의 광고 섬네일은 jpg, jpeg, png 포맷만 지원됩니다)
-    압축률은 매우 높지만 Chrome과 Opera 최신 버전에서만 지원되는 AVIF 포맷은 지원이 어렵더라도, IE를 제외한 대부분의 모던 브라우저에서 지원되는 WebP 포맷을 지원하게 되면 더욱 빠르게, 저비용으로 섬네일을 제공할 수 있습니다. (Safari에서도 BigSur OS 이상에서만 지원되니 별도의 대응은 필요할 것 같습니다.)
+   위젯에서 가장 중요한 요소라고 할 수 있는 섬네일에 차세대 이미지 포맷을 지원하기 위한 고민 역시 줄어들 것입니다.
+   대표적인 최신 이미지 포맷인 AVIF 혹은 WebP를 지원하기 위해서는 브라우저 호환성을 고려해 `<picture>` + `<source srcset>`에 IE를 위한 fallback `<img>` 태그까지 작성해야 합니다.
+   IE를 고려하지 않아도 된다면, 모던 브라우저만을 기준으로 더욱 빠르게, 저비용으로 고압축률의 섬네일을 제공할 수 있습니다. (BigSur OS 이하의 Safari 브라우저에 대한 별도의 대응은 필요합니다.)
 
-    <img src="/techblog/assets/images/IE-Retirement/webp.png" alt="WebP 포맷 브라우저별 호환성" />
-    <small style="display:block;text-align:right">출처) [caniuse.com](https://caniuse.com/?search=webp)</small>
+   <img src="/techblog/assets/images/IE-Retirement/avif.png" alt="AVIF 포맷 브라우저별 호환성" />
+   <small style="display:block;text-align:right">출처) [caniuse.com](https://caniuse.com/?search=avif) AVIF 호환성</small>
+
+   <img src="/techblog/assets/images/IE-Retirement/webp.png" alt="WebP 포맷 브라우저별 호환성" />
+   <small style="display:block;text-align:right">출처) [caniuse.com](https://caniuse.com/?search=webp) WebP 호환성</small>
 
 4. 다크모드
 
-    다크모드를 원하는 사용자가 늘어남에 따라 점점 다크모드를 지원하는 매체도 증가하고 있습니다. iframe이라는 데이블 위젯 특성상 사용자가 매체 사이트 안에서 toggle 형태로 직접 동작시키는 다크모드를 지원하기는 어렵습니다. 하지만 사용자 기기 자체에서 다크모드가 설정되어 있고 매체에서도 다크모드를 지원하는 경우라면 `prefers-color-scheme` 미디어쿼리를 활용해 다크모드에도 최적화된 위젯을 제공할 수 있습니다.
+   다크모드를 원하는 사용자가 늘어남에 따라 점점 다크모드를 지원하는 매체도 증가하고 있습니다. iframe이라는 데이블 위젯 특성상 사용자가 매체 사이트 안에서 toggle 형태로 직접 동작시키는 다크모드를 지원하기는 어렵습니다. 하지만 사용자 기기 자체에서 다크모드가 설정되어 있고 매체에서도 다크모드를 지원하는 경우라면 `prefers-color-scheme` 미디어쿼리를 활용해 다크모드에도 최적화된 위젯을 제공할 수 있습니다.
 
-    <img src="/techblog/assets/images/IE-Retirement/prefers-color-scheme.png" alt="prefers-color-scheme 미디어쿼리 브라우저별 호환성" />
-    <small style="display:block;text-align:right">출처) [caniuse.com](https://caniuse.com/?search=prefers-color-scheme)</small>
+   <img src="/techblog/assets/images/IE-Retirement/prefers-color-scheme.png" alt="prefers-color-scheme 미디어쿼리 브라우저별 호환성" />
+   <small style="display:block;text-align:right">출처) [caniuse.com](https://caniuse.com/?search=prefers-color-scheme)</small>
 
 <br>
 
