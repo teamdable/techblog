@@ -15,7 +15,7 @@ tags: [조민지, InternetExplorer, IE, Edge, IEmode]
 ## 정말 D-300 인가
 
 IE의 모든 플랫폼에 대한 지원이 22년 6월에 일괄 종료되는 것은 아닙니다.
-하지만 종료 대상에 개인용 Windows 10의 IE 앱이 포함되고, 6월 공개된d Windows 11에서는 IE의 실행 자체가 막힌 것으로 보아 얼마 남지 않은 것은 확실해 보입니다.
+하지만 종료 대상에 개인용 Windows 10의 IE 앱이 포함되고, 6월 공개된 Windows 11에서는 IE의 실행 자체가 막힌 것으로 보아 얼마 남지 않은 것은 확실해 보입니다.
 
 22년 6월 이후에는 대부분 기업 대상의 지원이 유지됩니다. 아직 ActiveX를 사용하는 등 IE에 최적화된 사이트를 운영하는 기업을 위해, Microsoft는 Edge 브라우저에서 IE 모드라는 형태로 IE View를 지원하고 있습니다. 이 IE 모드마저도 지원이 종료되는 시점은 2029년입니다.
 
@@ -74,7 +74,7 @@ IE가 90년대 말 브라우저 시장을 장악했던 데에는 분명 그만�
 
    위젯에서 가장 중요한 요소라고 할 수 있는 섬네일에 차세대 이미지 포맷을 지원하기 위한 고민 역시 줄어들 것입니다.
    대표적인 최신 이미지 포맷인 AVIF 혹은 WebP를 지원하기 위해서는 브라우저 호환성을 고려해 `<picture>` + `<source srcset>`에 IE를 위한 fallback `<img>` 태그까지 작성해야 합니다.
-   IE를 고려하지 않아도 된다면, 모던 브라우저만을 기준으로 더욱 빠르게, 저비용으로 고압축률의 섬네일을 제공할 수 있습니다. (BigSur OS 이하의 Safari 브라우저에 대한 별도의 대응은 필요합니다.)
+   IE를 고려하지 않아도 된다면, 모던 브라우저만을 기준으로 더욱 빠르게, 저비용으로 고압축률의 섬네일을 제공할 수 있습니다. (BigSur OS 이하의 Safari 브라우저에 대한 별도의 대응은 필요합니다)
 
    <img src="/techblog/assets/images/IE-Retirement/avif.png" alt="AVIF 포맷 브라우저별 호환성" />
    <small style="display:block;text-align:right">출처) [caniuse.com](https://caniuse.com/?search=avif) AVIF 호환성</small>
