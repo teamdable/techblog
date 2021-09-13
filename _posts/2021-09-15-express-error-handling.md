@@ -254,7 +254,7 @@ app.use((err, req, res, next) => {
 
 이렇게 동작합니다.
 
-여 컨트롤러에 `board_id` 파라미터에 대한 유효성 검사를 추가하고자 한다고 합시다.
+이 컨트롤러에 `board_id` 파라미터에 대한 유효성 검사를 추가하고자 한다고 합시다.
 
 ```
 app.get('/board_article_count', async (req, res) => {
