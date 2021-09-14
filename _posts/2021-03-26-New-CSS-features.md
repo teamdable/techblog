@@ -123,11 +123,11 @@ margin을 사용하는 경우, 코드는 아래와 같습니다.
 
 ### Browser Support
 #### gap in Multi-column
-![multi-column 레이아웃 - gap 속성 브라우저 지원](/techblog/assets/images/New-CSS-Features/gap_multi-column_02.png "multi-column 레이아웃 - gap 속성 브라우저 지원")
+[![multi-column 레이아웃 - gap 속성 브라우저 지원](/techblog/assets/images/New-CSS-Features/gap_multi-column_02.png "multi-column 레이아웃 - gap 속성 브라우저 지원")](https://caniuse.com/mdn-css_properties_gap_multicol_context)
 #### gap in Grid Layout
-![grid 레이아웃 - gap 속성 브라우저 지원](/techblog/assets/images/New-CSS-Features/gap_grid_02.png "grid 레이아웃 - gap 속성 브라우저 지원")
+[![grid 레이아웃 - gap 속성 브라우저 지원](/techblog/assets/images/New-CSS-Features/gap_grid_02.png "grid 레이아웃 - gap 속성 브라우저 지원")](https://caniuse.com/mdn-css_properties_gap_grid_context)
 #### gap in Flex Layout
-![flex 레이아웃 - gap 속성 브라우저 지원](/techblog/assets/images/New-CSS-Features/gap_flex_03.png "flex 레이아웃 - gap 속성 브라우저 지원")
+[![flex 레이아웃 - gap 속성 브라우저 지원](/techblog/assets/images/New-CSS-Features/gap_flex_03.png "flex 레이아웃 - gap 속성 브라우저 지원")](https://caniuse.com/flexbox-gap)
 
 ---
 
@@ -224,7 +224,7 @@ margin을 사용하는 경우, 코드는 아래와 같습니다.
 하지만 아쉽게도 아직 `subgrid` 속성은 **firefox 브라우저**에서만 사용 가능합니다.
 
 ### Browser Support
-![subgrid 브라우저 지원](/techblog/assets/images/New-CSS-Features/subgrid_04.png "subgrid 브라우저 지원")
+[![subgrid 브라우저 지원](/techblog/assets/images/New-CSS-Features/subgrid_04.png "subgrid 브라우저 지원")](https://caniuse.com/css-subgrid)
 
 ---
 
@@ -241,7 +241,7 @@ list-style은 보통 ul, ol 태그 안에 있는 li 앞에 '•'이 붙어있는
 list-style에 이모지를 활용할 수도 있습니다.
 
 ### Browser Support
-![::marker 브라우저 지원](/techblog/assets/images/New-CSS-Features/marker_01.png "::marker 브라우저 지원")
+[![::marker 브라우저 지원](/techblog/assets/images/New-CSS-Features/marker_01.png "::marker 브라우저 지원")](https://caniuse.com/css-marker-pseudo)
 
 ---
 
@@ -303,10 +303,10 @@ dir ol dir,   dir ul dir,   dir menu dir,   dir dir dir {
 
 ### Browser Support
 #### :is()
-![:is() 브라우저 지원](/techblog/assets/images/New-CSS-Features/is_01.png ":is() 브라우저 지원")
+[![:is() 브라우저 지원](/techblog/assets/images/New-CSS-Features/is_01.png ":is() 브라우저 지원")](https://caniuse.com/css-matches-pseudo)
 
 #### :where()
-![:where() 브라우저 지원](/techblog/assets/images/New-CSS-Features/where_01.png ":where() 브라우저 지원")
+[![:where() 브라우저 지원](/techblog/assets/images/New-CSS-Features/where_01.png ":where() 브라우저 지원")](https://caniuse.com/mdn-css_selectors_where)
 
 ---
 
@@ -314,7 +314,7 @@ dir ol dir,   dir ul dir,   dir menu dir,   dir dir dir {
 
 `:root` 선택자는 DOM tree의 **root 요소**를 선택합니다. HTML의 루트 요소는 ``요소이므로 `:root`은 html 요소라고 봐도 되지만, `:root`의 명시도(우선순위)가 더 높습니다.
 
-`:root`는 CSS의 변수를 선언하는 데 활용됩니다. 변수의 이름을 지을 때는 **—(double hyphen)**을 변수 이름 앞에 붙여줍니다. 또한 변수 이름의 대소문자를 구분하기 때문에 `—main-color`와 `—Main-color`는 별도의 변수로 간주합니다.
+`:root`는 CSS의 변수를 선언하는 데 활용됩니다. 변수의 이름을 지을 때는 **—(double hyphen)**을 변수 이름 앞에 붙여줍니다. 또한 변수 이름의 대소문자를 구분하기 때문에 `—-main-color`와 `—-Main-color`는 별도의 변수로 간주합니다.
 
 ```css
 :root{
@@ -347,10 +347,10 @@ div{
 ```
 ### Browser Support
 #### :root
-![flex 레이아웃 - gap 속성 브라우저 지원](/techblog/assets/images/New-CSS-Features/root_01.png "flex 레이아웃 - gap 속성 브라우저 지원")
+[![flex 레이아웃 - gap 속성 브라우저 지원](/techblog/assets/images/New-CSS-Features/root_01.png "flex 레이아웃 - gap 속성 브라우저 지원")](https://caniuse.com/mdn-css_selectors_root)
 
 #### var()
-![flex 레이아웃 - gap 속성 브라우저 지원](/techblog/assets/images/New-CSS-Features/var_01.png "flex 레이아웃 - gap 속성 브라우저 지원")
+[![flex 레이아웃 - gap 속성 브라우저 지원](/techblog/assets/images/New-CSS-Features/var_01.png "flex 레이아웃 - gap 속성 브라우저 지원")](https://caniuse.com/css-variables)
 
 ---
 
@@ -378,7 +378,7 @@ div{
 @supports (transform-style: preserve) or (-moz-transform-style: preserve) {}
 ```
 ### Browser Support
-![@supports 브라우저 지원](/techblog/assets/images/New-CSS-Features/supports_01.png "@supports 브라우저 지원")
+[![@supports 브라우저 지원](/techblog/assets/images/New-CSS-Features/supports_01.png "@supports 브라우저 지원")](https://caniuse.com/css-featurequeries)
 
 ---
 
