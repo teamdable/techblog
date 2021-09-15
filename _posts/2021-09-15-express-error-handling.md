@@ -22,7 +22,7 @@ callback, Promise, async/await 등 다양한 코드 형태별 최적의 에러 �
 
 아래는 express 공식 가이드인 [에러 핸들링](https://expressjs.com/en/guide/error-handling.html)에 있는 코드인데요.
 
-```
+```javascript
 app.get('/', (req, res) => {
   throw new Error('BROKEN'); // express가 알아서 오류를 처리합니다.
 });
@@ -36,7 +36,7 @@ app.get('/', (req, res) => {
 
 우리가 개발하는 서버는 JSON 응답을 하는 API 서버라고 가정해봅시다. 그래서 express가 기본적으로 응답하는 HTML 코드를 사용하는 대신 JSON 포맷으로 된 오류 메시지를 제공하려고 합니다.
 
-```
+```javascript
 app.get('/api', (req, res) => {
   try {
     // try 구문 내의 코드에서 무언가 오류가 발생한다고 가정합시다!
@@ -51,7 +51,7 @@ app.get('/api', (req, res) => {
 
 일단 이렇게 작성해볼 수 있습니다. 음... 어떤가요? 오류가 발생했을 때 원하는 응답을 해 줄 수는 있는데 코드가 좀 복잡해졌습니다. 컨트롤러를 추가하고 같은 에러 응답 포맷을 제공하려면 에러 처리 부분을 공통으로 처리하도록 코드를 분리하는 게 좋을 것 같습니다.
 
-```
+```javascript
 app.get('/api', (req, res) => {
   throw new Error('BROKEN1');
 });
@@ -72,9 +72,9 @@ app.use((err, req, res, next) => {
 
 Node.js로 코드를 작성하다 보면 비동기 처리는 흔합니다. callback, Promise, async/await 등 여러가지 방법이 있죠. 비동기 함수의 에러 발생은 앞서 설명한 기본적인 동기 함수의 에러 발생과는 다소 차이가 있습니다.
 
-일단, 요새는 점점 역사의 뒤안길로 사라지고 있긴 하지만 일단 callback 패턴을 살펴보죠.
+요새는 점점 역사의 뒤안길로 사라지고 있긴 하지만 일단 callback 패턴을 살펴보죠.
 
-```
+```javascript
 app.get('/api', (req, res) => {
   setTimeout(() => {
     throw new Error('BROKEN1');
@@ -88,7 +88,7 @@ app.get('/api', (req, res) => {
 
 서버를 찾을 수 없다는 오류가 표시됩니다. 아래는 전체 서버 코드와 서버 실행 CLI 응답 전체입니다.
 
-```
+```javascript
 // server.js
 const express = require('express');
 const app = express();
@@ -102,9 +102,9 @@ app.get('/', (req, res, next) => {
 app.listen(3000, () => {
   console.info('test server is running!');
 });
+```
 
----
-
+```bash
 $ node server.js
 test server is running!
 
@@ -120,7 +120,7 @@ Error: BROKEN
 
 네. 아마 짐작하신 분도 계시겠지만, 비동기로 발생한 오류는 express가 처리해주지 못합니다. express는 이 경우를 위해 next 함수를 사용할 수 있습니다. next 함수의 첫번째 인자에 Error 객체나 String 등을 선언하는 경우 express는 이를 동기에서의 오류 발생과 같은 형태로 취급합니다.
 
-```
+```javascript
 app.get('/', (req, res, next) => {
   setTimeout(() => {
     next(new Error('BROKEN'));
@@ -130,7 +130,7 @@ app.get('/', (req, res, next) => {
 
 지정한 파일을 여는 콜백 패턴의 함수인 `fs.open`을 이용한 실제와 유사한 예제를 준비해봤습니다.
 
-```
+```javascript
 app.get('/', (req, res, next) => {
   fs.open('/file/path', (err, fd) => {
     if (err) {
@@ -150,7 +150,7 @@ app.get('/', (req, res, next) => {
 
 이제 async/await와 Promise의 에러 발생을 살펴보겠습니다.
 
-```
+```javascript
 app.get('/api', async (req, res) => {
   throw new Error('BROKEN1');
 });
@@ -162,7 +162,7 @@ app.get('/api', async (req, res) => {
 
 서버가 응답하지 않습니다. 서버를 실행한 콘솔에는 다음과 같은 오류가 기록됩니다.
 
-```
+```bash
 $ node server.js
 test server is running!
 (node:57055) UnhandledPromiseRejectionWarning: Error: BROKEN
@@ -184,7 +184,7 @@ test server is running!
 
 express 공식 가이드의 [에러 핸들링](https://expressjs.com/en/guide/error-handling.html)은 이런 방법을 제안합니다.
 
-```
+```javascript
 // promise version
 app.get('/', function (req, res, next) {
   Promise.resolve().then(function () {
@@ -208,7 +208,7 @@ app.get('/', async function (req, res, next) {
 
 [express-async-errors](https://www.npmjs.com/package/express-async-errors) 패키지는 async/await의 에러를 깔끔하게 다룰 수 있게 해줍니다. express와 async/await를 함께 활용하신다면 꼭 쓰세요. 두 번 쓰세요.
 
-```
+```javascript
 // server.js
 const express = require('express');
 require('express-async-errors');
@@ -233,7 +233,7 @@ app.listen(3000, () => {
 
 게시판의 ID를 파라미터로 받아 게시물의 수를 응답하는 API를 만든다고 가정해봅시다.
 
-```
+```javascript
 const {getArticleCount} = require('./board_model');
 
 app.get('/board_article_count', async (req, res) => {
@@ -256,7 +256,7 @@ app.use((err, req, res, next) => {
 
 이 컨트롤러에 `board_id` 파라미터에 대한 유효성 검사를 추가하고자 한다고 합시다.
 
-```
+```javascript
 app.get('/board_article_count', async (req, res) => {
   const board_id = req.query.board_id;
   if (!board_id) {
@@ -273,7 +273,7 @@ app.get('/board_article_count', async (req, res) => {
 
 하지만 비슷한 컨트롤러가 여러개 생긴다면, HTTP 500 오류 응답 처리와 동일하게 비슷한 유효성 검사 로직의 공통화 등을 고민하게 될 것입니다.
 
-```
+```javascript
 class BadRequestError extends Error {}
 
 app.get('/board_article_count', async (req, res) => {
