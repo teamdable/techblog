@@ -312,7 +312,7 @@ dir ol dir,   dir ul dir,   dir menu dir,   dir dir dir {
 
 ### :root & var()
 
-`:root` 선택자는 DOM tree의 **root 요소**를 선택합니다. HTML의 루트 요소는 ``요소이므로 `:root`은 html 요소라고 봐도 되지만, `:root`의 명시도(우선순위)가 더 높습니다.
+`:root` 선택자는 DOM tree의 **root 요소**를 선택합니다. HTML의 루트 요소는 `html`요소이므로 `:root`은 html 요소라고 봐도 되지만, `:root`의 명시도(우선순위)가 더 높습니다.
 
 `:root`는 CSS의 변수를 선언하는 데 활용됩니다. 변수의 이름을 지을 때는 **—(double hyphen)**을 변수 이름 앞에 붙여줍니다. 또한 변수 이름의 대소문자를 구분하기 때문에 `—-main-color`와 `—-Main-color`는 별도의 변수로 간주합니다.
 
