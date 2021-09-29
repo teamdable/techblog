@@ -29,7 +29,7 @@ tags: [CSS]
 multi-column 레이아웃은 다단을 생성할 수 있는 요소로, 블록 요소에 사용할 수 있는 속성입니다.
 아래는 같은 텍스트에 `column-count` 속성을 이용하여 다단(multi-column)을 생성한 예시입니다.
 
-![multi-column 사용 예시](/techblog/assets/images/New-CSS-Features/multi-column.png "multi-column 사용 예시")
+![multi-column 사용 예시](/techblog/assets/images/New-CSS-Features/multi-column.PNG "multi-column 사용 예시")
 
 ```css
 .multi-column p{
@@ -40,7 +40,7 @@ multi-column 레이아웃은 다단을 생성할 수 있는 요소로, 블록 �
 
 `gap` 속성을 이용하여 다단 사이의 여백을 조정할 수 있습니다.
 
-![gap 속성 multi-column 사용 예시](/techblog/assets/images/New-CSS-Features/gap_multi-column.png "gap 속성 multi-column 사용 예시")
+![gap 속성 multi-column 사용 예시](/techblog/assets/images/New-CSS-Features/gap_multi-column.PNG "gap 속성 multi-column 사용 예시")
 ```css
 .multi-column.gap20 p{
   gap: 20px;  
@@ -54,7 +54,7 @@ multi-column 레이아웃은 다단을 생성할 수 있는 요소로, 블록 �
 
 grid 레이아웃에서는 `gap` 속성을 이용하여 item 사이의 간격을 조정할 수 있습니다. 가로 여백, 세로 여백 각각 설정할 수 있습니다. 아래 예시에 가로 여백에 30px, 세로 여백에 10px을 설정해보겠습니다.
 
-![gap 속성 grid 사용 예시](/techblog/assets/images/New-CSS-Features/gap_grid.png "gap 속성 grid 사용 예시")
+![gap 속성 grid 사용 예시](/techblog/assets/images/New-CSS-Features/gap_grid.PNG "gap 속성 grid 사용 예시")
 ```css
 .grid{
   display: grid;
@@ -69,7 +69,7 @@ grid 레이아웃에서는 `gap` 속성을 이용하여 item 사이의 간격을
 
 flex 레아이웃의 경우에도 gap 속성을 이용하여 여백을 줄 수 있습니다.
 
-![gap 속성 flex 사용 예시](/techblog/assets/images/New-CSS-Features/gap_flex.png "gap 속성 flex 사용 예시")
+![gap 속성 flex 사용 예시](/techblog/assets/images/New-CSS-Features/gap_flex.PNG "gap 속성 flex 사용 예시")
 ```css
 .flex{
   display: flex;
@@ -82,7 +82,7 @@ flex 레아이웃의 경우에도 gap 속성을 이용하여 여백을 줄 수 �
 
 예를 들어 위의 예시를 브라우저 너비가 줄어들었을 때 여백은 유지한 채 세로 정렬로 수정되는 경우, `gap` 속성을 이용하면 `margin` 속성보다 간단하게 나타낼 수 있습니다.
 
-![gap 속성 flex 사용 예시](/techblog/assets/images/New-CSS-Features/gap_flex_02.png "gap 속성 flex 사용 예시")
+![gap 속성 flex 사용 예시](/techblog/assets/images/New-CSS-Features/gap_flex_02.PNG "gap 속성 flex 사용 예시")
 
 위 이미지와 같은 레이아웃을 만들기 위한 CSS로 `gap`을 이용하는 코드와 `margin`을 이용하는 코드를 비교해보겠습니다.
 
@@ -138,7 +138,7 @@ margin을 사용하는 경우, 코드는 아래와 같습니다.
 
 예를 들어 초록색의 grid 박스(`.grid`)의 레이아웃을 기준으로 가로 2 / 7과 세로 2 / 4에 분홍색 상자(`.item`)가 들어가고, 가로 4 / 7과 세로 2 / 3사이에 노란색 상자(`.sub-item`)를 배치하는 경우를 생각해봅시다.
 
-![subgrid 활용 예제](/techblog/assets/images/New-CSS-Features/subgrid_01.png "subgrid 활용 예제")
+![subgrid 활용 예제](/techblog/assets/images/New-CSS-Features/subgrid_01.PNG "subgrid 활용 예제")
 
 초록색 박스에 분홍색 상자를 넣는 방법은 grid 속성을 이용하면 간단합니다. 
 ```css
@@ -184,7 +184,7 @@ margin을 사용하는 경우, 코드는 아래와 같습니다.
 ```
 그런데 혹시라도 중간에 초록색 박스 레이아웃의 비율이 바뀌게 된다면 분홍색 박스 레이아웃 역시 그에 따라 변경되어야 하는 번거로움이 있습니다. 아래는 초록색 박스의 레이아웃을 grid-template-layout: 1fr 2fr **_5fr_** 2fr 1fr 2fr 1fr 2fr 1fr 으로 변경한 모습입니다. 노란색 박스가 초록색 박스의 4번 줄에서부터 시작하기 위해서는 분홍색 박스의 속성 변경이 추가로 필요하게 됩니다.
 
-![subgrid 활용 예제](/techblog/assets/images/New-CSS-Features/subgrid_02.png "subgrid 활용 예제")
+![subgrid 활용 예제](/techblog/assets/images/New-CSS-Features/subgrid_02.PNG "subgrid 활용 예제")
 
 초록색 박스의 레이아웃을 자식의 자식 요소인 노란색 박스가 참조할 수 있다면, 위에 언급한 번거로움은 줄어들 것입니다. 이 번거로움을 해소하게 해줄 속성이 바로 `subgrid`입니다.
 
@@ -217,7 +217,7 @@ margin을 사용하는 경우, 코드는 아래와 같습니다.
 
 위에서 보여드린 예시와 같게 초록색 박스의 레이아웃을 변경해보겠습니다. (초록색 박스의 grid-template-layout: 1fr 2fr **_5fr_** 2fr 1fr 2fr 1fr 2fr 1fr 으로 변경)
 
-![subgrid 활용 예제](/techblog/assets/images/New-CSS-Features/subgrid_03.png "subgrid 활용 예제")
+![subgrid 활용 예제](/techblog/assets/images/New-CSS-Features/subgrid_03.PNG "subgrid 활용 예제")
 
 분홍색 박스의 레이아웃은 수정하지 않아도 노란색 박스가 초록색 박스의 레이아웃을 따라가는 것을 볼 수 있습니다. 해당 속성을 잘 활용하면 grid 레이아웃을 활용할 때, 자식의 자식 요소의 레이아웃을 관리하는 것이 수월해질 것입니다.
 
@@ -234,14 +234,14 @@ margin을 사용하는 경우, 코드는 아래와 같습니다.
 
 list-style은 보통 ul, ol 태그 안에 있는 li 앞에 '•'이 붙어있는 것인데, 기본으로 제공되는 옵션의 종류가 많지 않습니다. 그래서 list-style을 커스텀하려 했을 때, `list-style: none;`으로 기본 제공 옵션을 지우고 `::before`에 원하는 모양을 넣은 후 `position: absolute;`로 적용했던 기억이 있습니다. 하지만 `::marker` 속성을 이용한다면 편하게 list-style을 변경할 수 있습니다. 
 
-![::marker 활용 예제](/techblog/assets/images/New-CSS-Features/marker_02.png "::marker 활용 예제")
+![::marker 활용 예제](/techblog/assets/images/New-CSS-Features/marker_02.PNG "::marker 활용 예제")
 `::marker`를 이용해서 list-style의 색상과 사이즈를 변경하였습니다.
 
-![::marker 활용 예제](/techblog/assets/images/New-CSS-Features/marker_03.png "::marker 활용 예제")
+![::marker 활용 예제](/techblog/assets/images/New-CSS-Features/marker_03.PNG "::marker 활용 예제")
 list-style에 이모지를 활용할 수도 있습니다.
 
 ### Browser Support
-[![::marker 브라우저 지원](/techblog/assets/images/New-CSS-Features/marker_01.png "::marker 브라우저 지원")](https://caniuse.com/css-marker-pseudo)
+[![::marker 브라우저 지원](/techblog/assets/images/New-CSS-Features/marker_01.PNG "::marker 브라우저 지원")](https://caniuse.com/css-marker-pseudo)
 
 ---
 
@@ -299,7 +299,7 @@ dir ol dir,   dir ul dir,   dir menu dir,   dir dir dir {
 
 `:is()`와 `:where()`는 같은 역할을 하지만 차이점이 있습니다. `:is()` 선택자는 element 선택자보다 높은 우선순위를 갖고 있습니다. 하지만 `:where()`는 우선순위가 낮아서 element 선택자에 의해 덮어 씌워집니다.
 
-![:is(), :where() 차이점](/techblog/assets/images/New-CSS-Features/is_02.png ":is, :where 차이점")
+![:is(), :where() 차이점](/techblog/assets/images/New-CSS-Features/is_02.PNG ":is, :where 차이점")
 
 ### Browser Support
 #### :is()
