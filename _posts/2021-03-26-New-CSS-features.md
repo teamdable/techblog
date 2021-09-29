@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "알쓸신CSS (알아두면 언젠가 쓸 수도 있는 새로운 CSS 속성)"
-date: 2021-09-14 10:00:00 +0900
+date: 2021-09-29 11:00:00 +0900
 author: Jisu Yoo
 tags: [CSS]
 ---
