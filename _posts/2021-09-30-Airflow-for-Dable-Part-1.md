@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Airflow'
+title: 'Airflow for Dable Part 1 - Dable Airflow System Structure'
 date: 2021-09-30 09:00:00 +0900
 author: Hanul Lee
 tags: [data pipeline, workflow orchestration, data engineering, devops, airflow, kubernetes]
@@ -15,7 +15,7 @@ DP 팀이 신설된 이후 팀에서는 이전 Data Pipeline 시스템을 점검
 점점 성장하고 있는 단계에서 현재의 시스템으로는 비즈니스 요구 사항을 만족시키기 힘든 부분이 있었고, 따라서 저희는 새로운 Workflow Platform을
 도입하여 Data Pipeline을 구성하고 기존의 코드들을 이전하기로 결정하였습니다.
 
-DP팀은 2월부터 Data Pipeline 시스템 이전을 결정하고 작업을 시작하였는데요, 이번 포스트들을 통해 DP팀이 Data Pipeline 시스템 이전을
+DP 팀은 2월부터 Data Pipeline 시스템 이전을 결정하고 작업을 시작하였는데요, 이번 포스트들을 통해 DP팀이 Data Pipeline 시스템 이전을
 결정하였을 때부터 지금까지 어떤 기술적 결정들을 내렸으며 어떤 작업을 진행했는지 이야기해 보고자 합니다.
 
 앞으로 이야기할 주제는 다음과 같습니다.
@@ -29,8 +29,8 @@ DP팀은 2월부터 Data Pipeline 시스템 이전을 결정하고 작업을 시
 
 # 젖과 꿀이 흐르는 땅, Airflow로!
 데이블의 기존 Data Pipeline System은 Jenkins로 구성이 되어 있었습니다. Jenkins는 CI (Continuous Integration)를 위해 만들어진 툴이면서
-cron과 dependency를 설정할 수 있기 때문에 Jenkins에 job을 추가하여 Data Workflow를 구성할 수 있었습니다.
-그러나 언급했듯이 Jenkins는 Data Workflow를 위해서 설계된 툴이 아니다보니 Jenkins를 통해 Data Pipeline System을 운영하는 것은 몇 가지
+cron과 각 job들 간의 dependency를 설정할 수 있기 때문에 Jenkins에 job을 추가하여 Data Workflow를 구성할 수 있었습니다.
+그러나 언급했듯이 원래 Jenkins는 Data Workflow를 위해서 설계된 툴이 아니다보니 Jenkins를 통해 Data Pipeline System을 운영하는 것은 몇 가지
 한계점이 있었습니다.
 
 1. Jenkins에서 간단한 Job Dependency는 설정할 수 있었지만, 복잡한 Dependency는 설정하는 것이 불가능했습니다. 두 개의 Job이 실행되고 나서
@@ -42,20 +42,21 @@ Job을 관리하는데 문제가 되었고 또한 선행 Job의 시스템 장애
 수 있기 때문에 사실상 자가 복구는 불가능했습니다. 이로 인해 복구에 리소스를 많이 투자해야 했습니다.
 4. 점차 데이터가 커지게 될 경우 Jenkins로는 더이상 scalability를 보장하기 어려웠습니다.
 
-이러한 한계로 인해 Jenkins 사용이 더 이상 힘들 것이라 판단했고, Workflow Orchestration이 가능한 Platform으로의 이전을 위해 Workflow
-Platform들에 대한 조사를 진행했습니다.
+이러한 한계로 인해 Jenkins 사용이 더 이상 힘들 것이라 판단했고, 이러한 한계들을 극복할 수 있는 Workflow Orchestration이 가능한 Platform으로의
+이전을 위해 Workflow Platform들에 대한 조사를 진행했습니다.
 
-![Comparision table](/techblog/assets/images/2021-09-30-Airflow-for-Dable-Part-1/1.png) [\^1]
+![Comparision table](/techblog/assets/images/2021-09-30-Airflow-for-Dable-Part-1/1.png) <sup>[[1]](#footnote_1)</sup>
 
-여러 Workflow Platform 중에 저희 팀에서 선택한 것은 Apache Airflow이었습니다. Luigi, Prefect, Argo 등의 다양한 선택지 중에
+여러 Workflow Platform 중에 저희 팀에서 선택한 것은 Apache Airflow이었습니다. Luigi, Prefect, KubeFlow 등의 다양한 선택지 중에
 Airflow를 선택한 이유는 1) 현재 굉장히 많은 회사/팀에서 Airflow를 사용하고 있어 발전이 매우 빠르며 광범위한 생태계가 형성되어 있어 버그
 등의 이슈 처리가 빠르고 2) 팀에서 다루는 대다수의 코드가 Python으로 구성되어 있어 Python Open Source Platform인 Airflow의 도입이
-쉽고, 3) 안정적이고 확장성 있는 Workflow Orchestration이 가능하기 때문입니다. [\^2]
+쉽고, 3) task 실행헤 있어서 여러 Operator를 선택해 원하는 여러 환경에서 task 실행이 가능하며, Scheduler/Worker 등의 확장성이 높아
+안정적이고 확장성 있는 Workflow Orchestration이 가능했기 때문입니다. <sup>[[2]](#footnote_2)</sup>
 
 Airflow로의 이전을 결정하고, 팀에서는 한 달 간의 테스트를 통해서 Airflow를 사용하는 방식과 Airflow 시스템 구성을 위한 감을 잡았습니다.
-Airflow에서의 Job 실행은 Jenkins에서의 그것과 많이 달랐기 때문에 DAG (Direct Acyclic Graph) 구현, Airflow config settings
+Airflow에서의 Job 실행은 Jenkins에서의 그것과 많이 달랐기 때문에 DAG (Directed Acyclic Graph) 구현, Airflow config settings
 (Scheduler, Webserver), Job Executor, Operator 등에 대한 개념을 잡아갔으며 어떻게 시스템을 구성해야할지 고민하고 결정하였습니다.
-오랜 고민과 테스트 끝에 우리는 Airflow가 젖과 꿀이 흐르는 땅이라고 믿으며 Airflow로의 이전 작업을 시작하였습니다.
+오랜 고민과 테스트 끝에 우리는 Airflow가 젖과 꿀이 흐르는 땅이라고 믿으며 Airflow로 Workflow Orchestration System을 구성하기 시작했습니다.
 
 # Dable의 Airflow System 구성
 Dable의 Airflow System 구성은 다음과 같습니다.
@@ -81,6 +82,8 @@ task의 실행을 위해 우리는 KubernetesPodOperator를 상속하여 새로�
 task의 실패에 따른 시간 종속성이 있는 task들은 이전 task의 복구 전까지 scheduling하지 않게 설정하도록 하는 등의 여러 설정이
 해당 Custom Operator에 정의되었습니다.
 
+![Airflow_Custom_Operator]()
+
 전체적인 시스템의 구성도 중요하지만 실제 코드들이 어떻게 지속적으로 배포(CI/CD)되는지도 중요합니다. Kubernetes에서 task를 실행하기 위해
 Docker image가 필요한데, 실행할 Docker image는 AWS ECR에서 받아오도록 설정하였습니다. 저희가 사용하는 Airflow 버전(2.0.0)에는
 build에 대한 versioning을 따로 관리하는 방법이 없어 Docker image를 실행할 때 특정 tag를 지정하는 방식으로 빌드된 코드들의 version을
@@ -98,11 +101,17 @@ build 시 Git에서 pull해오도록 되어있는데, PR이 merge되어 실행�
 직접 Airflow server로 배포합니다. 배포된 version은 시간별로 Airflow server 내에서 관리하고, 최근 배포에 문제가 있다면 server에서 직접
 rollback하도록 되어 있습니다.
 
+![Airflow_Customized_Logger](/techblog/assets/images/2021-09-30-Airflow-for-Dable-Part-1/4.png)
+
 Airflow Monitoring은 크게 3가지 관점에서 이루어집니다. 첫번째로는 DAG 관점으로, task 실행 중에 어떤 문제가 생겨 DAG가 실패하는 경우입니다.
 이 경우 task fail은 Airflow의 Slack Webhook 기능을 활용하여 Slack notification으로 전송됩니다. 전송된 후에는 Airflow Webserver를
 통해 문제가 생긴 DAG의 log를 확인하고, 문제를 파악해 코드를 수정하고 Docker image를 재배포하는 등의 조치를 취합니다.
 기존의 Airflow의 경우 server local log를 삭제하지 않기 때문에 Airflow server의 용량이 부족하거나 하는 문제가 생길 수 있는데요, 그래서
 저희는 custom logger를 추가 구현하여 local log에는 retention을 부여하도록 하고, AWS S3에도 원격으로 로그가 저장되도록 설정하였습니다.
+새로 정의한 custom logger를 airflow.cfg의 logging_config_class에 지정함으로써, custom logger를 사용하여 logging을 하도록
+설정할 수 있습니다.
+
+![Airflow_Grafana](/techblog/assets/images/2021-09-30-Airflow-for-Dable-Part-1/5.png)
 
 두번째로는 Airflow Worker 관점의 모니터링입니다. 여기서 Airflow worker는 Kubernetes pod들로 실행이 되기 때문에, Kubernetes의 노드들
 의 resource 상황이나 pod 상황을 모니터링할 필요가 있습니다. 팀에서는 Kubernetes를 모니터링하는 방법 중 가장 널리 알려져 있는 Prometheus
@@ -115,8 +124,14 @@ Manager를 구성하였습니다.
 Airflow server에 docker container로 구성하였으며, 이를 Prometheus & Grafana와 연동하여 Worker 관점과 동일한 방식으로 모니터링하도록
 하였습니다.
 
+# 마치며
+이번 포스트를 통해 DP 팀에서 Airflow를 선택한 이유와 Airflow를 통해 어떻게 Data Pipeline System을 구성하였는지에 대해서 공유해보았습니다.
+앞으로는 System 구성 이후 DP팀에서 어떤 문제들을 풀어야했는지를 공유할 예정으로, 다음 포스트에는 팀에서 Airflow를 실제로 사용해보면서 당면했던 여러
+이슈들과 이러한 이슈들을 해결했던 방법, Airflow 운영을 위해 정한 팀내 Convetion 등을 다뤄 볼 예정입니다.
 
-[\^1] https://www.datarevenue.com/en-blog/airflow-vs-luigi-vs-argo-vs-mlflow-vs-kubeflow
-[\^2] Airflow의 많은 장점에도 불구하고 실제 결정에는 팀의 상황에 따라 Workflow Platform을 신중하게 선택할 필요가 있습니다. 데이블
-내에서도 AI팀은 Prefect로 따로 Workflow를 구성하였는데, 이는 Airflow 2.0.0에서는 Machine Learning Workflow를 구성하는 데에는 몇 가지
-한계점이 존재했기 때문입니다.
+
+<a name="footnote_1">[1]</a> https://www.datarevenue.com/en-blog/airflow-vs-luigi-vs-argo-vs-mlflow-vs-kubeflow
+
+<a name="footnote_2">[2]</a> Airflow의 많은 장점에도 불구하고 실제 결정에는 팀의 상황에 따라 Workflow Platform을 신중하게 선택할 필요가
+있습니다. 데이블 내에서도 AI 팀은 Machine Learning Experiment를 위해 Prefect로 Workflow Orchestration System을 구성하였는데,
+이는 Airflow 2.0.0에서는 Machine Learning Workflow를 구성하는 데에는 몇 가지 한계점이 존재했기 때문입니다.
