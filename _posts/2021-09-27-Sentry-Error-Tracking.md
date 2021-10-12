@@ -218,7 +218,7 @@ const App = () => {
 ReactDOM.render(<App />, document.getElementById("root"));
 ```
 
-위의 코드를 실제로 routing 하는 코드 및 Express 에러 트래킹을 위한 코드를 합친 샘플 코드입니다.
+아래 코드는 위의 routing 하는 코드 및 Express 에러 트래킹을 위한 코드를 합친 샘플 코드입니다.
 맨 처음의 코드에서 react를 위한 설정이 추가되고, 이전 에러 핸들링 포스팅에 나왔었던 `express-async-errors`를 활용한 공통 에러 핸들링 코드가 추가되어 있습니다.
 서버 단의 에러 트래킹 코드에서는 바로 error를 Throw 하거나, Promise를 활용한 상황에서의 처리를 확인할 수 있습니다.
 그 외에 에러를 명시적으로 try-catch 하는 경우 `Sentry.captureException` 이나 `Sentry.captureMessage` 등을 활용하여 원하는 Error를 Sentry로 전송하는 것도 가능합니다. 
