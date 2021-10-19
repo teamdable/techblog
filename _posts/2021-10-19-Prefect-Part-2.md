@@ -18,7 +18,7 @@ tags: [ 오태호, Prefect, Workflow, AWS ]
 
 ## AWS {#AWS}
 
-[AWS](https://aws.amazon.com) Account를 만들고 `~/.aws`을 적절하게 설정합니다.
+[AWS](https://aws.amazon.com) Account를 만들고 `~/.aws`를 적절하게 설정합니다.
 
 ## Prefect Server {#Prefect-Server}
 
@@ -356,7 +356,7 @@ flow.register(project_name=PROJECT_NAME, labels=['prefect_aws_local_label'],
 
 `code_12/tasks.py`
 
-[Code-11](Code-11)에서 `train_model` Task를 따로 분리해서 별도의 Flow로 만듭니다. `code_12/tasks.py`, `code_12/tasks_train_model.py`는 큰 수정이 없어서 Code를 생략하였습니다. 주요 변경사항은 다음과 같습니다.
+[Code-11](#Code-11)에서 `train_model` Task를 따로 분리해서 별도의 Flow로 만듭니다. `code_12/tasks.py`, `code_12/tasks_train_model.py`는 큰 수정이 없어서 Code를 생략하였습니다. 주요 변경사항은 다음과 같습니다.
 * `train_model` Task를 `code_12_train_model_flow` Flow에서 실행합니다.
   * `train_dataset_filename`과 `alpha`는 Flow의 `Parameter`로 전달받아서 `train_model`에 그대로 전달합니다.
 * `prefect_aws_train_model_local_label` Label의 Agent에서 `code_12_train_model_flow` Flow를 실행하도록 Register합니다.
@@ -483,7 +483,7 @@ flow.register(
 
 `code_13/tasks.py`
 
-[Code-12](Code-12)에서 `train_model` Task를 실행하는 Flow를 Dockerize합니다. `code_13/flow.py`, `code_13/tasks_train_model.py`, `code_13/tasks.py`는 큰 수정이 없어서 Code를 생략하였습니다. 주요 변경사항은 다음과 같습니다.
+[Code-12](#Code-12)에서 `train_model` Task를 실행하는 Flow를 Dockerize합니다. `code_13/flow.py`, `code_13/tasks_train_model.py`, `code_13/tasks.py`는 큰 수정이 없어서 Code를 생략하였습니다. 주요 변경사항은 다음과 같습니다.
 * Docker Image에 Prefect와 기타 필요한 Python Package들을 설치하고 `prefect_aws` Directory를 복사하도록 `Dockerfile`을 구성합니다. `kubernetes` Python Package는 여기서는 설치할 필요가 없지만 나중에 필요하기 때문에 미리 설치합니다.
 * `code_13_train_model_flow` Flow의 `run_config`를 `DockerRun(image='ohhara/prefect_aws:latest')`로 설정해서 `ohhara/prefect_aws:latest` Docker Image 기반으로 Flow를 실행하도록 합니다.
   * 직접 이 Code를 사용하는 경우에는 Docker Image는 자신의 환경에 맞춰서 적절하게 변경해서 사용합니다.
@@ -560,7 +560,7 @@ flow.register(
 
 `code_14/tasks.py`
 
-[Code-13](Code-13)에서 만든 Docker Image를 ECR에 Upload하고 사용합니다. `Dockerfile`, `code_14/flow.py`, `code_14/tasks_train_model.py`, `code_14/tasks.py`는 큰 수정이 없어서 Code를 생략하였습니다. 주요 변경사항은 다음과 같습니다.
+[Code-13](#Code-13)에서 만든 Docker Image를 ECR에 Upload하고 사용합니다. `Dockerfile`, `code_14/flow.py`, `code_14/tasks_train_model.py`, `code_14/tasks.py`는 큰 수정이 없어서 Code를 생략하였습니다. 주요 변경사항은 다음과 같습니다.
 * Docker Image를 `799537067958.dkr.ecr.ap-northeast-2.amazonaws.com/prefect_aws:latest`로 설정합니다.
   * 직접 이 Code를 사용하는 경우에는 Docker Image는 자신의 ECR 환경에 맞춰서 적절하게 변경해서 사용합니다.
 
@@ -637,7 +637,7 @@ flow.register(
 
 `code_15/tasks.py`
 
-[Code-14](Code-14)에서 ECR에 Upload한 Docker Image를 EKS에서 실행합니다. `Dockerfile`, `code_15/flow.py`, `code_15/tasks_train_model.py`, `code_15/tasks.py`는 큰 수정이 없어서 Code를 생략하였습니다. 주요 변경사항은 다음과 같습니다.
+[Code-14](#Code-14)에서 ECR에 Upload한 Docker Image를 EKS에서 실행합니다. `Dockerfile`, `code_15/flow.py`, `code_15/tasks_train_model.py`, `code_15/tasks.py`는 큰 수정이 없어서 Code를 생략하였습니다. 주요 변경사항은 다음과 같습니다.
 * `code_15_train_model_flow` Flow의 `run_config`를 `DockerRun`대신에 `KubernetesRun`으로 설정합니다.
 * `prefect_aws_train_model_kubernetes_label` Label의 Agent에서 `code_15_train_model_flow` Flow를 실행하도록 Register합니다.
 
@@ -695,7 +695,7 @@ Prefect Server UI의 Agents에서 `prefect_aws_train_model_kubernetes_label` Lab
 
 Prefect Server UI에서 `code_15_flow`를 실행하고 `code_14_flow`와 작동이 거의 동일한 것을 확인합니다.
 
-EKS Cluster는 많은 비용이 높으므로 사용후에는 다음과 같이 `prefect-cluster` EKS Cluster를 삭제합니다.
+EKS Cluster는 많은 비용이 나오므로 사용후에는 다음과 같이 `prefect-cluster` EKS Cluster를 삭제합니다.
 
 ```
 $ source ~/prefect_aws_train_model_kubernetes_agent_env/bin/activate
