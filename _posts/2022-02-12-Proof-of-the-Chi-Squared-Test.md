@@ -239,20 +239,20 @@ $$\bar{\mathbf{X}}^*$$와 관련된 값을 계산합니다.
 
 $$
 E(\bar{\mathbf{X}}^*)=\mathbf{p}^* \\
-Var(\bar{\mathbf{X}}^*)=\frac{Var(\mathbf{X}^*)}{n}=\frac{\mathbf{\Sigma}^*}{n} \\
+Var(\bar{\mathbf{X}}^*)=\frac{Var(\mathbf{X}_i^*)}{n}=\frac{\mathbf{\Sigma}^*}{n} \\
 $$
 
 Central Limit Theorem에 따르면 $$n$$이 충분히 클 때 다음 식이 성립합니다.
 
 $$
-\sqrt{n}(\mathbf{\Sigma}^*)^{-\frac{1}{2}}(\bar{\mathbf{X}}-\mathbf{p}^*) \sim N(\mathbf{0}, \mathbf{I}_{k-1})
+\sqrt{n}(\mathbf{\Sigma}^*)^{-\frac{1}{2}}(\bar{\mathbf{X}}^*-\mathbf{p}^*) \sim N(\mathbf{0}, \mathbf{I}_{k-1})
 $$
 
 Chi Squared Distribution의 정의에 따르면 다음 식은 Degree of Freedom이 $$k-1$$인 Chi Squared Distribution을 따릅니다.
 
 $$
 \begin{aligned}
-&(\sqrt{n}(\mathbf{\Sigma}^*)^{-\frac{1}{2}}(\bar{\mathbf{X}}-\mathbf{p}^*))^{T}(\sqrt{n}(\mathbf{\Sigma}^*)^{-\frac{1}{2}}(\bar{\mathbf{X}}-\mathbf{p}^*)) \\
+&(\sqrt{n}(\mathbf{\Sigma}^*)^{-\frac{1}{2}}(\bar{\mathbf{X}}^*-\mathbf{p}^*))^{T}(\sqrt{n}(\mathbf{\Sigma}^*)^{-\frac{1}{2}}(\bar{\mathbf{X}}^*-\mathbf{p}^*)) \\
 &=n(\bar{\mathbf{X}}^*-\mathbf{p}^*)^T(\mathbf{\Sigma}^*)^{-1}(\bar{\mathbf{X}}^*-\mathbf{p}^*) \\
 &\sim \chi_{k-1}^2
 \end{aligned}
@@ -345,7 +345,7 @@ $$
 다시 정리하면 다음과 같이 $$\sum_{j=1}^k\frac{(n\bar{X}_j-np_j)^2}{np_j}$$이 Degree of Freedom이 $$k-1$$인 Chi Squared Distribution을 따르는 것을 확인할 수 있습니다.
 
 $$
-\sqrt{n}(\mathbf{\Sigma}^*)^{-\frac{1}{2}}(\bar{\mathbf{X}}-\mathbf{p}^*) \sim N(\mathbf{0}, \mathbf{I}_{k-1}) \\
+\sqrt{n}(\mathbf{\Sigma}^*)^{-\frac{1}{2}}(\bar{\mathbf{X}}^*-\mathbf{p}^*) \sim N(\mathbf{0}, \mathbf{I}_{k-1}) \\
 n(\bar{\mathbf{X}}^*-\mathbf{p}^*)^T(\mathbf{\Sigma}^*)^{-1}(\bar{\mathbf{X}}^*-\mathbf{p}^*) \sim \chi_{k-1}^2 \\
 n(\bar{\mathbf{X}}^*-\mathbf{p}^*)^T(\mathbf{\Sigma}^*)^{-1}(\bar{\mathbf{X}}^*-\mathbf{p}^*)=\sum_{j=1}^k\frac{(n\bar{X}_j-np_j)^2}{np_j} \\
 \sum_{j=1}^k\frac{(n\bar{X}_j-np_j)^2}{np_j} \sim \chi_{k-1}^2
