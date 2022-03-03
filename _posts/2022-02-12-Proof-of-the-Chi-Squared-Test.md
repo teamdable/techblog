@@ -20,7 +20,7 @@ $$k$$개의 상자에 $$n$$개의 공을 던져서 넣는 상황을 생각해 �
 
 공 하나가 각각의 상자에 들어갈 확률은 $$p_1, p_2, \cdots, p_k$$입니다. 공은 어딘가의 한 상자에 들어가야 하기 때문에 $$\sum_{j=1}^kp_j=1$$이 됩니다.
 
-$$\mathbf{X}_1, \mathbf{X}_2, \cdots, \mathbf{X}_n$$는 각각의 공이 어느 상자에 들어있는지를 One Hot Vector 형태로 가집니다. 공은 어딘가의 한 상장에 들어가야 하기 때문에 $$\mathbf{X}_i$$는 $$k$$ Dimension으로 되어 있는 Vector이고 $$1$$개의 $$1$$과 $$k-1$$개의 $$0$$으로 이루어져 있습니다. 즉, $$i$$번 째 공이 $$j$$번째 상자에 공이 들어갔다면 $$\mathbf{X}_i$$ Vector에서 $$j$$번 째 Element만 $$1$$이고 나머지 Element는 $$0$$이 됩니다. $$X_{ij}$$는 $$\mathbf{X}_i$$ Vector에서 $$j$$번 째 Element를 의미합니다. 각 공은 다른 공에게 영향을 주지 않으며 모든 공은 동일한 형태로 동작합니다. 즉, $$\mathbf{X}_1, \mathbf{X}_2, \cdots, \mathbf{X}_n$$은 iid입니다. $$i$$번 째 공은 던질 때마다 다른 상자에 들어갈 수 있기 때문에 $$X_{ij}$$는 Random Variable입니다.
+$$\mathbf{X}_1, \mathbf{X}_2, \cdots, \mathbf{X}_n$$는 각각의 공이 어느 상자에 들어있는지를 One Hot Vector 형태로 가집니다. 공은 어딘가의 한 상자에 들어가야 하기 때문에 $$\mathbf{X}_i$$는 $$k$$ Dimension으로 되어 있는 Vector이고 $$1$$개의 $$1$$과 $$k-1$$개의 $$0$$으로 이루어져 있습니다. 즉, $$i$$번 째 공이 $$j$$번째 상자에 공이 들어갔다면 $$\mathbf{X}_i$$ Vector에서 $$j$$번 째 Element만 $$1$$이고 나머지 Element는 $$0$$이 됩니다. $$X_{ij}$$는 $$\mathbf{X}_i$$ Vector에서 $$j$$번 째 Element를 의미합니다. 각 공은 다른 공에게 영향을 주지 않으며 모든 공은 동일한 형태로 동작합니다. 즉, $$\mathbf{X}_1, \mathbf{X}_2, \cdots, \mathbf{X}_n$$은 iid입니다. $$i$$번 째 공은 던질 때마다 다른 상자에 들어갈 수 있기 때문에 $$X_{ij}$$는 Random Variable입니다.
 
 $$\bar{\mathbf{X}}$$는 다음과 같이 정의합니다.
 
