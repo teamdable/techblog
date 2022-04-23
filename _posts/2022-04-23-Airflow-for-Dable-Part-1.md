@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Airflow for Dable Part 1 - Dable Airflow System Structure'
-date: 2021-09-30 09:00:00 +0900
+date: 2022-04-23 00:00:00 +0900
 author: Hanul Lee
 tags: [data pipeline, workflow orchestration, data engineering, devops, airflow, kubernetes]
 ---
@@ -15,7 +15,7 @@ DP 팀이 신설된 이후 팀에서는 이전 Data Pipeline 시스템을 점검
 점점 성장하고 있는 단계에서 현재의 시스템으로는 비즈니스 요구 사항을 만족시키기 힘든 부분이 있었고, 따라서 저희는 새로운 Workflow Platform을
 도입하여 Data Pipeline을 구성하고 기존의 코드들을 이전하기로 결정하였습니다.
 
-DP 팀은 2월부터 Data Pipeline 시스템 이전을 결정하고 작업을 시작하였는데요, 이번 포스트들을 통해 DP팀이 Data Pipeline 시스템 이전을
+DP 팀은 2021년 2월부터 Data Pipeline 시스템 이전을 결정하고 작업을 시작하였는데요, 이번 포스트들을 통해 DP팀이 Data Pipeline 시스템 이전을
 결정하였을 때부터 지금까지 어떤 기술적 결정들을 내렸으며 어떤 작업을 진행했는지 이야기해 보고자 합니다.
 
 앞으로 이야기할 주제는 다음과 같습니다.
@@ -24,8 +24,7 @@ DP 팀은 2월부터 Data Pipeline 시스템 이전을 결정하고 작업을 �
 2. Dable의 Airflow System 구성
 3. Airflow에서 DAG 실행을 위한 Convention 정의
 4. Airflow 도입 후의 이슈들 (Multi-timezone issue 등)
-5. Airflow 도입 후 Dable의 시스템 장애 상황
-6. Airflow Summit 2021 공유
+5. Airflow 도입 후 Dable의 시스템 장애 상황과 운영
 
 # 젖과 꿀이 흐르는 땅, Airflow로!
 데이블의 기존 Data Pipeline System은 Jenkins로 구성이 되어 있었습니다. Jenkins는 CI (Continuous Integration)를 위해 만들어진 툴이면서
@@ -49,7 +48,7 @@ Job을 관리하는데 문제가 되었고 또한 선행 Job의 시스템 장애
 
 여러 Workflow Platform 중에 저희 팀에서 선택한 것은 Apache Airflow이었습니다. Luigi, Prefect, KubeFlow 등의 다양한 선택지 중에
 Airflow를 선택한 이유는 1) 현재 굉장히 많은 회사/팀에서 Airflow를 사용하고 있어 발전이 매우 빠르며 광범위한 생태계가 형성되어 있어 버그
-등의 이슈 처리가 빠르고 2) 팀에서 다루는 대다수의 코드가 Python으로 구성되어 있어 Python Open Source Platform인 Airflow의 도입이
+등의 이슈 처리가 빠르고 2) 팀에서 다루는 대다수 데이터 처리 코드가 Python으로 구성되어 있어 Python Open Source Platform인 Airflow의 도입이
 쉽고, 3) task 실행헤 있어서 여러 Operator를 선택해 원하는 여러 환경에서 task 실행이 가능하며, Scheduler/Worker 등의 확장성이 높아
 안정적이고 확장성 있는 Workflow Orchestration이 가능했기 때문입니다. <sup>[[2]](#footnote_2)</sup>
 
@@ -72,9 +71,9 @@ Dable의 Airflow System 구성은 다음과 같습니다.
 생길 시 문제가 될 수도 있다고 판단했습니다. Kubernetes에 여러 pod으로 Airflow Scheduler/Webserver/Worker가 띄어져 있는 상황에서
 Kubernetes 내의 특정 노드에 문제가 생긴다면 치명적일 수도 있기 때문입니다.
 다만 이러한 방식은 Airflow on Kubernetes에 비해서 Airflow Scheduler의 scale out을 하기 어렵다는 단점이 있습니다. Data Pipeline이
-점차 늘어나게 된다면, 해당 방식을 좀 더 Scalable한 방식으로 바꿔야 할 필요가 있을텐데, 이를 위해 저희는 미리 전체 시스템을 구성하는 script
+점차 늘어나게 된다면 해당 방식을 좀 더 Scalable한 방식으로 바꿔야 할 필요가 있을텐데, 이를 위해 저희는 미리 전체 시스템을 구성하는 script
 를 설계하고 구현해놓아 훗날의 문제를 방지하고자 했습니다.
-Airflow Scheduler와 Webserver가 한 개의 서버에서 돌아간다면, 실제 DAG 내의 task들은 AWS EKS cluster에서 실행됩니다. 이를 위해서
+Airflow Scheduler와 Webserver가 한 개의 서버에서 돌아간다면 실제 DAG 내의 task들은 AWS EKS cluster에서 실행됩니다. 이를 위해서
 KubernetesPodOperator를 사용하였고, 지정된 EKS cluster에서 task별로 pod을 실행하도록 구성하였습니다.
 
 task의 실행을 위해 우리는 KubernetesPodOperator를 상속하여 새로운 Custom Operator를 만들었습니다. 구현한 Custom Operator는
