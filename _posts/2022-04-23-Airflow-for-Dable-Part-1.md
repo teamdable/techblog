@@ -44,7 +44,7 @@ Job을 관리하는데 문제가 되었고 또한 선행 Job의 시스템 장애
 이러한 한계로 인해 Jenkins 사용이 더 이상 힘들 것이라 판단했고, 이러한 한계들을 극복할 수 있는 Workflow Orchestration이 가능한 Platform으로의
 이전을 위해 Workflow Platform들에 대한 조사를 진행했습니다.
 
-![Comparision table](/techblog/assets/images/2021-09-30-Airflow-for-Dable-Part-1/1.png) <sup>[[1]](#footnote_1)</sup>
+![Comparision table](/techblog/assets/images/2022-04-23-Airflow-for-Dable-Part-1/1.png) <sup>[[1]](#footnote_1)</sup>
 
 여러 Workflow Platform 중에 저희 팀에서 선택한 것은 Apache Airflow이었습니다. Luigi, Prefect, KubeFlow 등의 다양한 선택지 중에
 Airflow를 선택한 이유는 1) 현재 굉장히 많은 회사/팀에서 Airflow를 사용하고 있어 발전이 매우 빠르며 광범위한 생태계가 형성되어 있어 버그
@@ -60,7 +60,7 @@ Airflow에서의 Job 실행은 Jenkins에서의 그것과 많이 달랐기 때�
 # Dable의 Airflow System 구성
 Dable의 Airflow System 구성은 다음과 같습니다.
 
-![Dable Airflow Structure](/techblog/assets/images/2021-09-30-Airflow-for-Dable-Part-1/2.png)
+![Dable Airflow Structure](/techblog/assets/images/2022-04-23-Airflow-for-Dable-Part-1/2.png)
 
 다른 회사에서의 Airflow System 구성들을 살펴보면 Airflow on Kubernetes (Kubernetes 위에 Airflow를 pod으로 띄우고 실행하는 방식)를
 선택하는 경우가 많은데, Dable에서는 Airflow Scheduler와 Airflow Webserver를 하나의 서버(EC2 Instance)에서 실행하도록 하였습니다.
@@ -100,7 +100,7 @@ build 시 Git에서 pull해오도록 되어있는데, PR이 merge되어 실행�
 직접 Airflow server로 배포합니다. 배포된 version은 시간별로 Airflow server 내에서 관리하고, 최근 배포에 문제가 있다면 server에서 직접
 rollback하도록 되어 있습니다.
 
-![Airflow_Customized_Logger](/techblog/assets/images/2021-09-30-Airflow-for-Dable-Part-1/4.png)
+![Airflow_Customized_Logger](/techblog/assets/images/2022-04-23-Airflow-for-Dable-Part-1/4.png)
 
 Airflow Monitoring은 크게 3가지 관점에서 이루어집니다. 첫번째로는 DAG 관점으로, task 실행 중에 어떤 문제가 생겨 DAG가 실패하는 경우입니다.
 이 경우 task fail은 Airflow의 Slack Webhook 기능을 활용하여 Slack notification으로 전송됩니다. 전송된 후에는 Airflow Webserver를
