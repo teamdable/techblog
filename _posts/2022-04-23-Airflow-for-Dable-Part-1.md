@@ -110,7 +110,7 @@ Airflow Monitoring은 크게 3가지 관점에서 이루어집니다. 첫번째�
 새로 정의한 custom logger를 airflow.cfg의 logging_config_class에 지정함으로써, custom logger를 사용하여 logging을 하도록
 설정할 수 있습니다.
 
-![Airflow_Grafana](/techblog/assets/images/2021-09-30-Airflow-for-Dable-Part-1/5.png)
+![Airflow_Grafana](/techblog/assets/images/2022-04-23-Airflow-for-Dable-Part-1/5.png)
 
 두번째로는 Airflow Worker 관점의 모니터링입니다. 여기서 Airflow worker는 Kubernetes pod들로 실행이 되기 때문에, Kubernetes의 노드들
 의 resource 상황이나 pod 상황을 모니터링할 필요가 있습니다. 팀에서는 Kubernetes를 모니터링하는 방법 중 가장 널리 알려져 있는 Prometheus
