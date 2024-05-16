@@ -1,4 +1,5 @@
 ---
+layout: post
 title:  "딥러닝 추천 모델에 인과추론 접목시켜 전환율 예측 성능을 향상시키자!"
 date:   2024-05-16 10:00:00 +0900
 author: Junhyung Ahn
