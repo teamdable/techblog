@@ -18,7 +18,7 @@ Prettier는 지배적인 위치를 차지하고 있는 Code Formatter입니다. 
 
 그래서 Prettier팀은 선의의 경쟁을 유도하기 위해 상금을 걸고 “Rust로 프로젝트를 만들어서, Prettier 테스트 스위트의 95%를 통과해라”라는 [대회를 개최](https://console.algora.io/challenges/prettier)하게 되었습니다. 
 
-![prettier bounty](/assets/images/biome-js-linter-and-formatter/prettier-bounty.png)
+![prettier bounty](/techblog/assets/images/biome-js-linter-and-formatter/prettier-bounty.png)
 
 Biome을 소개하는 글이라고 했는데, 왜 갑자기 이런 얘기를 하느냐고요?
 
@@ -34,7 +34,7 @@ Biome은 그렇게 등장했습니다. 하지만 어디서 갑자기 혜성처�
 
 ## 그럼 이제, 본격적으로 Biome을 살펴보도록 하겠습니다.
 
-![biome docs](/assets/images/biome-js-linter-and-formatter/biome-docs.png)
+![biome docs](/techblog/assets/images/biome-js-linter-and-formatter/biome-docs.png)
 
 Biome은 공식 사이트에서 "웹 프로젝트를 위한 툴체인"이라고 설명하고 있습니다.
 
@@ -109,7 +109,7 @@ npx biome lint --apply <files>
 
 만약 코드의 의미를 변경해야 하는 부분이라면, 변경하지 않고 에러를 발생시켜 해당 부분을 알려주게 됩니다.
 
-![biome error](/assets/images/biome-js-linter-and-formatter/biome-error.png)
+![biome error](/techblog/assets/images/biome-js-linter-and-formatter/biome-error.png)
 
 이런 부분들까지 변경해도 괜찮다고 한다면, `--apply-unsafe` 옵션을 사용하라고 합니다.
 
@@ -126,11 +126,11 @@ npx biome check --apply <files>
 [공식 문서](https://biomejs.dev/guides/integrate-in-editor/)를 확인하면 에디터별로 어떻게 Biome을 통합하여 사용할 수 있는지 확인할 수 있습니다. 저는 VSCode를 사용하고 있어서 Biome VSCode 확장을 사용하고 있는데요, VSCode 기준으로 확장은 잘 적용되고 있습니다.
 
 
-![biome extention suggestion](/assets/images/biome-js-linter-and-formatter/biome-suggestion.png)
+![biome extention suggestion](/techblog/assets/images/biome-js-linter-and-formatter/biome-suggestion.png)
 
 제안도 잘 보여주고요,
 
-![biome extention format on save](/assets/images/biome-js-linter-and-formatter/biome-format-on-save.gif)
+![biome extention format on save](/techblog/assets/images/biome-js-linter-and-formatter/biome-format-on-save.gif)
 
 format on save 기능도 잘 동작합니다!
 
@@ -174,11 +174,11 @@ time npx biome format --write src/**/*.js src/**/*.ts ## biome
 time npx prettier --write src/**/*.js src/**/*.ts ## prettier
 ```
 
-![prettier time](/assets/images/biome-js-linter-and-formatter/prettier-time.png)
+![prettier time](/techblog/assets/images/biome-js-linter-and-formatter/prettier-time.png)
 
 Prettier는 명령어가 실행되는데 실제로 경과한 시간(real 항목)이 1.53초였고,
 
-![biome time](/assets/images/biome-js-linter-and-formatter/biome-time.png)
+![biome time](/techblog/assets/images/biome-js-linter-and-formatter/biome-time.png)
 
 Biome은 0.45초가 소요되었습니다.
 
@@ -195,7 +195,7 @@ Biome은 0.45초가 소요되었습니다.
 - ⌛️: In progress
 - ⚠️: Partially supported (with some caveats)
 
-![biome support language](/assets/images/biome-js-linter-and-formatter/biome-support.png)
+![biome support language](/techblog/assets/images/biome-js-linter-and-formatter/biome-support.png)
 
 저는 주로 React를 사용하여 개발하므로 고민 없이 Biome을 도입해볼 수 있었습니다. 그러나 부분적으로 지원되는 Vue나 Svelt를 사용할 때에는 Biome을 도입하기 어려울 수 있습니다.
 
