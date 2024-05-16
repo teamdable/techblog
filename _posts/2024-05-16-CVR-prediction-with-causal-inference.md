@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  "딥러닝 추천 모델에 인과추론 접목시켜 전환율 예측 성능을 향상시키자!"
 date:   2024-05-16 10:00:00 +0900
 author: Junhyung Ahn
@@ -55,6 +54,7 @@ tags: [ 안준형, 머신러닝, 인과추론 ]
 
 ![4.png](/techblog/assets/images/CVR-prediction-with-ci/4.png)
 
+
 ### 2) 이를 해결하는 인과추론 기법이 뭐가 있을까?
 
 이 backdoor path를 없애는 인과추론 기법에는 대표적으로 Inverse Propensity Weighting (IPW)와 Doubly Robust (DR)이 있습니다.
@@ -63,15 +63,12 @@ tags: [ 안준형, 머신러닝, 인과추론 ]
     
     Inverse Propensity Weighting는 관찰된 데이터에서 treatment effect (치료 효과)를 추정하는 데 사용되는 통계적 기법 중 하나입니다. 특히, 추천시스템에서는 exposure (노출)의 확률에 대한 역수를 가중치로 사용하여 편향을 보정하는 방법입니다. Inverse Propensity Weighting의 핵심 아이디어는 다음과 같습니다:
     
-    <aside>
-    💡 Inverse Propensity Weighting (IPW)
     
     1. 각 관찰된 데이터 포인트에 대해 treatment 또는 exposure의 확률을 예측합니다. 이 예측은 propensity score(경향 점수)라고도 합니다.
     2. 각 데이터 포인트에 대해 treatment 또는 exposure의 확률에 대한 역수를 계산하여 가중치로 사용합니다.
     3. 이 가중치를 사용하여 각 데이터 포인트의 결과를 조절하여 모델 학습에 사용합니다.
-    </aside>
     
-    위에 기술한 것을 약간의 수학기호를 도입해서 설명하겠습니다. $O$를 노출여부를 나타내는 확률변수라고 정의하고 $o_{u,i}=1$을 아이템 $i$가 유저 $u$에 추천되었다는 걸 뜻하자고 합시다. $\mathcal{O}$는 exposure space라고 정의합시다.  또한, 유저-아이템 피드백을 $y_{u,i} \in \{0,1\}$이라 하고 그 예측값을 $\hat{y}_{u,i}$라고 합시다. 그때, IPW의 목적 함수는 아래와 같습니다.
+    위에 기술한 것을 약간의 수학기호를 도입해서 설명하겠습니다. $$O$$를 노출여부를 나타내는 확률변수라고 정의하고 $$o_{u,i}=1$$을 아이템 $$i$$가 유저 $$u$$에 추천되었다는 걸 뜻하자고 합시다. $$\mathcal{O}$$는 exposure space라고 정의합시다.  또한, 유저-아이템 피드백을 $$y_{u,i} \in \{0,1\}$$이라 하고 그 예측값을 $$\hat{y}_{u,i}$$라고 합시다. 그때, IPW의 목적 함수는 아래와 같습니다.
     
     $$
     \mathcal{L}_{\text{IPW}}=
@@ -79,13 +76,13 @@ tags: [ 안준형, 머신러닝, 인과추론 ]
     \frac{o_{u,i} l(y_{u,i}, \hat{y}_{u,i})}{\hat{o}_{u,i}}
     $$
     
-    여기서, $\hat{o}_{u,i}$은 propensity score로 유저-아이템 피드백 $y_{u,i}$를 관측할 확률을 뜻하며, $l(\cdot, \cdot)$은 손실 함수로 일반적으로 많이 사용하는 binary cross entropy라고 생각해주시면 될 것 같습니다.
+    여기서, $$\hat{o}_{u,i}$$은 propensity score로 유저-아이템 피드백 $$y_{u,i}$$를 관측할 확률을 뜻하며, $$l(\cdot, \cdot)$$은 손실 함수로 일반적으로 많이 사용하는 binary cross entropy라고 생각해주시면 될 것 같습니다.
     
     위 수식을 쉽게 해석하자면, “클릭이 잘 될 것 같은 표본의 가중치는 줄여주고 클릭이 잘 되지 않을 것 같은 표본의 가중치는 늘려주자는 것”입니다. 이는 클릭이 잘 되는 샘플은 학습 데이터에 포함이 많이 되지만 반대의 경우에는 포함이 잘 안 되기 때문에, 희소한 데이터에 가중치를 더 주는 방식으로 학습시켜 표본 선택 편향 문제가 완화하고 있습니다.
     
 - **Doubly Robust (DR)**
     
-    하지만, 위 기법의 단점이라고 하면 propensity score를 추정하기 힘들 뿐더러, score가 매우 작은 값이 되어버리면 전체 목적함수가 매우 커지기 때문에 variance가 높다는 점입니다. 이를 보완하기 위해서 제안된 인과추론에서의 또 다른 기법이 Doubly Robust (DR) 기법입니다. 자세하게 설명하자면 복잡해져서 간단히만 말하면, 노출되지 않은 유저-아이템 쌍에 대해서도 에러 $l(y_{u,i}, \hat{y}_{u,i})$를 예측하는 손실 함수를 더해줘서 joint learning해주는 기법입니다. 전체 유저-아이템 쌍의 공간을 $\mathcal{D}$라고 정의하면, DR의 주 목적 함수는 아래와 같습니다.
+    하지만, 위 기법의 단점이라고 하면 propensity score를 추정하기 힘들 뿐더러, score가 매우 작은 값이 되어버리면 전체 목적함수가 매우 커지기 때문에 variance가 높다는 점입니다. 이를 보완하기 위해서 제안된 인과추론에서의 또 다른 기법이 Doubly Robust (DR) 기법입니다. 자세하게 설명하자면 복잡해져서 간단히만 말하면, 노출되지 않은 유저-아이템 쌍에 대해서도 에러 $$l(y_{u,i}, \hat{y}_{u,i})$$를 예측하는 손실 함수를 더해줘서 joint learning해주는 기법입니다. 전체 유저-아이템 쌍의 공간을 $$\mathcal{D}$$라고 정의하면, DR의 주 목적 함수는 아래와 같습니다.
     
     $$
     \mathcal{L}_{\text{DR}}^{\text{err}}=
@@ -96,7 +93,7 @@ tags: [ 안준형, 머신러닝, 인과추론 ]
     \right)
     $$
     
-    여기서, $\hat{e}_{u,i}$은 imputation (결측값 대체) 모델의 출력값으로 $l(y_{u,i}, \hat{y}_{u,i})$의 예측값이라고 생각해주시면 될 것 같습니다. 이 imputation 모델을 학습하기 위해서, joint learning을 통해 아래의 목적 함수도 동시에 최소화시킵니다.
+    여기서, $$\hat{e}_{u,i}$$은 imputation (결측값 대체) 모델의 출력값으로 $$l(y_{u,i}, \hat{y}_{u,i})$$의 예측값이라고 생각해주시면 될 것 같습니다. 이 imputation 모델을 학습하기 위해서, joint learning을 통해 아래의 목적 함수도 동시에 최소화시킵니다.
     
     $$
     \mathcal{L}_{\text{DR}}^{\text{imp}}=
@@ -129,7 +126,7 @@ tags: [ 안준형, 머신러닝, 인과추론 ]
 일반적으로, 유저 액션은 다음의 순차적인 패턴을 따릅니다: 노출 (impression) → 클릭 (click) → 전환 (conversion). CVR은 “클릭 후 전환율”을 뜻하며, 아래와 같이 정의됩니다.
 
 $$
-CVR = p(\text{conversion}\; |\; \text{click}).
+CVR = p(\text{conversion} | \text{click}).
 $$
 
 ### 2) 전환율 예측의 문제점
@@ -157,7 +154,7 @@ $$
 \mathcal{L}_{ESMM} = \mathcal{L}_{CTR} + \mathcal{L}_{CTCVR}.
 $$
 
-여기서, CTCVR은 CTR x CVR을 뜻하며, $\mathcal{L}_{CTR}$은 클릭 레이블과 CTR 예측값 사이의 binary cross entropy입니다. 그렇다면, $\mathcal{L}_{CTCVR}$은 클릭x전환 레이블과 CTCVR 예측값과의 binary cross entropy가 되겠죠? 위 모델은 아주 간단한 방법으로 표본 선택 편향과 데이터 희소성 문제를 완화시켰습니다.
+여기서, CTCVR은 CTR x CVR을 뜻하며, $$\mathcal{L}_{CTR}$$은 클릭 레이블과 CTR 예측값 사이의 binary cross entropy입니다. 그렇다면, $$\mathcal{L}_{CTCVR}$$은 클릭x전환 레이블과 CTCVR 예측값과의 binary cross entropy가 되겠죠? 위 모델은 아주 간단한 방법으로 표본 선택 편향과 데이터 희소성 문제를 완화시켰습니다.
 
 ### 2) MTL에 인과추론을 접목시키기
 
@@ -167,16 +164,13 @@ $$
 
 ![escm2.png](/techblog/assets/images/CVR-prediction-with-ci/escm2.png)
 
-<aside>
 ❓ 어떻게 인과추론 기법을 적용했을까?
-
-</aside>
 
 위에서 언급한 Inverse Propensity Weighting (IPW) 기법을 사용했습니다.
 
 ![6.png](/techblog/assets/images/CVR-prediction-with-ci/6.png)
 
-$X$ (feature)가 $O$ (click)에서 $R$ (conversion)의 인과성 사이에 confounder로 작용한다고 보고있어서 $X$가 $O$에 미치는 인과성을 제거, 즉 backdoor path를 없앴습니다. 이때, backdoor path를 없애는 방법으로 Inverse Propensity Weighting (IPW), 혹은 Doubly Robust (DR) 기법을 사용했고 위에서 정의한 IPW, DR loss를 CVR loss로 정의한 것입니다. 
+$$X$$ (feature)가 $$O$$ (click)에서 $$R$$ (conversion)의 인과성 사이에 confounder로 작용한다고 보고있어서 $$X$$가 $$O$$에 미치는 인과성을 제거, 즉 backdoor path를 없앴습니다. 이때, backdoor path를 없애는 방법으로 Inverse Propensity Weighting (IPW), 혹은 Doubly Robust (DR) 기법을 사용했고 위에서 정의한 IPW, DR loss를 CVR loss로 정의한 것입니다. 
 
 $$
 \mathcal{L}_{CVR-IPS} = 
@@ -197,7 +191,7 @@ $$
 \frac{(l(y_{u,i}, \hat{y}_{u,i})  - \hat{e}_{u,i})^2}{\hat{o}_{u,i}}
 $$
 
-위 모델 그림에서 imputation tower는 $\mathcal{L}_{CVR-DR}$로 학습할 때 사용되며 $\mathcal{L}_{CVR-IPS}$로 학습한다고 하면 이 모델은 사용되지 않습니다. 그리고 counterfactual risk minimizer가 CVR loss라고 보시면 됩니다. 그렇다면, 이 모델의 최종 손실 함수는 아래와 같습니다.
+위 모델 그림에서 imputation tower는 $$\mathcal{L}_{CVR-DR}$$로 학습할 때 사용되며 $$\mathcal{L}_{CVR-IPS}$$로 학습한다고 하면 이 모델은 사용되지 않습니다. 그리고 counterfactual risk minimizer가 CVR loss라고 보시면 됩니다. 그렇다면, 이 모델의 최종 손실 함수는 아래와 같습니다.
 
 $$
 \mathcal{L}_{ESCM^2-IPS}=\mathcal{L}_{CTR}+\mathcal{L}_{CTCVR}+\alpha\mathcal{L}_{CVR-IPS}.
@@ -207,7 +201,7 @@ $$
 \mathcal{L}_{ESCM^2-DR}=\mathcal{L}_{CTR}+\mathcal{L}_{CTCVR}+\alpha\mathcal{L}_{CVR-DR}.
 $$
 
-여기서, $\alpha$는 CVR loss의 크기를 조절하는 하이퍼파라미터입니다.
+여기서, $$\alpha$$는 CVR loss의 크기를 조절하는 하이퍼파라미터입니다.
 
 ## 6. 결과
 
