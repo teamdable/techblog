@@ -12,7 +12,7 @@ tags: [ Biome, Linter, Formatter ]
 
 ## 들어가기 전에…
 
-혹시 Prettier라는 Code Formatter를 들어본 적이 있으신가요? 아마 프론트엔드 개발자라면 모를 수가 없을 것으로 생각합니다.
+혹시 Prettier라는 Code Formatter를 들어본 적이 있으신가요? 아마 자바스크립트를 사용하는 개발자라면 모를 수가 없을 것으로 생각합니다.
 
 Prettier는 지배적인 위치를 차지하고 있는 Code Formatter입니다. 그러나 Prettier는 이러한 독보적인 입지 탓에 경쟁이 부족하여 성능 개선이나 다양한 엣지 케이스 해결에 대한 동기가 부족하다고 생각했습니다.
 
@@ -80,7 +80,7 @@ npx @biomejs/biome init
 
 이 설정 파일에 원하는 설정을 추가해주면 됩니다. [설정에 관한 설명](https://biomejs.dev/reference/configuration/)과 [Linter의 Rule에 관한 설명](https://biomejs.dev/linter/rules/)은 공식문서에서 확인할 수 있습니다.
 
-만약 ESLint와 Prettier를 사용하고 있었다면 해당 설정을 그대로 마이그레이션 해서 사용할 수도 있습니다.
+만약 ESLint와 Prettier를 사용하고 있었다면 해당 설정을 그대로 옮겨서 사용할 수도 있습니다.
 
 ```bash
 npx @biomejs/biome migrate eslint --write
@@ -91,7 +91,7 @@ npx @biomejs/biome migrate prettier --write
 
 설정을 마쳤다면 직접 사용해볼 차례입니다.
 
-#### 1. format
+### 1. format
 
 ```bash
 npx biome format --write <files>
@@ -99,7 +99,7 @@ npx biome format --write <files>
 
 `format` 명령어와 `--write` 옵션을 사용하면 포맷이 적용된 파일을 새로 쓸 수 있습니다. 즉 Code Formatter의 역할을 합니다.
 
-#### 2. lint
+### 2. lint
 
 ```bash
 npx biome lint --apply <files>
@@ -113,7 +113,7 @@ npx biome lint --apply <files>
 
 이런 부분들까지 변경해도 괜찮다고 한다면, `--apply-unsafe` 옵션을 사용하라고 합니다.
 
-#### 3. check
+### 3. check
 
 ```bash
 npx biome check --apply <files>
@@ -138,7 +138,7 @@ format on save 기능도 잘 동작합니다!
 
 몇 가지 장단점이 눈에 띄었습니다.
 
-#### 장점 1. 설정이 간단합니다
+### 장점 1. 설정이 간단합니다
 
 만약 TypeScript 환경에서 ESLint와 Prettier를 사용한다고 하면 
 
@@ -163,7 +163,7 @@ format on save 기능도 잘 동작합니다!
 
 이렇게 간단하게 설정을 마칠 수 있습니다.
 
-#### 장점 2. 속도가 빠릅니다
+### 장점 2. 속도가 빠릅니다
 
 공식문서에 따르면 Biome은 Prettier보다 25배 빠르다고 합니다. 하지만 제가 경험한 환경에서는 이 부분에 대한 체감이 크지 않아,`time` 명령어를 사용하여 직접 실행 시간을 비교해보았습니다.
 
@@ -186,7 +186,7 @@ Biome은 0.45초가 소요되었습니다.
 
 25배라는 수치는 더욱 정교한 환경에서의 테스트를 통해 도출된 결과일 것으로 생각합니다. 제가 경험한 환경에서는 그 정도의 차이는 아니었지만, Biome이 Prettier보다 빠르다는 점은 알 수 있었습니다.
 
-#### 단점 1. CSS, HTML, Vue 등 아직 지원하지 않는 언어가 꽤 있습니다
+### 단점 1. CSS, HTML, Vue 등 아직 지원하지 않는 언어가 꽤 있습니다
 
 아래는 현재 Biome의 지원 범위를 나타내는 표입니다.
 
@@ -198,10 +198,9 @@ Biome은 0.45초가 소요되었습니다.
 ![biome support language](/techblog/assets/images/biome-js-linter-and-formatter/biome-support.png)
 
 저는 주로 React를 사용하여 개발하므로 고민 없이 Biome을 도입해볼 수 있었습니다. 그러나 부분적으로 지원되는 Vue나 Svelt를 사용할 때에는 Biome을 도입하기 어려울 수 있습니다.
-
 여담이지만 저는 개인 블로그를 Gatsby라는 프레임워크를 사용하여 운영하고 있는데요, GraphQL과 Markdown을 주로 사용하고 있으므로 이 경우에도 Biome을 도입할 수 없겠습니다.
 
-#### 단점 2. 레퍼런스가 부족합니다
+### 단점 2. 레퍼런스가 부족합니다
 
 아직 레퍼런스가 부족한 것이 단점으로 느껴졌습니다. 이는 제가 Biome에 대해 포스팅을 작성한 이유 중 하나이기도 합니다.
 
