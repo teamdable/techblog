@@ -57,7 +57,7 @@ tags: [ 안준형, 머신러닝, 인과추론 ]
 
 ### 2) 이를 해결하는 인과추론 기법이 뭐가 있을까?
 
-이 backdoor path를 없애는 인과추론 기법에는 대표적으로 **Inverse Propensity Weighting (IPW)와 Doubly Robust (DR)**이 있습니다.
+이 backdoor path를 없애는 인과추론 기법에는 대표적으로 Inverse Propensity Weighting (IPW)와 Doubly Robust (DR)이 있습니다.
 
 - **Inverse Propensity Weighting (IPW)**
     
@@ -168,7 +168,7 @@ $$
 ![escm2.png](/techblog/assets/images/CVR-prediction-with-ci/escm2.png)
 
 <aside>
-❓ **어떻게 인과추론 기법을 적용했을까?**
+❓ 어떻게 인과추론 기법을 적용했을까?
 
 </aside>
 
