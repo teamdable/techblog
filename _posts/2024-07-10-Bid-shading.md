@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Bid Shading이란?"
-date:   2024-07-10 10:00:00 +0900
+date:   2024-07-09 15:00:00 +0900
 author: Junhyung Ahn
 tags: [ 안준형, 머신러닝, Bid Shading]
 ---
