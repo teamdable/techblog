@@ -18,7 +18,7 @@ tags: [김명섭, NLP, Language Model, Fine-tuning]
 
 | ![LLM Progress](/techblog/assets/images/Boosting-Fine-Tuning-of-LM/llm_progress.png) |
 |:--:|
-| **Reference: https://www.labellerr.com/blog/overview-of-development-of-large-larnguage-models/** |
+| **Reference: [https://www.labellerr.com/blog/overview-of-development-of-large-larnguage-models/](https://www.labellerr.com/blog/overview-of-development-of-large-larnguage-models/)** |
 
 <br/>
 
@@ -26,7 +26,7 @@ LLM은 대규모의 텍스트 말뭉치(corpora)를 이용하여 주어진 문�
 
 | ![Training LLM](/techblog/assets/images/Boosting-Fine-Tuning-of-LM/training_llm.png) |
 |:--:|
-| **Reference: https://www.youtube.com/watch?v=q5FGZBqK-vc** |
+| **Reference: [https://www.youtube.com/watch?v=q5FGZBqK-vc](https://www.youtube.com/watch?v=q5FGZBqK-vc)** |
 
 <br/>
 
@@ -38,7 +38,7 @@ LLM은 대규모의 텍스트 말뭉치(corpora)를 이용하여 주어진 문�
 
 | ![LLM Performance](/techblog/assets/images/Boosting-Fine-Tuning-of-LM/llm_performance.png) |
 |:--:|
-| **Reference: https://arxiv.org/pdf/2005.14165** |
+| **Reference: [https://arxiv.org/pdf/2005.14165](https://arxiv.org/pdf/2005.14165)** |
 
 <br/>
 
@@ -64,7 +64,7 @@ LLM은 대규모의 텍스트 말뭉치(corpora)를 이용하여 주어진 문�
 
 | ![Pre-training Fine-tuning](/techblog/assets/images/Boosting-Fine-Tuning-of-LM/pretraining_finetuning.png) |
 |:--:|
-| **Reference: https://www.youtube.com/watch?v=q5FGZBqK-vc** |
+| **Reference: [https://www.youtube.com/watch?v=q5FGZBqK-vc](https://www.youtube.com/watch?v=q5FGZBqK-vc)** |
 
 <br/>
 
@@ -76,7 +76,7 @@ LoRA (Low-Rank Adaptation)는 LM을 효율적으로 fine-tuning하기 위한 기
 
 | ![LoRA](/techblog/assets/images/Boosting-Fine-Tuning-of-LM/lora.png) |
 |:--:|
-| **Reference: https://arxiv.org/pdf/2106.09685** |
+| **Reference: [https://arxiv.org/pdf/2106.09685](https://arxiv.org/pdf/2106.09685)** |
 
 <br/>
 
@@ -88,7 +88,7 @@ LoRA는 성능 유지 측면에서도 유리합니다. 저차원 근사를 통�
 
 | ![LoRA Performance](/techblog/assets/images/Boosting-Fine-Tuning-of-LM/lora_performance.png) |
 |:--:|
-| **Reference: https://arxiv.org/pdf/2106.09685** |
+| **Reference: [https://arxiv.org/pdf/2106.09685](https://arxiv.org/pdf/2106.09685)** |
 
 <br/>
 
@@ -104,7 +104,7 @@ task-adaptive pre-training (TAPT)와 domain-adaptive pre-training (DAPT)는 언�
 
 | ![TAPT](/techblog/assets/images/Boosting-Fine-Tuning-of-LM/tapt.png) |
 |:--:|
-| **Reference: https://arxiv.org/pdf/2004.10964** |
+| **Reference: [https://arxiv.org/pdf/2004.10964](https://arxiv.org/pdf/2004.10964)** |
 
 <br/>
 
@@ -114,7 +114,7 @@ DAPT는 특정 도메인에 특화된 언어 모델을 만들기 위한 과정�
 
 | ![TAPT Training](/techblog/assets/images/Boosting-Fine-Tuning-of-LM/tapt_training.png) |
 |:--:|
-| **Reference: https://www.youtube.com/watch?v=QD7evnWWj2A** |
+| **Reference: [https://www.youtube.com/watch?v=QD7evnWWj2A](https://www.youtube.com/watch?v=QD7evnWWj2A)** |
 
 <br/>
 
@@ -132,7 +132,7 @@ Adversarial training의 상세 학습 과정은 본 포스팅의 범위를 넘�
 
 | [![Adversarial Training](https://img.youtube.com/vi/KSUyLaDpFP4/0.jpg)](https://www.youtube.com/watch?v=KSUyLaDpFP4) |
 |:--:|
-| **Reference: https://www.youtube.com/watch?v=KSUyLaDpFP4** |
+| **Reference: [https://www.youtube.com/watch?v=KSUyLaDpFP4](https://www.youtube.com/watch?v=KSUyLaDpFP4)** |
 
 <br/>
 
@@ -140,11 +140,11 @@ Adversarial training의 상세 학습 과정은 본 포스팅의 범위를 넘�
 
 | ![Text Embedding Augmentation 1](/techblog/assets/images/Boosting-Fine-Tuning-of-LM/text_embedding_augmentation_1.png) |
 |:--:|
-| **Reference: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9680703** |
+| **Reference: [https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9680703](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9680703)** |
 
 | ![Text Embedding Augmentation 2](/techblog/assets/images/Boosting-Fine-Tuning-of-LM/text_embedding_augmentation_2.png) |
 |:--:|
-| **Reference: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9680703** |
+| **Reference: [https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9680703](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9680703)** |
 
 <br/>
 
@@ -152,7 +152,7 @@ Adversarial training의 상세 학습 과정은 본 포스팅의 범위를 넘�
 
 | ![Text Embedding Augmentation 3](/techblog/assets/images/Boosting-Fine-Tuning-of-LM/text_embedding_augmentation_3.png) |
 |:--:|
-| **Reference: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9680703** |
+| **Reference: [https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9680703](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9680703)** |
 
 <br/>
 
