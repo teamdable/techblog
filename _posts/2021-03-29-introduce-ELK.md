@@ -4,6 +4,7 @@ title: "ELK란? Dable에서의 ELK 활용 소개"
 date: 2021-03-29 00:00:00 +0900
 author: Gabjong Han
 tags: [ 한갑종, ELK, Elasticsearch, Logstash, Kibana ]
+newurl: https://dabletech.oopy.io/a6df1fc2-8ac3-4771-971a-0f6a8042a534
 ---
 
 ## 시작하며

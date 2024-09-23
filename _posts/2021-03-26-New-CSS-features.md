@@ -4,6 +4,7 @@ title: "알쓸신CSS (알아두면 언젠가 쓸 수도 있는 새로운 CSS 속
 date: 2021-09-29 11:00:00 +0900
 author: Jisu Yoo
 tags: [CSS]
+newurl: https://dabletech.oopy.io/41c6a9b3-d262-41ae-956b-518f5c445214
 ---
 
 안녕하세요. 데이블 Publisher Platform 위젯 개발 담당 유지수입니다.

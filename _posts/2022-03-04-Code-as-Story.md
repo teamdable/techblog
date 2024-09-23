@@ -4,6 +4,7 @@ title: '지금 우리 코드는'
 date: 2022-03-04 00:00:00 +0900
 author: Minji Cho
 tags: [조민지, Code, CleanCode]
+newurl: https://dabletech.oopy.io/4f4067c4-322e-4e24-81c7-3542702a9f45
 ---
 
 안녕하세요, 데이블 Service Frontend 팀의 위젯 개발 담당 조민지입니다.

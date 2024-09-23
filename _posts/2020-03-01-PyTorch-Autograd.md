@@ -4,6 +4,7 @@ title:  "PyTorch Autograd"
 date:   2020-03-01 23:00:00 +0900
 author: Taeho Oh
 tags: [ 오태호, PyTorch, Autograd ]
+newurl: https://dabletech.oopy.io/99645b3b-d58a-4225-9253-3589b98c5bb1
 ---
 
 안녕하세요. 오태호입니다.

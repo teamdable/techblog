@@ -4,6 +4,7 @@ title: "Visual Studio Code의 Codetour 플러그인으로 문서 만들기"
 date: 2021-03-15 00:00:00 +0900
 author: Sunghyun Lee
 tags: [ 이성현, codetour, vscode, 문서화 ]
+newurl: https://dabletech.oopy.io/a771e8e3-12ca-4a08-96ba-0e9bf343366e
 ---
 
 ## 시작하며

@@ -4,6 +4,7 @@ title: "Sentry를 활용한 에러 모니터링 및 트래킹"
 date: 2021-09-27 00:00:00 +0900
 author: Gabjong Han
 tags: [ 한갑종, Sentry, Error ]
+newurl: https://dabletech.oopy.io/709eed97-cb32-478b-99ba-34724ca86321
 ---
 
 ## 시작하며

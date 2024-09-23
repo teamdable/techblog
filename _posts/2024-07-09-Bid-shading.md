@@ -4,6 +4,7 @@ title:  "Bid Shading이란?"
 date:   2024-07-09 10:00:00 +0900
 author: Junhyung Ahn
 tags: [ 안준형, 머신러닝, Bid Shading]
+newurl: https://dabletech.oopy.io/0937f12b-75d1-4153-81b4-5c6d1c2c46f6
 ---
 
 ## 1. 서론

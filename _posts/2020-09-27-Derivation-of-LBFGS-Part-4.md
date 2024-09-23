@@ -4,6 +4,7 @@ title:  "Derivation of LBFGS Part 4 - LBFGS Method"
 date:   2020-09-27 23:00:00 +0900
 author: Taeho Oh
 tags: [ 오태호, 머신러닝 ]
+newurl: https://dabletech.oopy.io/901f47a0-b8a6-470d-a216-7a5e169c2cac
 ---
 
 안녕하세요. 오태호입니다.

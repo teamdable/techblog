@@ -4,6 +4,7 @@ title:  "언어 모델의 Fine-Tuning 성능 올리기"
 date:   2024-07-15 09:00:00 +0900
 author: Myeongsup Kim
 tags: [김명섭, NLP, Language Model, Fine-tuning]
+newurl: https://dabletech.oopy.io/0edfb68e-720a-42a3-8e90-a1067c941787
 ---
 
 안녕하세요, 데이블 AI 팀의 machine learning engineer 김명섭입니다.

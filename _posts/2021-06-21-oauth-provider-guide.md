@@ -4,6 +4,7 @@ title: "Oauth provider 제작 가이드"
 date: 2021-06-21 00:00:00 +0900
 author: Sunghyun Lee
 tags: [이성현, oauth, oauth2, oauth provider, oauth server, oauth 서버]
+newurl: https://dabletech.oopy.io/ceb4a9f3-3cd5-45da-a946-fbecfcdf57f2
 ---
 
 안녕하세요 데이블 Publisher Platform 팀의 이성현입니다.

@@ -4,6 +4,7 @@ title:  "Bayes Theorem"
 date:   2023-06-18 23:00:00 +0900
 author: Taeho Oh
 tags: [ 오태호, 수학, 통계학 ]
+newurl: https://dabletech.oopy.io/384f66bd-1e14-4918-afb7-8a144813a820
 ---
 
 안녕하세요. 오태호입니다.

@@ -4,6 +4,7 @@ title:  "Derivation of the Multivariate Normal Distribution"
 date:   2019-06-28 23:00:00 +0900
 author: Taeho Oh
 tags: [ 오태호, 수학, 통계학, 확률분포 ]
+newurl: https://dabletech.oopy.io/c931d4ee-531a-45f5-a012-bf14e9907f7d
 ---
 안녕하세요. 오태호입니다.
 

@@ -4,6 +4,7 @@ title:  "Clustering: HDBSCAN"
 date:   2019-07-09 00:00:00 +0900
 author: 2jungyup
 tags: [ 이정엽, 비지도학습, 클러스터링, unsupervised, clustering, dbscan, hdbscan ]
+newurl: https://dabletech.oopy.io/badbd7c4-10ff-4514-a613-666b4900a454
 ---
 
 딥러닝(neural network)이 비약적인 발전을 이룩한 이후 supervised 학습은 여러 측면에서 많이 발전 할 수 있었습니다. 하지만 unsupervised 학습은 아직 가야 할 길이 많이 남아있는 상황입니다.

@@ -4,6 +4,7 @@ title:  "Time-series 데이터 분석: Holt-Winters"
 date:   2019-06-29 23:00:00 +0900
 author: 2jungyup
 tags: [ 이정엽, 시계열데이터, 데이터 분석, 데이터 예측, timeseries, holt-winters ]
+newurl: https://dabletech.oopy.io/97c84e48-2b66-4d7b-b9ef-ca579bd94e98
 ---
 우리는 종종 시계열 데이터에 대한 분석/예측을 하게 됩니다. 예를 들어 다음 시간의 주가를 예측하거나, 며칠 후의 매출을 예측하거나, 내일의 기온을 예측하는 일이 이에 해당합니다.
 아래와 같이 시계열 데이터를 분석하는 방법들은 상당히 다양합니다.

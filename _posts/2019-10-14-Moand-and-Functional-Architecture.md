@@ -4,6 +4,7 @@ title:  "모나드와 함수형 아키텍처"
 date:   2019-10-14 02:00:00 +0900
 author: Sungcheol Kim
 tags: [김성철, 함수형프로그래밍, Monad]
+newurl: https://dabletech.oopy.io/cd271ce2-3583-4fbc-ac48-f5f3a2514705
 ---
 
 # 모나드와 함수형 아키텍처

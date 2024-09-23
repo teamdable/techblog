@@ -4,6 +4,7 @@ title: 'Node.js express와 error handling'
 date: 2021-09-15 08:00:00 +0900
 author: Goonoo Kim
 tags: [node.js, express]
+newurl: https://dabletech.oopy.io/4183b564-41f5-4d47-a08c-d8bb13518016
 ---
 
 안녕하세요, 데이블의 김군우 입니다.

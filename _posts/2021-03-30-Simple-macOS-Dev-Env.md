@@ -4,6 +4,7 @@ title: "간단한 macOS 개발 환경 공유"
 date: 2021-03-30 9:00:00 +0900
 author: Dong-jin Ahn
 tags: [안동진, dev, configuration]
+newurl: https://dabletech.oopy.io/c9aed60c-f25b-4843-bccf-4344cc88da94
 ---
 
 안녕하세요? AP팀 안동진입니다. 팀 발표에서 가볍게 공유한 제 macOS 개발 환경을 소개합니다.

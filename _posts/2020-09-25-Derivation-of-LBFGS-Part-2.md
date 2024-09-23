@@ -4,6 +4,7 @@ title:  "Derivation of LBFGS Part 2 - SR1 Method"
 date:   2020-09-25 23:00:00 +0900
 author: Taeho Oh
 tags: [ 오태호, 머신러닝 ]
+newurl: https://dabletech.oopy.io/f7764154-d65e-478c-a4a2-de6a9bb52b7b
 ---
 
 안녕하세요. 오태호입니다.

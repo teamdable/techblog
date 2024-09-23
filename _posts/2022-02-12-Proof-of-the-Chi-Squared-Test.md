@@ -4,6 +4,7 @@ title:  "Proof of the Chi Squared Test"
 date:   2022-02-12 23:00:00 +0900
 author: Taeho Oh
 tags: [ 오태호, 수학, 통계학 ]
+newurl: https://dabletech.oopy.io/067f100c-a2a3-41c8-ac95-015130e70912
 ---
 
 안녕하세요. 오태호입니다.

@@ -4,6 +4,7 @@ title:  "BFCache 동작에서 발견된 iframe 내 비정상적 이벤트 발생
 date:   2019-10-07 02:00:00 +0900
 author: Changbae Bang
 tags: [ 방창배, bfcache, 모바일, 브라우져,  ]
+newurl: https://dabletech.oopy.io/e37ac7dd-a230-4eb2-be81-cdb32b02371d
 ---
 안녕하세요. 방창배입니다.
 

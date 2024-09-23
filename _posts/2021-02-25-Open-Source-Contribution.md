@@ -4,6 +4,7 @@ title: 'How to Contribute to Open Source'
 date: 2021-03-05 13:00:00 +0900
 author: Minji Cho
 tags: [조민지, OpenSource, Contribution]
+newurl: https://dabletech.oopy.io/fabd28e4-0a3e-48cd-99ad-d086894f38b3
 ---
 
 안녕하세요, 데이블 Publisher Platform 위젯 개발 담당 조민지입니다.

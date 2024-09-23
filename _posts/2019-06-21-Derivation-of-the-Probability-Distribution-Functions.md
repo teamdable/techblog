@@ -4,6 +4,7 @@ title:  "Derivation of the Probability Distribution Functions"
 date:   2019-06-21 23:00:00 +0900
 author: Taeho Oh
 tags: [ 오태호, 수학, 통계학, 확률분포 ]
+newurl: https://dabletech.oopy.io/939c242a-9c89-4bed-b897-4613d7a7af6e
 ---
 안녕하세요. 오태호입니다.
 

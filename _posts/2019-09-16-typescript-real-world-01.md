@@ -4,6 +4,7 @@ title:  "TypeScript in the real world - 01"
 date:   2019-09-20 11:00:00 +0900
 author: MinJeong Kim
 tags: [ minjeongkim, typescript, programming ]
+newurl: https://dabletech.oopy.io/83c29ab6-d119-4bf5-94eb-240616b7e723
 ---
 
 안녕하세요, 데이터 플랫폼 소프트웨어 엔지니어 김민정입니다. 데이블에서는 주로 `Node.js`로 서버를 개발하고 있는데 이번 연도부터 `TypeScript`를 적극적으로 도입하고 있습니다. 이 시리즈 글에서는 개발하면서 유용했던 타입스크립트 기능들을 소개해드리려고 합니다.

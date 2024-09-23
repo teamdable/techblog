@@ -4,6 +4,7 @@ title:  "TypeScript in the real world - 02"
 date:   2019-09-22 11:00:00 +0900
 author: MinJeong Kim
 tags: [ minjeongkim, typescript, programming ]
+newurl: https://dabletech.oopy.io/552efcba-3127-40f2-8fde-6126b1d58cca
 ---
 
 이번 편에서는 함수에서 받는 인자의 타입이 다양한 경우를 `Union`, `Generic`을 활용하여 처리하는 방법에 관해 설명하겠습니다.

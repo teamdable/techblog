@@ -4,6 +4,7 @@ title:  "Sample Mean and Sample Variance"
 date:   2019-07-12 23:00:00 +0900
 author: Taeho Oh
 tags: [ 오태호, 수학, 통계학 ]
+newurl: https://dabletech.oopy.io/9fa18a2f-f759-49d5-b183-8d22ea2b9915
 ---
 안녕하세요. 오태호입니다.
 

@@ -4,6 +4,7 @@ title:  "광고 CTR 예측: FFM"
 date:   2019-07-21 00:00:00 +0900
 author: 2jungyup
 tags: [ 이정엽, ctr, prediction, FM, FFM, 선형모델, factorization machines, field-aware factorization machines ]
+newurl: https://dabletech.oopy.io/876aebe5-d569-45f7-b6e5-7835ad06a220
 ---
 
 Dable 처럼 광고플랫폼을 서비스하는 회사들은 어떤 광고 캠페인에 대한 CTR(click-through rate)을 정확하게 예측하는 것이 매우 중요합니다. 더 나아가 CR(conversion rate)도 예측 할 수 있다면 광고 효율을 높이는 데에 큰 도움이 될 것입니다.

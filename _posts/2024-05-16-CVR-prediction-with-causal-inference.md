@@ -4,6 +4,7 @@ title:  "딥러닝 추천 모델에 인과추론 접목시켜 전환율 예측 �
 date:   2024-05-16 10:00:00 +0900
 author: Junhyung Ahn
 tags: [ 안준형, 머신러닝, 인과추론 ]
+newurl: https://dabletech.oopy.io/f6d86b8b-f6d7-452f-8093-5c36404ce27a
 ---
 
 ## 1. 서론

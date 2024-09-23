@@ -4,6 +4,7 @@ title:  "Prefect Part 2 - AWS"
 date:   2021-10-19 23:00:00 +0900
 author: Taeho Oh
 tags: [ 오태호, Prefect, Workflow, AWS ]
+newurl: https://dabletech.oopy.io/3d116cf6-a467-4e2e-a24e-745bc9ed000e
 ---
 
 안녕하세요. 오태호입니다.

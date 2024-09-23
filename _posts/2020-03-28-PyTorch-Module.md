@@ -4,6 +4,7 @@ title:  "PyTorch Module"
 date:   2020-03-28 23:00:00 +0900
 author: Taeho Oh
 tags: [ 오태호, PyTorch, Module ]
+newurl: https://dabletech.oopy.io/5af57149-9b0d-4226-9ee7-27f0d8bc00a7
 ---
 
 안녕하세요. 오태호입니다.

@@ -4,6 +4,7 @@ title:  "Independent and Uncorrelated"
 date:   2019-07-05 23:00:00 +0900
 author: Taeho Oh
 tags: [ 오태호, 수학, 통계학 ]
+newurl: https://dabletech.oopy.io/9aca4b7b-5e01-4bc3-b141-320d49eb9c3f
 ---
 안녕하세요. 오태호입니다.
 

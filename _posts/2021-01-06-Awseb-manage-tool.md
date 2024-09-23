@@ -4,6 +4,7 @@ title:  "서비스 비용 절감을 위한 Dable의 자체 AWS Elastic Beanstalk
 date:   2021-01-06 15:00:00 +0900
 author: Yoonji Oh
 tags: [ 오윤지, AWS, Devops, 서버 ]
+newurl: https://dabletech.oopy.io/45454715-4548-468f-a326-9a626a8728e7
 ---
 
 안녕하세요 Dable 광고플랫폼 개발자 오윤지입니다. 최근에 회사에서 담당하게 된 서비스인 Elastic Beanstalk(이하 EB) 관리 도구를 이번 글에서 소개하려 합니다. 

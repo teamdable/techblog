@@ -4,6 +4,7 @@ title: '드디어 Internet Explorer가 은퇴를 합니다'
 date: 2021-08-24 00:00:00 +0900
 author: Minji Cho
 tags: [조민지, InternetExplorer, IE, Edge, IEmode]
+newurl: https://dabletech.oopy.io/a595409f-339d-45ea-a193-23c15f80b2bd
 ---
 
 안녕하세요, 데이블 Publisher Platform 위젯 개발 담당 조민지입니다.

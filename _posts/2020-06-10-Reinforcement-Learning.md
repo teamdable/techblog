@@ -4,6 +4,7 @@ title:  "Reinforcement Learning"
 date:   2020-06-10 23:00:00 +0900
 author: Taeho Oh
 tags: [ 오태호, 강화학습, 머신러닝, PyTorch ]
+newurl: https://dabletech.oopy.io/985686af-2912-4e29-8b4c-0b98a7ab0af4
 ---
 
 안녕하세요. 오태호입니다.

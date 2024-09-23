@@ -4,6 +4,7 @@ title:  "Derivation of LBFGS Part 1 - Newton's Method"
 date:   2020-09-23 23:00:00 +0900
 author: Taeho Oh
 tags: [ 오태호, 머신러닝 ]
+newurl: https://dabletech.oopy.io/7bdd4da6-8022-44a7-a526-fe19eadeff67
 ---
 
 안녕하세요. 오태호입니다.

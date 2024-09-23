@@ -4,6 +4,7 @@ title:  "Biome: 차세대 JS Linter와 Formatter"
 date:   2024-05-16 10:00:00 +0900
 author: Heeyoung Jang
 tags: [ Biome, Linter, Formatter ]
+newurl: https://dabletech.oopy.io/5a038d59-1cee-47f2-aaff-68e00115a399
 ---
 
 안녕하세요. 데이블 Service Front-end Team(SF Team)의 장희영입니다.

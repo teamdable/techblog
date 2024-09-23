@@ -4,6 +4,7 @@ title: "TDD로 개발 진행해보기 (feat. wallaby.js)"
 date: 2021-02-25 15:00:00 +0900
 author: changhyun lim
 tags: [ 임창현, TDD, wallabyjs ]
+newurl: https://dabletech.oopy.io/1444a188-ff49-4cfb-b4d7-a110b325d750
 ---
 
 ## TDD?

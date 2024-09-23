@@ -4,6 +4,7 @@ title:  "Dable의 다국어 지원(i18n) 시스템"
 date:   2021-03-03 09:00:00 +0900
 author: Woongki Kim
 tags: [ 김웅기, i18n, 다국어, 국제화 ]
+newurl: https://dabletech.oopy.io/67a055e3-2ab6-4ea8-8bc7-2d68f1c201d9
 ---
 
 안녕하세요! Dable 광고플랫폼 개발팀의 i18n system 담당자 김웅기입니다.

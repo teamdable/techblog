@@ -4,6 +4,7 @@ title:  "CPU, GPU, and TensorFlow"
 date:   2019-06-23 23:00:00 +0900
 author: Taeho Oh
 tags: [오태호, 머신러닝]
+newurl: https://dabletech.oopy.io/3e58ff19-7ff4-42d9-a7d0-d75bfeb93627
 ---
 안녕하세요. 오태호입니다.
 

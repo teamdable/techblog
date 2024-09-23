@@ -4,6 +4,7 @@ title:  "Proof of the F Test for Linear Regression"
 date:   2019-08-01 23:00:00 +0900
 author: Taeho Oh
 tags: [ 오태호, 수학, 통계학 ]
+newurl: https://dabletech.oopy.io/80b27012-e5bd-4c66-8b80-44b35b9b57c6
 ---
 안녕하세요. 오태호입니다.
 

@@ -4,6 +4,7 @@ title:  "Kubernetes"
 date:   2021-02-07 23:00:00 +0900
 author: Taeho Oh
 tags: [ 오태호, Kubernetes ]
+newurl: https://dabletech.oopy.io/50c7a9f7-45af-4120-b41e-8b4e4db02544
 ---
 
 안녕하세요. 오태호입니다.

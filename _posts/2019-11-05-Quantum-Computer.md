@@ -4,6 +4,7 @@ title:  "Quantum Computer"
 date:   2019-11-05 23:00:00 +0900
 author: Taeho Oh
 tags: [ 오태호, 양자컴퓨터 ]
+newurl: https://dabletech.oopy.io/f3152c8c-4824-4871-b584-1e1fd3bee541
 ---
 안녕하세요. 오태호입니다.
 
